@@ -22,6 +22,59 @@ Under the following terms:
 
 You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
 
+### About the Spell System
+In the new system you will find a massive amount of new tools, systems and options to not only bring to life a functional Spell System for your game, but one that has a fast setup, workflow and can easily be extended to do just about anything. In addition to just the spells, we are including Ranged AI capable of casting a number of spells, A Main Menu / Load Level System based off of SQL Lite or EasySave2.
+
+We included a resist system that mitigates damage based on damage types. We included Magic Weapons, We included Teleports, and Creature Summons, Scripts to increase spell size by level. We even created a leveling system with point allocation upon level up. Oh and an entire attribute system that can hook into other existing systems. Oh yea, and fire breathing Iguana's! Like i said, Kings of Feature Creep.
+
+Please have a read under the documentation for instructions. Even at the time of writing this, i'm sure there are cool features we forgot to document. From the Shades of Insomnia Team, Enjoy. Below is the link to the unity package containing a completely setup Project (Requires Invector Melee)
+
+### Download Links
+[Shades Spell System v2.0a Melee Package](https://www.dropbox.com/s/u9v2dk2cm932qn7/ShadesSpellSystem2.0aMelee.unitypackage)
+
+[Shades Spell System v2.0a Shooter Package](https://www.dropbox.com/s/m5jcxen9byjblzm/ShadesSpellSystem2.0aShooter.unitypackage)
+
+[Shades Spell System Getting Started PDF](https://www.dropbox.com/s/xpobbjoimx58sqx/Getting Started Guide2.0a.pdf)
+
+### Feature List
+* Centralized spawn class linked to the pooler, including spawns on birth, death, body removal, spell hits & explosions, trapped objects, proximity triggers, and more
+* Player and AI magic enabled character creation wizards for easy setup
+* vInventory integration for spells, including custom AI item manager
+* Leveling system with data abstraction layer, modifiable attributes, resistances & formula’s
+* Main menu system linked to the data abstraction layer
+* SQLLite/EasySave2 abstract data layer implementation (easy to clone for other data formats)
+* Character information screen
+* Attribute System with Point Spending
+* Magic weapons and armour with damage and resist types linked to the levelling system
+* New Damage System with Damage Over Time, and various Damage Types
+* Damage Mitigation System including resist types
+* Weapon trails effects
+* Custom animation on AI instantiation
+* Status effects aka burning, poisoned, frozen etc
+* Generic AI without modifying the Invector core (Experimental)
+* Ranged AI for Invector Core AI capable of spell casting or arrow shooting.
+* Feed vWaypoints into the animator and trigger actions
+* 600 free gems unique to this asset (uses the Unity Gem Shader)
+* Merge LOD levels from simplygon output onto singular bone structure
+* Character equipment material changer (across multiple LOD levels
+* Generic ragdoll builder which works from bone chains
+* Archery and Thrown weapon System
+* Complete custom-made spells and Skills Examples, free for commercial use
+* Custom Emissions Shader
+* Shield Bash System
+* Custom inputs for spells
+* Magic Projectile Script with homing and advanced targeting systems
+* Custom hand effect’s
+* Animator based multi-layered spell casting system
+* Custom Spell Sounds
+* Physics Based Spells
+* Gold and Object Collection System that shows in the Character Screen
+* Custom Scripts to do everything from Raise the Dead to Heal.
+* Basic Character Creation System (Name, Axis, Class, Race and Alignment)
+* Full pooling system, automatic or pre-warmed
+
+
+
 ### About the Invector 3rd Person Controller
 Developing a 3rd Person Controller is really hard and takes too much time, so invector developed this awesome template so you can set up a character controller or AI in less then 10 seconds and melee combat within minutes, leaving space for you to focus on making your game!
 
