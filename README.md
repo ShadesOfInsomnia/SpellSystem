@@ -34,8 +34,6 @@ Please have a read under the documentation for instructions. Even at the time of
 
 [Shades Spell System v2.0a Shooter Package](https://www.dropbox.com/s/m5jcxen9byjblzm/ShadesSpellSystem2.0aShooter.unitypackage)
 
-[Shades Spell System Getting Started PDF](https://www.dropbox.com/s/xpobbjoimx58sqx/Getting Started Guide2.0a.pdf)
-
 ### Feature List
 * Centralized spawn class linked to the pooler, including spawns on birth, death, body removal, spell hits & explosions, trapped objects, proximity triggers, and more
 * Player and AI magic enabled character creation wizards for easy setup
