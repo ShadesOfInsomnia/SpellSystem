@@ -34,6 +34,16 @@ Please have a read under the documentation for instructions. Even at the time of
 
 [Shades Spell System v2.0a Shooter Package](https://www.dropbox.com/s/m5jcxen9byjblzm/ShadesSpellSystem2.0aShooter.unitypackage)
 
+### Installation Requirements / Order
+* Ensure using Unity 5.6+ (ideally 2017.1+)
+* Install Invector Melee (or Shooter) Controller 2.x
+* Check Edit->Project Settings->Player->Other Settings.....to view the demos as intended set colour space to linear
+* Install easysave2 if owned (if not don’t import CharacterDataEasySave2.cs), SQLLite is included in the package as a free alternative
+* Install the ShadesSpellSystem2.0aMelee.unitypackage or ShadesSpellSystem2.0aShooter.unitypackage as appropriate
+* To run the mainmenu_lobby scene, add the level1 and level2 scenes to the build settings.
+* If you’re running a non-windows OS then you will need to download the appropriate SQLLite dll or not import it and use easy save2, see www.sqlite.org/download.html
+
+
 ### Feature List
 * Centralized spawn class linked to the pooler, including spawns on birth, death, body removal, spell hits & explosions, trapped objects, proximity triggers, and more
 * Player and AI magic enabled character creation wizards for easy setup
