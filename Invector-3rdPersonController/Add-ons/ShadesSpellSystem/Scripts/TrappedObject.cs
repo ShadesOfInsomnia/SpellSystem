@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -23,8 +23,9 @@ namespace Shadex
     public class TrappedObject : MonoBehaviour {
 #endif
         /// <summary>Enable proximity mode to react when a game object is within the proximity radius of the trapped object.</summary>
+        /// <remarks>Proximity trap is only tripped by the player.</remarks>
         [Header("-- Proximity Trap --")]
-        [Tooltip("Enable proximity mode")]
+        [Tooltip("Enable player proximity mode")]
         public bool ProximityEnter = false;
 
         /// <summary>Specify the proximity trigger distance radius.</summary>
@@ -73,17 +74,21 @@ namespace Shadex
         [Tooltip("List of traps (enemies/spells) to spawn")]
         public List<SpawnerOptionsDelayedSequence> Traps = new List<SpawnerOptionsDelayedSequence>();
 
-        // internal
-        GameObject goPlayer;
+        /// <summary>Cache the player game object.</summary>
+        private GameObject goPlayer;
+
+        /// <summary>Forward counter of the time since the last proximity check.</summary>
+        private float TimeSinceLastCheck;
 
         /// <summary>
         /// Find the player for proximity mode
         /// </summary>
         void Start()
         {
-            if (ProximityEnter)
-            {  // proximity trap?
-                goPlayer = GlobalFuncs.FindPlayerInstance();
+            if (ProximityEnter) // proximity trap?
+            {
+                goPlayer = GlobalFuncs.FindPlayerInstance();  // cache player
+                TimeSinceLastCheck = Time.time;  // cache the first check time
             }
         }  
 
@@ -94,8 +99,9 @@ namespace Shadex
         {
             if (ProximityEnter)  // proximity trap enabled?
             {  
-                if (Time.time > CheckRate)  // time for a distance check?          
-                {            
+                if (Time.time > (TimeSinceLastCheck + CheckRate))  // time for a distance check?          
+                {
+                    TimeSinceLastCheck = Time.time;  // update the last checked time
                     if (Vector3.Distance(transform.position, goPlayer.transform.position) < Proximity)  // within range
                     {  
                         StartCoroutine(GlobalFuncs.SpawnAllDelayed(Traps, Delay, NoneSequential, transform, null, 0, ForceFaceTrigger, Target));  // trigger all traps in the array
