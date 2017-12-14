@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using Invector;
 using Invector.CharacterController;
 using Invector.ItemManager;
-using UnityEditor;
 
 namespace Shadex
 {
