@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEditor.Events;
+//using UnityEditor.Events;
 #if !VANILLA
 using Invector;
 using Invector.ItemManager;
@@ -336,8 +336,13 @@ namespace Shadex
 
                     // apply links to the event trigger 
                     NewEventTrigger.triggers = triggers;
-                    UnityEventTools.AddPersistentListener(clickEventHandler.callback, NewSpendSkillPoint.OnClick);
-                    UnityEventTools.AddPersistentListener(submitEventHandler.callback, NewSpendSkillPoint.OnClick);
+//#if UNITY_EDITOR
+//                    //UnityEventTools.AddPersistentListener(clickEventHandler.callback, NewSpendSkillPoint.OnClick);
+//                    //UnityEventTools.AddPersistentListener(submitEventHandler.callback, NewSpendSkillPoint.OnClick);
+//#else
+//#endif
+                    clickEventHandler.callback.AddListener(NewSpendSkillPoint.OnClick);
+                    submitEventHandler.callback.AddListener(NewSpendSkillPoint.OnClick);
 
                     // add to the refresh array
                     SkillIncreaseButtons.Add(NewSkillIncreaseButton);
