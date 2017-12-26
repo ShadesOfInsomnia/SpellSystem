@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 using System;
 using System.Collections;
@@ -30,12 +30,15 @@ namespace Shadex
         public bool dropItemsWhenDead;
 
         /// <summary>Link to the same item list data as the player item manager.</summary>
+        [Tooltip("Link to the same item list data as the player item manager")]
         public vItemListData itemListData;
 
         /// <summary>Filter items by item type.</summary>
+        [Tooltip("Filter items by item type")]
         public List<vItemType> itemsFilter = new List<vItemType>() { 0 };
 
-        /// <summary>List of the start items for the AI, place spells in here.</summary>
+        /// <summary>List of the items for the AI, place spells in here and any initial weapons.</summary>
+        [Tooltip("List of the items for the AI, place spells in here and any initial weapons")]
         [SerializeField] public List<ItemReference> startItems = new List<ItemReference>();
 
         /// <summary>List of the current items the AI holds.</summary>
@@ -56,6 +59,16 @@ namespace Shadex
         /// <summary>List of apply attribute events.</summary>
         [SerializeField] public List<ApplyAttributeEvent> applyAttributeEvents;
 
+        /// <summary>Transform of the left equip point.</summary>
+        [Tooltip("Transform of the left equip point")]
+        public Transform defaultEquipPointL;
+
+        /// <summary>Transform of the right equip point.</summary>
+        [Tooltip("Transform of the right equip point")]
+        public Transform defaultEquipPointR;
+        
+        /// <summary>Cache reference to the melee manager.</summary>
+        protected vMeleeManager TheMeleeManager;
 
         /// <summary>
         /// Initialise items in the list, setup listeners.
@@ -63,6 +76,8 @@ namespace Shadex
         /// <returns>IEnumerator whilst waiting till the end of frame.</returns>
         IEnumerator Start()
         {
+            TheMeleeManager = GetComponent<vMeleeManager>();
+
             if (dropItemsWhenDead)
             {
                 var character = GetComponent<v_AIController>();
@@ -80,7 +95,7 @@ namespace Shadex
             {
                 for (int i = 0; i < startItems.Count; i++)
                 {
-                    AddItem(startItems[i], true);
+                    AddItem(startItems[i], startItems[i].autoEquip);
                 }
             }
         }
@@ -94,6 +109,11 @@ namespace Shadex
             return items;
         }
 
+        /// <summary>
+        /// Add new item to the AI inventory.
+        /// </summary>
+        /// <param name="itemReference">Reference object containing the vItem and related info.</param>
+        /// <param name="immediate">Equip the item immediate?</param>
         public void AddItem(ItemReference itemReference, bool immediate = false)
         {
             if (itemReference != null && itemListData != null && itemListData.items.Count > 0)
@@ -116,6 +136,11 @@ namespace Shadex
                         }
                         items.Add(_item);
                         onAddItem.Invoke(_item);
+                        if (itemReference.autoEquip)
+                        {
+                            itemReference.autoEquip = false;
+                            AutoEquipItem(_item, itemReference.indexArea, immediate);
+                        }
 
                         if (itemReference.amount > 0) AddItem(itemReference);
                     }
@@ -133,6 +158,40 @@ namespace Shadex
                 }
             }
         }
+
+        /// <summary>
+        /// Auto equip new item.
+        /// </summary>
+        /// <param name="item">Item to equip.</param>
+        /// <param name="indexArea">Index of the area to equip the item.</param>
+        /// <param name="immediate">Force equip immediate.</param>
+        public void AutoEquipItem(vItem item, int indexArea, bool immediate = false)
+        {
+            if (item.type == vItemType.MeleeWeapon)
+            {
+                var MeleeWeapon = item.originalObject.GetComponent<vMeleeWeapon>();
+                if (MeleeWeapon)
+                {
+                    var ActualWeapon = Instantiate(item.originalObject) as GameObject;
+                    if (MeleeWeapon.meleeType == vMeleeType.OnlyDefense)  // left
+                    {
+
+                        ActualWeapon.transform.parent = defaultEquipPointL;
+                        ActualWeapon.transform.localPosition = Vector3.zero;
+                        ActualWeapon.transform.localEulerAngles = Vector3.zero;
+                        TheMeleeManager.SetLeftWeapon(ActualWeapon);
+                    } 
+                    else  // right
+                    {
+                        ActualWeapon.transform.parent = defaultEquipPointR;
+                        ActualWeapon.transform.localPosition = Vector3.zero;
+                        ActualWeapon.transform.localEulerAngles = Vector3.zero;
+                        TheMeleeManager.SetRightWeapon(ActualWeapon);
+                    }
+                }
+            }
+        }
+
 
         /// <summary>
         /// Occurs when the AI uses a vItem.
