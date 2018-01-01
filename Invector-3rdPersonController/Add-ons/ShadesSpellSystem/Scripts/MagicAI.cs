@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +45,7 @@ namespace Shadex
         [Header("AI Item Manager")]
         /// <summary>Animator trigger to activate using a spell stored in the item manager.</summary>
         [Tooltip("Animator trigger to activate using a spell stored in the item manager")]
-        public string AnimatorTrigger = "MagicAttack";
+        public string AnimatorTrigger = "AIMagicAttack";
 
         [Header("Animator Random Attack Sets")]
         /// <summary>Animator trigger to randomly activate spell.</summary>
@@ -116,23 +116,23 @@ namespace Shadex
         [HideInInspector] public bool bPatrolling = false;  // state of invector ai
 
         // internal
-        private float fManaRemaining;  // keep track of available mana
-        private float fOriginal_maxDetectDistance, fOriginal_distanceToLostTarget, fOriginal_fieldOfView;   // store field of view on start
-        private List<MagicAIAvailableSpell> SpellsShortList;  // available inventory magic id's
+        protected float fManaRemaining;  // keep track of available mana
+        protected float fOriginal_maxDetectDistance, fOriginal_distanceToLostTarget, fOriginal_fieldOfView;   // store field of view on start
+        protected List<MagicAIAvailableSpell> SpellsShortList;  // available inventory magic id's
 
 #if !VANILLA
-        private v_AIController ai;
+        protected v_AIController ai;
 #endif
-        private NavMeshAgent agent;
-        private GameObject player;
-        private Animator animator;
-        private MagicAIItemManager inventory;
-        private Coroutine CoDelayedSpawn;
+        protected NavMeshAgent agent;
+        protected GameObject player;
+        protected Animator animator;
+        protected MagicAIItemManager inventory;
+        protected Coroutine CoDelayedSpawn;
 
         /// <summary>
         /// Initialise listeners and component references.
         /// </summary>
-        void Start()
+        protected virtual void Start()
         {
             // initialise invector AI handling
             player = GlobalFuncs.FindPlayerInstance();
@@ -209,7 +209,7 @@ namespace Shadex
         /// </summary>
         /// <param name="cb">Callback reference to the leveling class.</param>
         /// <param name="e">Character stats that have been updated.</param>
-        private void UpdateHUDListener(CharacterBase cb, CharacterUpdated e)
+        protected virtual void UpdateHUDListener(CharacterBase cb, CharacterUpdated e)
         {
 #if !VANILLA
             if (ai)
@@ -226,7 +226,7 @@ namespace Shadex
         /// Launch magic attack's randomly whilst chasing
         /// </summary>
         /// <returns>IEnumerator whilst delaying to coroutine.</returns>
-        public IEnumerator LongRangeMagicAttack()
+        public virtual IEnumerator LongRangeMagicAttack()
         {
             UnityEngine.Random.InitState(System.Environment.TickCount);
             while (true)
@@ -297,7 +297,7 @@ namespace Shadex
         /// Pass the way point id's to the animator whilst patrolling.
         /// </summary>
         /// <returns>IEnumerator whilst delaying to coroutine.</returns>
-        public IEnumerator UpdateAnimatorWithWaypointID()
+        public virtual IEnumerator UpdateAnimatorWithWaypointID()
         {
             int iWaypointID = -1;
             while (true)
@@ -361,7 +361,7 @@ namespace Shadex
         /// <summary>
         /// Handle invector AI when idling.
         /// </summary>
-        public void OnIdle()
+        public virtual void OnIdle()
         {
             if (GlobalFuncs.DEBUGGING_MESSAGES)
             {
@@ -374,7 +374,7 @@ namespace Shadex
         /// <summary>
         /// Handle invector AI when chasing.
         /// </summary>
-        public void OnChase()
+        public virtual void OnChase()
         {
             if (GlobalFuncs.DEBUGGING_MESSAGES)
             {
@@ -391,7 +391,7 @@ namespace Shadex
         /// <summary>
         /// Handle invector AI when patrolling.
         /// </summary>
-        public void OnPatrol()
+        public virtual void OnPatrol()
         {
             if (GlobalFuncs.DEBUGGING_MESSAGES)
             {
@@ -415,7 +415,7 @@ namespace Shadex
         /// <summary>
         /// I have died, give XP to player and spawn any death spawns.
         /// </summary>
-        public void OnDead()
+        public virtual void OnDead()
         {
             if (GlobalFuncs.DEBUGGING_MESSAGES)
             {
@@ -435,7 +435,7 @@ namespace Shadex
         /// </summary>
         /// <param name="damage">Used to update the AI to look at the damage source.</param>
 #if !VANILLA
-        public void OnReceiveDamage_Chase(vDamage damage)
+        public virtual void OnReceiveDamage_Chase(vDamage damage)
         {
             if (ai.currentState != v_AIMotor.AIStates.Chase)
             {  // not already chasing     
@@ -456,20 +456,20 @@ namespace Shadex
         /// <summary>
         /// On disable/death disable active coroutine.
         /// </summary>
-        void OnDisable()
+        protected virtual void OnDisable()
         {
             if (CoDelayedSpawn != null)
             {
                 StopCoroutine(CoDelayedSpawn);
                 CoDelayedSpawn = null;
             }
-        } 
+        }
 
 #if UNITY_EDITOR
         /// <summary>
         /// Update the spawn array on new for 1st element defaults.
         /// </summary>
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
             if (!Application.isPlaying)
             {
@@ -489,7 +489,7 @@ namespace Shadex
     /// <summary>
     /// Available spell short list.
     /// </summary>
-    class MagicAIAvailableSpell
+    public class MagicAIAvailableSpell
     {
         /// <summary>Magic ID of the spell.</summary>
         public int MagicID;
