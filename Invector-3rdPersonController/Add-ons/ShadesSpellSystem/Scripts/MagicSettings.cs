@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
@@ -64,6 +64,10 @@ namespace Shadex
         [Tooltip("Level up message uGUI text display element")]
         public Text LevelUpText;
 
+        /// <summary>Combo UI text display element.</summary>
+        [Tooltip("Combo UI text display element")]
+        public Text ComboDisplayText;
+
         /// <summary>Duration of the level up message fade in/out.</summary>
         [Tooltip("Duration of the level up message fade in/out")]
         public float FadeDuration = 3;
@@ -104,11 +108,11 @@ namespace Shadex
         public CallFunction SetManaMAX;
 
         // internal component pointers
-        private Animator animator;
+        protected Animator animator;
 #if !VANILLA
-        private vThirdPersonController vThirdPerson;
+        protected vThirdPersonController vThirdPerson;
 #endif
-        private int iLastLevel;
+        protected int iLastLevel;
 
         /// <summary>
         /// Initialise the spell system global settings
@@ -116,7 +120,7 @@ namespace Shadex
         /// <remarks>
         /// Includes inputs, class links targeting layers and more
         /// </remarks>
-        void Start()
+        protected virtual void Start()
         {
             iLastLevel = 1;
             animator = GetComponent<Animator>();
@@ -157,7 +161,7 @@ namespace Shadex
         /// </summary>
         /// <param name="cb">Link to an instance of the leveling system abstract class.</param>
         /// <param name="e">Character stats update contained within class properties.</param>
-        private void UpdateHUDListener(CharacterBase cb, CharacterUpdated e)
+        protected virtual void UpdateHUDListener(CharacterBase cb, CharacterUpdated e)
         {
             XPText.text = e.XP.ToString();
             ManaSlider.maxValue = e.ManaMAX;
@@ -186,7 +190,7 @@ namespace Shadex
         /// <summary>
         /// Handle user input into the spell triggers
         /// </summary>
-        void Update()
+        protected virtual void Update()
         {
             if (animator)
             {  // has animator
@@ -289,7 +293,7 @@ namespace Shadex
         /// Updates the spell display slot in the HUD, updates the spell trigger and caches the mana cost of the spell.
         /// </remarks>
         /// <param name="viSpell">Spell that has been equipped as an inventory item.</param>
-        public void SpellEquiped(vItem viSpell)
+        public virtual void SpellEquiped(vItem viSpell)
         {
             var vAttribMagicID = viSpell.attributes.Find(ai => ai.name.ToString() == "MagicID");  // grab the magic id
             if (vAttribMagicID != null)
@@ -351,7 +355,7 @@ namespace Shadex
         /// Updates the spell display slot in the HUD, clears the spell trigger.
         /// </remarks>
         /// <param name="viSpell">Spell that has been unequipped as an inventory item.</param>
-        public void SpellUnEquiped(vItem viSpell)
+        public virtual void SpellUnEquiped(vItem viSpell)
         {
             var vAttribMagicID = viSpell.attributes.Find(ai => ai.name.ToString() == "MagicID");  // grab the magic id
             if (vAttribMagicID != null)
@@ -387,7 +391,7 @@ namespace Shadex
         /// Updates the leveling system with the new mana level from the potion drunk.
         /// </remarks>
         /// <param name="viDrinkMe"></param>
-        public void UsePotion(vItem viDrinkMe)
+        public virtual void UsePotion(vItem viDrinkMe)
         {
             if (viDrinkMe.type == vItemType.Consumable)
             {  // ensure is a potion
@@ -404,14 +408,26 @@ namespace Shadex
                     }
                 }
             }
-        } 
+        }
+
 #endif
+        /// <summary>
+        /// Updates the HUD with the combo just performed.
+        /// </summary>
+        /// <param name="ComboDepth">Depth into the branch of the combo.</param>
+        /// <param name="ComboName">Name of the combo.</param>
+        public virtual void UpdateComboDisplay(int ComboDepth, string ComboName)
+        {
+            ComboDisplayText.CrossFadeAlpha(1f, 0.01f, false);
+            ComboDisplayText.text = "Level " + ComboDepth.ToString() + " Combo " + ComboName;
+            ComboDisplayText.CrossFadeAlpha(0f, 3, false);
+        }
 
 #if UNITY_EDITOR
         /// <summary>
         /// Force apply the class defaults when the first array item is added in the inspector.
         /// </summary>
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
             if (!Application.isPlaying)
             {
