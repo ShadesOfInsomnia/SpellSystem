@@ -198,6 +198,7 @@ namespace Shadex
                 levelingSystem.UnspentSkillPoints -= 1;
                 levelingSystem.Skills[levelingSystem.Skills.FindIndex(s => s.Skill == Skill)].Value += 1;
                 levelingSystem.reCalcCore(false);
+                levelingSystem.StatsToAnimator(true);
                 reDrawAttributes();
             }
         }
@@ -336,11 +337,8 @@ namespace Shadex
 
                     // apply links to the event trigger 
                     NewEventTrigger.triggers = triggers;
-//#if UNITY_EDITOR
-//                    //UnityEventTools.AddPersistentListener(clickEventHandler.callback, NewSpendSkillPoint.OnClick);
-//                    //UnityEventTools.AddPersistentListener(submitEventHandler.callback, NewSpendSkillPoint.OnClick);
-//#else
-//#endif
+                    //UnityEventTools.AddPersistentListener(clickEventHandler.callback, NewSpendSkillPoint.OnClick);
+                    //UnityEventTools.AddPersistentListener(submitEventHandler.callback, NewSpendSkillPoint.OnClick);
                     clickEventHandler.callback.AddListener(NewSpendSkillPoint.OnClick);
                     submitEventHandler.callback.AddListener(NewSpendSkillPoint.OnClick);
 
