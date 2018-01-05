@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -11,17 +11,17 @@ namespace Shadex
     /// </summary>
     public class CharacterBaseEditor : Editor
     {
-        internal bool bOpenCloseWindow = false;
-        internal bool bOpenDataHelpers = false;
-        internal bool bShowCore = true;
-        internal bool bShowSkillPoints = true;
-        internal bool bShowResistances = true;
-        internal bool bShowCollectables = true;
-        internal bool bShowConditions = true;
-        internal BaseIncrease CurrentIncrease = BaseIncrease.Fives;
-        internal List<SimpleDataPair> SaveSlots;
-        internal List<SimpleDataPair> SaveGames;
-        internal int iNewValue;
+        protected bool bOpenCloseWindow = false;
+        protected bool bOpenDataHelpers = false;
+        protected bool bShowCore = true;
+        protected bool bShowSkillPoints = true;
+        protected bool bShowResistances = true;
+        protected bool bShowCollectables = true;
+        protected bool bShowConditions = true;
+        protected BaseIncrease CurrentIncrease = BaseIncrease.Fives;
+        protected List<SimpleDataPair> SaveSlots;
+        protected List<SimpleDataPair> SaveGames;
+        protected int iNewValue;
 
 #if !VANILLA
         public GUISkin skin;
@@ -54,7 +54,7 @@ namespace Shadex
             // show values + modifier
             bOpenCloseWindow = GUILayout.Toggle(bOpenCloseWindow, bOpenCloseWindow ? "Close" : "Open", EditorStyles.toolbarButton);
             if (bOpenCloseWindow)
-            {
+            {                
                 // reset to defaults
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("Reset to Defaults", GUILayout.ExpandWidth(true)))
@@ -62,6 +62,18 @@ namespace Shadex
                     cc.ConditionsRoot = cc.transform.Find("Conditions");
                     cc.ResetToDefaults();
                 }
+                GUILayout.EndHorizontal();
+
+                // feed stats into the animator
+                GUILayout.BeginHorizontal();
+#if !VANILLA
+                GUI.skin = oldSkin;
+#endif
+                GUILayout.Label("Send Stats", GUILayout.Width(75));
+                cc.FeedStatsToAnimator = GUILayout.Toggle(cc.FeedStatsToAnimator, " to the Animator", GUILayout.ExpandWidth(true));
+#if !VANILLA
+                GUI.skin = skin;
+#endif
                 GUILayout.EndHorizontal();
 
                 // increase by
@@ -355,7 +367,7 @@ namespace Shadex
 #endif
         }  
 
-        protected void GUICoreDisplay(ref CharacterBase cc)
+        protected virtual void GUICoreDisplay(ref CharacterBase cc)
         {
             // name of the character
             GUILayout.BeginHorizontal();
@@ -406,6 +418,17 @@ namespace Shadex
             if (cc.CurrentClass != NewClass)
             {
                 cc.CurrentClass = NewClass;
+                cc.RebuildModifiers();
+            }
+            GUILayout.EndHorizontal();
+
+            // rank
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Rank", GUILayout.Width(75));
+            BaseRank NewRank = (BaseRank)EditorGUILayout.EnumPopup(cc.CurrentRank, GUILayout.ExpandWidth(true));
+            if (cc.CurrentRank != NewRank)
+            {
+                cc.CurrentRank = NewRank;
                 cc.RebuildModifiers();
             }
             GUILayout.EndHorizontal();
@@ -469,8 +492,7 @@ namespace Shadex
             GUI.skin.label.alignment = TextAnchor.UpperLeft;
             GUILayout.EndHorizontal();
 
-
-
+            
             // XP & next level
             GUILayout.BeginHorizontal();
             GUILayout.Label("XP", GUILayout.Width(75));
@@ -489,7 +511,7 @@ namespace Shadex
         /// Current level, XP, XP to next level and modifier buttons.
         /// </summary>
         /// <param name="cc">Instance of the leveling system.</param>
-        protected void GUILevelDisplay(ref CharacterBase cc)
+        protected virtual void GUILevelDisplay(ref CharacterBase cc)
         {
             GUILayout.Label("Level", GUILayout.Width(75));
 
@@ -613,7 +635,7 @@ namespace Shadex
         /// </summary>
         /// <param name="cc">Instance of the leveling system.</param>
         /// <param name="i">Loop iterator.</param>
-        protected void GUISkillPointDisplay(ref CharacterBase cc, ref int i)
+        protected virtual void GUISkillPointDisplay(ref CharacterBase cc, ref int i)
         {
             // attribute name
             GUILayout.Label(cc.Skills[i].Skill.ToString(), GUILayout.Width(75));
@@ -693,7 +715,7 @@ namespace Shadex
         /// <param name="Min">Minimum range.</param>
         /// <param name="Max">Maximum range.</param>
         /// <returns></returns>
-        protected bool GUIGenericValueDisplay(ref CharacterBase cc, ref float CurrentValue, float Min, float Max)
+        protected virtual bool GUIGenericValueDisplay(ref CharacterBase cc, ref float CurrentValue, float Min, float Max)
         {
             // remove 5 from this 
             if (CurrentValue - (int)CurrentIncrease > Min)

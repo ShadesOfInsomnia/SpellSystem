@@ -6,6 +6,7 @@ using System.Linq;
 
 #if !VANILLA
 using Invector;
+using Invector.CharacterController;
 #endif
 
 namespace Shadex
@@ -109,7 +110,10 @@ namespace Shadex
         public BaseRace CurrentRace;                           
 
         /// <summary>Character class.</summary>
-        public BaseClass CurrentClass;                     
+        public BaseClass CurrentClass;
+
+        /// <summary>Character military rank.</summary>
+        public BaseRank CurrentRank;
 
         /// <summary>Attribute modifier stack.</summary>
         public List<BaseValue> Modifiers;                       
@@ -139,14 +143,49 @@ namespace Shadex
         public event UpdateHUDHandler NotifyUpdateHUD;          
 
         /// <summary>Attribute changes publisher delegate.</summary>
-        public delegate void UpdateHUDHandler(CharacterBase cb, CharacterUpdated e);  
+        public delegate void UpdateHUDHandler(CharacterBase cb, CharacterUpdated e);
 
+        /// <summary>When enabled, core stats will get updated into the animator.</summary>
+        /// <remarks>An int animator parameter must exist for each stat, prefixed by "Core_".</remarks>
+        public bool FeedStatsToAnimator;
         
-        // internal
-        private bool bPerDblSecondRunning;
-        private bool bPerSecondRunning;
-        private bool bPerHalfSecondRunning;
-        private bool bPerQtrSecondRunning;
+        /// <summary>CoRoutine enabled for per two second operations.</summary>
+        protected bool bPerDblSecondRunning;
+
+        /// <summary>CoRoutine enabled for per second operations.</summary>
+        protected bool bPerSecondRunning;
+
+        /// <summary>CoRoutine enabled for per half second operations.</summary>
+        protected bool bPerHalfSecondRunning;
+
+        /// <summary>CoRoutine enabled for per quarter second operations.</summary>
+        protected bool bPerQtrSecondRunning;
+
+        /// <summary>Cache of the animator for the attached character.</summary>
+        protected Animator TheAnimator;
+
+        /// <summary>Cache of the third person controller for the attached character.</summary>
+        protected vThirdPersonController TheThirdPersonController;
+
+        /// <summary>Cache of the invector AI for the attached character.</summary>
+        protected v_AIController TheInvectorAI;
+
+        /// <summary>Cache the hash to the Core_Level parameter ID.</summary>
+        public static readonly int param_CoreLevel = Animator.StringToHash("Core_Level");
+
+        /// <summary>Cache the hash to the Core_Life parameter ID.</summary>
+        public static readonly int param_CoreLife = Animator.StringToHash("Core_Life");
+
+        /// <summary>Cache the hash to the Core_Mana parameter ID.</summary>
+        public static readonly int param_CoreMana = Animator.StringToHash("Core_Mana");
+
+        /// <summary>Cache the hash to the Core_Stamina parameter ID.</summary>
+        public static readonly int param_CoreStamina = Animator.StringToHash("Core_Stamina");
+
+        /// <summary>Cache the hash to the Core_EquipLoad parameter ID.</summary>
+        public static readonly int param_CoreEquipLoad = Animator.StringToHash("Core_EquipLoad");
+
+       
 
 
         /// <summary>
@@ -162,14 +201,41 @@ namespace Shadex
         /// </summary>
         public virtual void Start()
         {
-#if !VANILLA
-            var character = GetComponent<v_AIController>();
-            if (character)
-                character.onDead.AddListener(DropAllCollectables);
-#endif
+            // cache components
+            TheThirdPersonController = GetComponent<vThirdPersonController>();
+            TheInvectorAI = GetComponent<v_AIController>();
+
+            // handle collectables
             if (gameObject.tag == "Player")
             {
                 GlobalFuncs.Collectables = Collectables;  // pass current prefab setup to global for fast access
+            }
+            else
+            {
+#if !VANILLA    // AI drop collectables on death
+                if (TheThirdPersonController)
+                {
+                    TheThirdPersonController.onDead.AddListener(DropAllCollectables);
+                }
+                else if (TheInvectorAI)
+                { 
+                    TheInvectorAI.onDead.AddListener(DropAllCollectables);
+                }
+#endif
+            }
+
+            // set initial animator core stats?
+            if (FeedStatsToAnimator)
+            {
+                TheAnimator = GetComponent<Animator>();
+                if (TheAnimator)
+                {
+                    StatsToAnimator(false);
+                }
+                else  // failsafe, but disable when no animator
+                {
+                    FeedStatsToAnimator = false;  // should never happen unless legacy character
+                }
             }
         }  
 
@@ -297,7 +363,7 @@ namespace Shadex
         /// <summary>
         /// Notify HUD update subscribers of attribute change.
         /// </summary>
-        public void ForceUpdateHUD()
+        public virtual void ForceUpdateHUD()
         {
             if (NotifyUpdateHUD != null)
             {  // has subscribers
@@ -313,16 +379,83 @@ namespace Shadex
                 };  // create character attribute event class
                 NotifyUpdateHUD(this, cu);  // notify all subscribers of the update
             }
-        }  
+        }
+
+        /// <summary>
+        /// Feeds the animator ALL the current stats from character.
+        /// </summary>
+        /// <param name="JustSkills">Only update the skill points.</param>
+        public virtual void StatsToAnimator(bool JustSkills)
+        {
+            if (FeedStatsToAnimator)
+            {
+                if (!JustSkills)
+                {
+                    StatsToAnimator(param_CoreLevel);
+                    StatsToAnimator(param_CoreLife);
+                    StatsToAnimator(param_CoreMana);
+                    StatsToAnimator(param_CoreStamina);
+                    StatsToAnimator(param_CoreEquipLoad);
+
+                    TheAnimator.SetInteger("Core_Axis", (int)CurrentAxis);
+                    TheAnimator.SetInteger("Core_Alignment", (int)CurrentAlignment);
+                    TheAnimator.SetInteger("Core_Rank", (int)CurrentRank);
+                }
+
+                string[] SkillNames = Enum.GetNames(typeof(BaseSkill));
+                for (int i = 0; i < SkillNames.Length; i++)
+                {
+                    TheAnimator.SetInteger("Core_" + SkillNames[i], (int)Skills[i].Value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Feeds the animator a specific stat from character.
+        /// </summary>
+        /// <param name="CoreStatHash">Hash of the animator parameter name.</param>
+        public virtual void StatsToAnimator(int CoreStatHash)
+        {
+            if (FeedStatsToAnimator)
+            {
+                int NewValue = 0;
+                if (CoreStatHash == param_CoreStamina)
+                {
+                    if (TheThirdPersonController)
+                        NewValue = (int)((TheThirdPersonController.currentStamina / MAXStamina) * 100);
+                    else if (TheInvectorAI)
+                        NewValue = (int)((TheInvectorAI.currentStamina / MAXStamina) * 100);
+                }
+                else if (CoreStatHash == param_CoreLife)
+                {
+                    NewValue = (int)((CurrentLife / MAXLife) * 100);
+                }
+                else if (CoreStatHash == param_CoreMana)
+                {
+                    NewValue = (int)((CurrentMana / MAXMana) * 100);
+                }
+                else if (CoreStatHash == param_CoreEquipLoad)
+                {
+                    NewValue = (int)((CurrentEquipLoad / MAXEquipLoad) * 100);
+                }
+                else if (CoreStatHash == param_CoreLevel)
+                {
+                    NewValue = CurrentLevel;
+                }
+
+                TheAnimator.SetInteger(CoreStatHash, NewValue);
+            }
+        }
 
         /// <summary>
         /// Event hook for when a mana potion is drunk.
         /// </summary>
         /// <param name="ManaIncrease">Amount of mana drunk.</param>
-        public void AddMana(int ManaIncrease)
+        public virtual void AddMana(int ManaIncrease)
         {
             CurrentMana += ManaIncrease;
             if (CurrentMana > (MAXMana + BonusMAXMana)) CurrentMana = MAXMana;  // limit mana gain to max mana
+            StatsToAnimator(param_CoreMana);
             ForceUpdateHUD();
         }
 
@@ -330,9 +463,10 @@ namespace Shadex
         /// Link to event onUseMana to apply the spell mana cost from the vItem attribute . 
         /// </summary>
         /// <param name="ManaCost">Mana cost of spell or ability.</param>
-        public void UseMana(int ManaCost)
+        public virtual void UseMana(int ManaCost)
         {
             CurrentMana -= ManaCost;  // subtract the used mana
+            StatsToAnimator(param_CoreMana);
             ForceUpdateHUD();
         }
 
@@ -347,6 +481,7 @@ namespace Shadex
             {  // level up ?
                 CurrentLevel += 1;
                 XPToNextLevel = CalcXPToNextLevel(CurrentLevel);
+                StatsToAnimator(param_CoreLevel);
             }
             ForceUpdateHUD();
         }  
@@ -355,9 +490,10 @@ namespace Shadex
         /// <summary>
         /// Max mana potion drunk.
         /// </summary>
-        public void SetManaMAX()
+        public virtual void SetManaMAX()
         {
             CurrentMana = (MAXMana + BonusMAXMana);
+            StatsToAnimator(param_CoreMana);
             ForceUpdateHUD();
         }
 
@@ -365,13 +501,14 @@ namespace Shadex
         /// Triggered when collider takes a hit on this player/NPC, linked to invector hit event.
         /// </summary>
         /// <param name="Hit">Info about the hit.</param>
-        public void OnSendHit(vHitInfo Hit)
+        public virtual void OnSendHit(vHitInfo Hit)
         {
             if (Hit.attackObject is vMeleeWeapon)
             {
                 MagicObjectDamage mdamage = Hit.attackObject.GetComponent<MagicObjectDamage>();  // attempt grab magic damage
                 var levelingAI = Hit.targetCollider.GetComponent<CharacterBase>();
                 if (levelingAI) levelingAI.OnRecieveMagicDamage(mdamage, 0);
+                StatsToAnimator(param_CoreStamina);
             }
         }
 
@@ -379,7 +516,7 @@ namespace Shadex
         /// Triggered when invector vObjectDamage strikes this player/NPC, linked to invector damage event.
         /// </summary>
         /// <param name="damage">Info about the damage received.</param>
-        public void OnRecieveDamage(vDamage Damage)
+        public virtual void OnRecieveDamage(vDamage Damage)
         {
             MagicObjectDamage mdamage = Damage.sender.GetComponent<MagicObjectDamage>();  // attempt grab magic damage
             OnRecieveMagicDamage(mdamage, Damage.damageValue);
@@ -390,8 +527,9 @@ namespace Shadex
         /// </summary>
         /// <param name="MagicDamage">Magic damage data.</param>
         /// <param name="Damage">Physical damage amount.</param>
-        public void OnRecieveMagicDamage(MagicObjectDamage MagicDamage, float Damage)
+        public virtual void OnRecieveMagicDamage(MagicObjectDamage MagicDamage, float Damage)
         {
+            StatsToAnimator(param_CoreLife);
             if (Damage > 0)
             {
                 CurrentLife -= MitigateDamge(BaseDamage.Physical, Damage);  // apply physical damage
@@ -551,7 +689,7 @@ namespace Shadex
         /// Drop all collectables on death.
         /// </summary>
         /// <param name="target">Failsafe ensuring actual death.</param>
-        public void DropAllCollectables(GameObject target = null)
+        public virtual void DropAllCollectables(GameObject target = null)
         {
             if (target != null && target != gameObject) return;
             List<SpawnerOptionsDelayedSequence> PrefabsToSpawn = new List<SpawnerOptionsDelayedSequence>();
@@ -802,7 +940,7 @@ namespace Shadex
         /// Cache the skill point/resistance bonuses for faster calc.
         /// </summary>
         /// <param name="UpdateToMAX">Update core stats to the MAX after recalc.</param>
-        protected void rebuildModifierTotals(bool UpdateToMAX)
+        protected virtual void rebuildModifierTotals(bool UpdateToMAX)
         {
             // zero the skill cache totals
             foreach (BaseSkillValue sv in SkillModTotals)
@@ -824,7 +962,7 @@ namespace Shadex
         /// Recalc base resistance from items and character.
         /// </summary>
         /// <param name="LevelBonus">Bonus amount per level.</param>
-        protected void reCalcBaseResist(float LevelBonus)
+        protected virtual void reCalcBaseResist(float LevelBonus)
         {
             // zero the resist cache totals
             foreach (BaseResistPercent rp in ResistModTotals)
@@ -844,7 +982,7 @@ namespace Shadex
         /// </summary>
         /// <param name="Source">Source item causing the stat change.</param>
         /// <param name="Equipped">Whether the source item is being equipped.</param>
-        public void reCalcEquipmentBonuses(CharacterEquipAttributes Source, bool Equipped)
+        public virtual void reCalcEquipmentBonuses(CharacterEquipAttributes Source, bool Equipped)
         {
             // ensure per second operations are disabled
             if (bPerSecondRunning)
@@ -922,6 +1060,11 @@ namespace Shadex
             if (CurrentLife > (MAXLife + BonusMAXLife)) CurrentLife = (MAXLife + BonusMAXLife);
             if (CurrentMana > (MAXMana + BonusMAXMana)) CurrentMana = (MAXMana + BonusMAXMana);
 
+            // update animator
+            StatsToAnimator(param_CoreLife);
+            StatsToAnimator(param_CoreMana);
+            StatsToAnimator(param_CoreStamina);
+            StatsToAnimator(param_CoreEquipLoad);
 
             // re enable per second operations, if have DoTs or regen attributes
             if (Application.isPlaying && ((DoTs.Count + RegenLife + BonusRegenLife + RegenMana + BonusRegenMana) > 0))
@@ -938,7 +1081,7 @@ namespace Shadex
         /// Recalc all core stats after state change.
         /// </summary>
         /// <param name="UpdateToMAX">Force mana/health stats to the max on recalc.</param>
-        public void reCalcCore(bool UpdateToMAX)
+        public virtual void reCalcCore(bool UpdateToMAX)
         {
             CalcMaxLife(UpdateToMAX);
             CalcResistLevelBonus();
@@ -981,7 +1124,7 @@ namespace Shadex
         /// </summary>
         /// <param name="SkillName">Which skill.</param>
         /// <param name="ApplyValue">Value to apply.</param>
-        public void AddModifier(BaseSkill SkillName, int ApplyValue)
+        public virtual void AddModifier(BaseSkill SkillName, int ApplyValue)
         {
             Modifiers.Add(new BaseSkillValue() { Skill = SkillName, Value = ApplyValue, src = ModifierSource.Character });
         }
@@ -991,7 +1134,7 @@ namespace Shadex
         /// </summary>
         /// <param name="SkillName">Which resistance type.</param>
         /// <param name="ApplyValue">Value to apply.</param>
-        public void AddModifier(BaseDamage ResistName, int ApplyValue)
+        public virtual void AddModifier(BaseDamage ResistName, int ApplyValue)
         {
             Modifiers.Add(new BaseResistPercent() { Resist = ResistName, Value = ApplyValue, src = ModifierSource.Character });
         }
@@ -1002,7 +1145,7 @@ namespace Shadex
         /// <param name="Parent">Transform to search.</param>
         /// <param name="Name">Name of transform to find.</param>
         /// <returns>Game object searched for or null if not found.</returns>
-        public GameObject FindInActiveChild(Transform Parent, string Name)
+        public virtual GameObject FindInActiveChild(Transform Parent, string Name)
         {
             if (Parent)  // failsafe
             {

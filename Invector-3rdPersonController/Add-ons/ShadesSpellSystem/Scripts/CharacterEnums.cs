@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -71,6 +71,16 @@ namespace Shadex
     public enum BaseClass
     {
         Knight, Mage, Hunter
+    }
+
+    /// <summary>
+    /// Available character rank.
+    /// </summary>
+    public enum BaseRank
+    {
+        Private, LanceCorporal, Corporal, Sergeant, MasterSergeant, SergeantMajor,
+        SecondLieutenant, Lieutenant, Captain, Major, LieutenantColonel, Colonel, Brigadier,
+        MajorGeneral, LieutenantGeneral, General, FieldMarshal, SupremeLeader
     }
 
     /// <summary>
