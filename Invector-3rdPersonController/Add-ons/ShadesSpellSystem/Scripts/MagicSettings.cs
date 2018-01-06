@@ -418,9 +418,17 @@ namespace Shadex
         /// <param name="ComboName">Name of the combo.</param>
         public virtual void UpdateComboDisplay(int ComboDepth, string ComboName)
         {
-            ComboDisplayText.CrossFadeAlpha(1f, 0.01f, false);
-            ComboDisplayText.text = "Level " + ComboDepth.ToString() + " Combo " + ComboName;
-            ComboDisplayText.CrossFadeAlpha(0f, 3, false);
+            if (ComboDisplayText)
+            {
+                ComboDisplayText.CrossFadeAlpha(1f, 0.01f, false);
+                ComboDisplayText.text = "Level " + ComboDepth.ToString() + " Combo " + ComboName;
+                ComboDisplayText.CrossFadeAlpha(0f, 3, false);
+            }
+            else
+            {
+                if (GlobalFuncs.DEBUGGING_MESSAGES)
+                    Debug.Log("Level " + ComboDepth.ToString() + " Combo " + ComboName);
+            }            
         }
 
 #if UNITY_EDITOR
