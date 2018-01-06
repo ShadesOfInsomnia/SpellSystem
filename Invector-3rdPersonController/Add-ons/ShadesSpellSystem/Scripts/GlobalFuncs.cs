@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -69,9 +69,14 @@ namespace Shadex
         /// <summary>Reference to the Magic Pool, set by itself or the accessor function.</summary>
         public static MagicPool mpi;
 
-        // internal
-        private static CharacterDataBase cDB;
-        private static MainMenu mainM;
+        /// <summary>Cached reference to the character database.</summary>
+        public static CharacterDataBase cDB;
+
+        /// <summary>Cached reference to the main menu.</summary>
+        public static MainMenu mainM;
+
+        /// <summary>Cached reference to the main menu.</summary>
+        public static MagicSettings mSet;
 
         /// <summary>
         /// Find the character database component.
@@ -88,6 +93,23 @@ namespace Shadex
                 }
             }
             return cDB;
+        }
+
+        /// <summary>
+        /// Find the character database component.
+        /// </summary>
+        /// <returns>Active magic settings class instance.</returns>
+        public static MagicSettings TheMagicalSettings()
+        {
+            if (!mSet)
+            {
+                GameObject player = FindPlayerInstance();
+                if (player)
+                {
+                    mSet = player.GetComponent<MagicSettings>();
+                }
+            }
+            return mSet;
         }
 
         /// <summary>
