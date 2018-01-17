@@ -334,7 +334,7 @@ namespace Shadex
                 // also lock input when inventory open
                 itemManager.onOpenCloseInventory = new OnOpenCloseInventory();
                 vMeleeCombatInput MeleeInput = Selection.activeGameObject.GetComponent<vMeleeCombatInput>();
-                if (MeleeInput) UnityEventTools.AddPersistentListener(itemManager.onOpenCloseInventory, MeleeInput.LockInput);
+                if (MeleeInput) UnityEventTools.AddPersistentListener(itemManager.onOpenCloseInventory, MeleeInput.SetLockMeleeInput);
 #endif
                 // work complete
                 this.Close();
