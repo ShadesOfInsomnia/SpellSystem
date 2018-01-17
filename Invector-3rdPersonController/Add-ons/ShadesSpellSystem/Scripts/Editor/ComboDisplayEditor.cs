@@ -3,12 +3,11 @@ using UnityEditor;
 using System.Collections;
 using Invector;
 using System;
-using BehaviorDesigner.Runtime;
 
 namespace Shadex
 {
     /// <summary>
-    /// Custom editor for the sentient intelligence CPU.
+    /// Custom editor for the combo display.
     /// </summary>
     /// <remarks>
     /// Draws the field of view, max detect collider gizmo's when enabled and running in the editor.
