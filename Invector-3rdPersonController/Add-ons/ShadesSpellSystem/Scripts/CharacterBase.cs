@@ -405,7 +405,7 @@ namespace Shadex
                 string[] SkillNames = Enum.GetNames(typeof(BaseSkill));
                 for (int i = 0; i < SkillNames.Length; i++)
                 {
-                    TheAnimator.SetInteger("Core_" + SkillNames[i], (int)Skills[i].Value);
+                    TheAnimator.SetInteger("Core_" + SkillNames[i], (int)Skills[i].Value + (int)SkillModTotals[i].Value);
                 }
             }
         }
