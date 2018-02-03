@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -65,12 +65,12 @@ namespace Shadex
         [HideInInspector] public LayerMask TargetLayers;
         [HideInInspector] public GameObject goTeleportMe;
         [HideInInspector] public Transform tSpellTarget;
-        private Coroutine CoTeleport;
+        protected Coroutine CoTeleport;
 
         /// <summary>
         /// Occurs when enabled by the magical pool, sets up the teleport.
         /// </summary>
-        void OnEnable()
+        public virtual void OnEnable()
         {
             if (TargetTags != null)
             {  // ensure creating pool master copy doesnt activate it
@@ -104,12 +104,12 @@ namespace Shadex
                     }
                 }
             }
-        } 
+        }
 
         /// <summary>
         /// Ensure the coroutine that teleport's is stopped when returing to the pool.
         /// </summary>
-        void OnDisable()
+        public virtual void OnDisable()
         {
             if (CoTeleport != null)
             {
@@ -122,7 +122,7 @@ namespace Shadex
         /// Teleport processing, called via coroutine.
         /// </summary>
         /// <returns>IEnumerator for the delay between take off and landing.</returns>
-        public IEnumerator TeleportAtTarget()
+        public virtual IEnumerator TeleportAtTarget()
         {
             // Spawn the take off particle effect
             if (TakeOffParticle.Prefab)
