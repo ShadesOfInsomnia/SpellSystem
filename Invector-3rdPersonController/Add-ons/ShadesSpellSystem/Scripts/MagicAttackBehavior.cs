@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 namespace Shadex
@@ -44,12 +44,12 @@ namespace Shadex
 
 
         // internal
-        GameObject goLimb1_ParticleInstance;
-        int iLimbPoolSlotID1;
-        GameObject goLimb2_ParticleInstance;
-        int iLimbPoolSlotID2;
-        Transform tMagicSpawn;
-        bool bAI;
+        protected GameObject goLimb1_ParticleInstance;
+        protected int iLimbPoolSlotID1;
+        protected GameObject goLimb2_ParticleInstance;
+        protected int iLimbPoolSlotID2;
+        protected Transform tMagicSpawn;
+        protected bool bAI;
 
         /// <summary>
         /// Occurs when the animator enters the parent state, creates hand particles and targeting.
@@ -57,17 +57,20 @@ namespace Shadex
         /// <param name="animator">Reference to the parent animator.</param>
         /// <param name="stateInfo">Information about the state.</param>
         /// <param name="layerIndex">Index of the current animator layer.</param>
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             // set the magic spawn point
-            bAI = !(animator.gameObject.tag == "Player");
-            if (!bAI)
+            if (!tMagicSpawn)
             {
-                tMagicSpawn = animator.GetComponentInChildren<MagicSettings>().MagicSpawnPoint;
-            }
-            else
-            {
-                tMagicSpawn = animator.GetComponentInChildren<MagicAI>().MagicSpawnPoint;
+                bAI = !(animator.gameObject.tag == "Player");
+                if (!bAI)
+                {
+                    tMagicSpawn = animator.GetComponentInChildren<MagicSettings>().MagicSpawnPoint;
+                }
+                else
+                {
+                    tMagicSpawn = animator.GetComponentInChildren<MagicAI>().MagicSpawnPoint;
+                }
             }
 
             // handle the hand particle 
@@ -147,7 +150,7 @@ namespace Shadex
         /// <param name="animator">Reference to the parent animator.</param>
         /// <param name="stateInfo">Information about the state.</param>
         /// <param name="layerIndex">Index of the current animator layer.</param>
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             // handle limb particle effects
             if (goLimb1_ParticleInstance)
