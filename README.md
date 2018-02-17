@@ -3,7 +3,7 @@ A FREE [Invector](https://assetstore.unity.com/publishers/13943) addon brought t
 the undisputed kings of feature creep…
 
 ***
-* Copyright        : 2017 Shades of Insomnia
+* Copyright        : 2018 Shades of Insomnia
 * Founding Members : Charles Page (Shade) & Rob Alexander (Insomnia)
 * License          : Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) https://creativecommons.org/licenses/by-sa/4.0/
 
