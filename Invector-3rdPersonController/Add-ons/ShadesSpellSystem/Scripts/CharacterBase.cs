@@ -164,11 +164,8 @@ namespace Shadex
         /// <summary>Cache of the animator for the attached character.</summary>
         protected Animator TheAnimator;
 
-        /// <summary>Cache of the third person controller for the attached character.</summary>
-        protected vThirdPersonController TheThirdPersonController;
-
-        /// <summary>Cache of the invector AI for the attached character.</summary>
-        protected v_AIController TheInvectorAI;
+        /// <summary>Cache of the base class for the attached character.</summary>
+        protected vCharacter TheCharacter;
 
         /// <summary>Cache the hash to the Core_Level parameter ID.</summary>
         public static readonly int param_CoreLevel = Animator.StringToHash("Core_Level");
@@ -201,27 +198,15 @@ namespace Shadex
         /// </summary>
         public virtual void Start()
         {
-            // cache components
-            TheThirdPersonController = GetComponent<vThirdPersonController>();
-            TheInvectorAI = GetComponent<v_AIController>();
+#if !VANILLA// add the drop all collectables link
+            TheCharacter = GetComponent<vCharacter>();
+            TheCharacter.onDead.AddListener(DropAllCollectables);
+#endif
 
             // handle collectables
             if (gameObject.tag == "Player")
             {
                 GlobalFuncs.Collectables = Collectables;  // pass current prefab setup to global for fast access
-            }
-            else
-            {
-#if !VANILLA    // AI drop collectables on death
-                if (TheThirdPersonController)
-                {
-                    TheThirdPersonController.onDead.AddListener(DropAllCollectables);
-                }
-                else if (TheInvectorAI)
-                { 
-                    TheInvectorAI.onDead.AddListener(DropAllCollectables);
-                }
-#endif
             }
 
             // set initial animator core stats?
@@ -405,7 +390,7 @@ namespace Shadex
                 string[] SkillNames = Enum.GetNames(typeof(BaseSkill));
                 for (int i = 0; i < SkillNames.Length; i++)
                 {
-                    TheAnimator.SetInteger("Core_" + SkillNames[i], (int)Skills[i].Value);
+                    TheAnimator.SetInteger("Core_" + SkillNames[i], (int)Skills[i].Value + (int)SkillModTotals[i].Value);
                 }
             }
         }
@@ -421,10 +406,7 @@ namespace Shadex
                 int NewValue = 0;
                 if (CoreStatHash == param_CoreStamina)
                 {
-                    if (TheThirdPersonController)
-                        NewValue = (int)((TheThirdPersonController.currentStamina / MAXStamina) * 100);
-                    else if (TheInvectorAI)
-                        NewValue = (int)((TheInvectorAI.currentStamina / MAXStamina) * 100);
+                    NewValue = (int)((TheCharacter.currentStamina / MAXStamina) * 100);
                 }
                 else if (CoreStatHash == param_CoreLife)
                 {
