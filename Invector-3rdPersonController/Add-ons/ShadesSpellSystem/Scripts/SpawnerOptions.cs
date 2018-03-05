@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System.Linq;
+using UnityEngine;
 using System;
 
 namespace Shadex
@@ -425,6 +424,7 @@ namespace Shadex
         float fSpawnRate;
         [HideInInspector] public int SpawnedSoFar = 999;
         [HideInInspector] public GameObject goSpawnedParticle;
+        [HideInInspector] public bool ShowAdvancedOptions;
 
 #if UNITY_EDITOR
         /// <summary>
