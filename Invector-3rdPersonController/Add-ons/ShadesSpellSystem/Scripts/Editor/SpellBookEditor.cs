@@ -36,12 +36,7 @@ namespace Shadex
         /// <summary>MagicID temp for each spell.</summary>
         protected int MagicID = 0;
 
-        /// <summary>ManaCost temp for each spell.</summary>
-        protected int ManaCost = 0;
-
-        
-
-
+      
         /// <summary>
         /// Override default inspector with the custom spell book UI
         /// </summary>
@@ -291,6 +286,7 @@ namespace Shadex
             }
 
             // grabs its mana cost
+            int ManaCost = 0;
             var vAttribManaCost = cc.itemListData.items[i].attributes.Find(ai => ai.name.ToString() == "ManaCost");
             if (vAttribManaCost != null)
             {
