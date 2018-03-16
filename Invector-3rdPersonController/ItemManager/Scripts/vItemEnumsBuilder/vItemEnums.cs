@@ -20,8 +20,6 @@ namespace Invector.ItemManager {
        MagicID=9,
        ManaCost=10,
        SecundaryAmmoCount=11,
-       SecundaryDamage=12,
-       MinRange=13,
-       MaxRange=14
+       SecundaryDamage=12
      }
 }
