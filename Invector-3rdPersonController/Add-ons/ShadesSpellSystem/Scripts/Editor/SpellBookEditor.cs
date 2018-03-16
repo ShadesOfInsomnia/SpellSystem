@@ -39,6 +39,11 @@ namespace Shadex
         /// <summary>ManaCost temp for each spell.</summary>
         protected int ManaCost = 0;
 
+        /// <summary>Filter the spells by damage type.</summary>
+        protected bool DamageFilterEnabled;
+
+        /// <summary>Index of the filter.</summary>
+        protected BaseDamage DamageFilterIndex;
         
 
         /// <summary>
@@ -100,6 +105,12 @@ namespace Shadex
                     vItemListWindow.CreateWindow(cc.itemListData);
                 }
 
+                // filter by damage type
+                GUILayout.BeginHorizontal();
+                DamageFilterEnabled = EditorGUILayout.Toggle("Damage Type Filter:", DamageFilterEnabled);
+                DamageFilterIndex = (BaseDamage)EditorGUILayout.EnumPopup(DamageFilterIndex, GUILayout.ExpandWidth(true));
+                GUILayout.EndHorizontal();
+
                 // process all inventory items
                 for (int i = 0; i < cc.itemListData.items.Count; i++)
                 {
@@ -118,6 +129,104 @@ namespace Shadex
         }
 
         /// <summary>
+        /// Spell book item options, spawns etc.
+        /// </summary>
+        /// <param name="cc">Reference to the parent spell book class.</param>
+        /// <param name="i">Loop index.</param>
+        public virtual void DisplaySpellItem(SpellBook cc, int i)
+        {
+            // check all attributes are present
+            CheckAttributes(cc, i);
+
+            // find the spell details
+            SpellDetail = cc.Spells.Find(s => s.MagicID == MagicID);
+            if (SpellDetail == null)  // not found
+            {
+                // create new empty entry
+                SpellDetail = new SpellBookListEntry();
+                SpellDetail.AllowMovement = false;
+                SpellDetail.MagicID = MagicID;
+                SpellDetail.ClipSpellCast = cc.ClipSpellCast;
+                SpellDetail.ClipSpellChargeInit = cc.ClipSpellChargeInit;
+                SpellDetail.ClipSpellChargeHold = cc.ClipSpellChargeHold;
+                SpellDetail.ClipSpellChargeRelease = cc.ClipSpellChargeRelease;
+                SpellDetail.SpeedCast = 1;
+                SpellDetail.SpeedCharge = 1;
+                SpellDetail.SpeedHold = 1;
+                SpellDetail.SpeedRelease = 1;
+                
+                SpellDetail.MeleeHand = SpellBookHands.None;
+                SpellDetail.meleeAttackType = vAttackType.Unarmed;
+                SpellDetail.reactionID = 1;
+                SpellDetail.recoilID = 1;
+                SpellDetail.damageMultiplier = 1;
+                SpellDetail.allowMovementAt = 0.9f;
+                SpellDetail.endDamage = 0.9f;
+                SpellDetail.startDamage = 0.05f;
+
+                SpellDetail.SpellOptions = new SpellBookEntry();
+                SpellDetail.SpellOptions.attackLimb = AvatarIKGoal.LeftHand;
+                SpellDetail.SpellOptions.attackLimb2 = AvatarIKGoal.RightHand;
+                SpellDetail.SpellOptions.SpawnOverTime = new List<SpawnerOptionsOverTime>();
+                SpellDetail.SpellOptions.LimbParticleEffect = cc.DefaultHandParticle;
+                SpellDetail.SpellOptions.LimbParticleEffect2 = cc.DefaultHandParticle;                
+                SpellDetail.SpellOptions.Icon = cc.itemListData.items[i].icon;
+                SpellDetail.SpellOptions.SpellName = cc.itemListData.items[i].name;
+                SpellDetail.SpellOptions.SubType = SpellBookEntrySubType.Casting;
+
+                SpellDetail.SpellOptionsCharge = new SpellBookEntry();
+                SpellDetail.SpellOptionsCharge.attackLimb = AvatarIKGoal.LeftHand;
+                SpellDetail.SpellOptionsCharge.attackLimb2 = AvatarIKGoal.RightHand;
+                SpellDetail.SpellOptionsCharge.SpawnOverTime = new List<SpawnerOptionsOverTime>();
+                SpellDetail.SpellOptionsCharge.LimbParticleEffect = cc.DefaultHandParticle;
+                SpellDetail.SpellOptionsCharge.LimbParticleEffect2 = cc.DefaultHandParticle;
+                SpellDetail.SpellOptionsCharge.Icon = cc.itemListData.items[i].icon;
+                SpellDetail.SpellOptionsCharge.SpellName = cc.itemListData.items[i].name;
+                SpellDetail.SpellOptionsCharge.SubType = SpellBookEntrySubType.Charge;
+
+                SpellDetail.SpellOptionsHold = new SpellBookEntry();
+                SpellDetail.SpellOptionsHold.attackLimb = AvatarIKGoal.LeftHand;
+                SpellDetail.SpellOptionsHold.attackLimb2 = AvatarIKGoal.RightHand;
+                SpellDetail.SpellOptionsHold.SpawnOverTime = new List<SpawnerOptionsOverTime>();
+                SpellDetail.SpellOptionsHold.LimbParticleEffect = cc.DefaultHandParticle;
+                SpellDetail.SpellOptionsHold.LimbParticleEffect2 = cc.DefaultHandParticle;
+                SpellDetail.SpellOptionsHold.Icon = cc.itemListData.items[i].icon;
+                SpellDetail.SpellOptionsHold.SpellName = cc.itemListData.items[i].name;
+                SpellDetail.SpellOptionsHold.SubType = SpellBookEntrySubType.Hold;
+
+                SpellDetail.SpellOptionsRelease = new SpellBookEntry();
+                SpellDetail.SpellOptionsRelease.attackLimb = AvatarIKGoal.LeftHand;
+                SpellDetail.SpellOptionsRelease.attackLimb2 = AvatarIKGoal.RightHand;
+                SpellDetail.SpellOptionsRelease.SpawnOverTime = new List<SpawnerOptionsOverTime>();
+                SpellDetail.SpellOptionsRelease.LimbParticleEffect = cc.DefaultHandParticle;
+                SpellDetail.SpellOptionsRelease.LimbParticleEffect2 = cc.DefaultHandParticle;
+                SpellDetail.SpellOptionsRelease.Icon = cc.itemListData.items[i].icon;
+                SpellDetail.SpellOptionsRelease.SpellName = cc.itemListData.items[i].name;
+                SpellDetail.SpellOptionsRelease.SubType = SpellBookEntrySubType.Release;
+
+                cc.Spells.Add(SpellDetail);
+            }
+
+            // display the shared spell options GUI            
+            if (!DamageFilterEnabled || (DamageFilterEnabled && SpellDetail.DamageType == DamageFilterIndex))
+            {
+                if (!SpellDetail.Charge)
+                {
+                    DisplaySpellSubDetail(SpellDetail.SpellOptions);
+                }
+                else  // charge hold release
+                {
+                    DisplaySpellSubDetail(SpellDetail.SpellOptionsCharge);
+                    if (SpellDetail.Expanded)
+                    {
+                        DisplaySpellSubDetail(SpellDetail.SpellOptionsHold);
+                        DisplaySpellSubDetail(SpellDetail.SpellOptionsRelease);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Spell header info used to create the animator state.
         /// </summary>
         protected override void DisplaySpellHeader(SpellBookEntrySubType SubType)
@@ -131,7 +240,7 @@ namespace Shadex
                 }
             }
             GUILayout.EndHorizontal();
-            GUILayout.Space(3);
+            GUILayout.Space(5);
 
             // validation messages
             if (HealthMessage != "")
@@ -140,6 +249,12 @@ namespace Shadex
                     EditorGUILayout.HelpBox(HealthMessage, MessageType.Error);
                 else if (!SpellDetail.Expanded)
                     EditorGUILayout.HelpBox(HealthMessage, MessageType.Warning);
+            }
+
+            // type of damage for the filter
+            if (SpellDetail.Expanded)
+            {
+                SpellDetail.DamageType = (BaseDamage)EditorGUILayout.EnumPopup("Base Damage Type: ", SpellDetail.DamageType, GUILayout.ExpandWidth(true));
             }
         }
 
@@ -307,102 +422,7 @@ namespace Shadex
                 GUILayout.EndHorizontal();
             }
         }
-
-        /// <summary>
-        /// Spell book item options, spawns etc.
-        /// </summary>
-        /// <param name="cc">Reference to the parent spell book class.</param>
-        /// <param name="i">Loop index.</param>
-        public virtual void DisplaySpellItem(SpellBook cc, int i)
-        {
-            // check all attributes are present
-            CheckAttributes(cc, i);
-
-            // find the spell details
-            SpellDetail = cc.Spells.Find(s => s.MagicID == MagicID);
-            if (SpellDetail == null)  // not found
-            {
-                // create new empty entry
-                SpellDetail = new SpellBookListEntry();
-                SpellDetail.AllowMovement = false;
-                SpellDetail.MagicID = MagicID;
-                SpellDetail.ClipSpellCast = cc.ClipSpellCast;
-                SpellDetail.ClipSpellChargeInit = cc.ClipSpellChargeInit;
-                SpellDetail.ClipSpellChargeHold = cc.ClipSpellChargeHold;
-                SpellDetail.ClipSpellChargeRelease = cc.ClipSpellChargeRelease;
-                SpellDetail.SpeedCast = 1;
-                SpellDetail.SpeedCharge = 1;
-                SpellDetail.SpeedHold = 1;
-                SpellDetail.SpeedRelease = 1;
                 
-                SpellDetail.MeleeHand = SpellBookHands.None;
-                SpellDetail.meleeAttackType = vAttackType.Unarmed;
-                SpellDetail.reactionID = 1;
-                SpellDetail.recoilID = 1;
-                SpellDetail.damageMultiplier = 1;
-                SpellDetail.allowMovementAt = 0.9f;
-                SpellDetail.endDamage = 0.9f;
-                SpellDetail.startDamage = 0.05f;
-
-                SpellDetail.SpellOptions = new SpellBookEntry();
-                SpellDetail.SpellOptions.attackLimb = AvatarIKGoal.LeftHand;
-                SpellDetail.SpellOptions.attackLimb2 = AvatarIKGoal.RightHand;
-                SpellDetail.SpellOptions.SpawnOverTime = new List<SpawnerOptionsOverTime>();
-                SpellDetail.SpellOptions.LimbParticleEffect = cc.DefaultHandParticle;
-                SpellDetail.SpellOptions.LimbParticleEffect2 = cc.DefaultHandParticle;                
-                SpellDetail.SpellOptions.Icon = cc.itemListData.items[i].icon;
-                SpellDetail.SpellOptions.SpellName = cc.itemListData.items[i].name;
-                SpellDetail.SpellOptions.SubType = SpellBookEntrySubType.Casting;
-
-                SpellDetail.SpellOptionsCharge = new SpellBookEntry();
-                SpellDetail.SpellOptionsCharge.attackLimb = AvatarIKGoal.LeftHand;
-                SpellDetail.SpellOptionsCharge.attackLimb2 = AvatarIKGoal.RightHand;
-                SpellDetail.SpellOptionsCharge.SpawnOverTime = new List<SpawnerOptionsOverTime>();
-                SpellDetail.SpellOptionsCharge.LimbParticleEffect = cc.DefaultHandParticle;
-                SpellDetail.SpellOptionsCharge.LimbParticleEffect2 = cc.DefaultHandParticle;
-                SpellDetail.SpellOptionsCharge.Icon = cc.itemListData.items[i].icon;
-                SpellDetail.SpellOptionsCharge.SpellName = cc.itemListData.items[i].name;
-                SpellDetail.SpellOptionsCharge.SubType = SpellBookEntrySubType.Charge;
-
-                SpellDetail.SpellOptionsHold = new SpellBookEntry();
-                SpellDetail.SpellOptionsHold.attackLimb = AvatarIKGoal.LeftHand;
-                SpellDetail.SpellOptionsHold.attackLimb2 = AvatarIKGoal.RightHand;
-                SpellDetail.SpellOptionsHold.SpawnOverTime = new List<SpawnerOptionsOverTime>();
-                SpellDetail.SpellOptionsHold.LimbParticleEffect = cc.DefaultHandParticle;
-                SpellDetail.SpellOptionsHold.LimbParticleEffect2 = cc.DefaultHandParticle;
-                SpellDetail.SpellOptionsHold.Icon = cc.itemListData.items[i].icon;
-                SpellDetail.SpellOptionsHold.SpellName = cc.itemListData.items[i].name;
-                SpellDetail.SpellOptionsHold.SubType = SpellBookEntrySubType.Hold;
-
-                SpellDetail.SpellOptionsRelease = new SpellBookEntry();
-                SpellDetail.SpellOptionsRelease.attackLimb = AvatarIKGoal.LeftHand;
-                SpellDetail.SpellOptionsRelease.attackLimb2 = AvatarIKGoal.RightHand;
-                SpellDetail.SpellOptionsRelease.SpawnOverTime = new List<SpawnerOptionsOverTime>();
-                SpellDetail.SpellOptionsRelease.LimbParticleEffect = cc.DefaultHandParticle;
-                SpellDetail.SpellOptionsRelease.LimbParticleEffect2 = cc.DefaultHandParticle;
-                SpellDetail.SpellOptionsRelease.Icon = cc.itemListData.items[i].icon;
-                SpellDetail.SpellOptionsRelease.SpellName = cc.itemListData.items[i].name;
-                SpellDetail.SpellOptionsRelease.SubType = SpellBookEntrySubType.Release;
-
-                cc.Spells.Add(SpellDetail);
-            }
-
-            // display the shared spell options GUI
-            if (!SpellDetail.Charge)
-            {
-                DisplaySpellSubDetail(SpellDetail.SpellOptions);
-            }
-            else  // charge hold release
-            {
-                DisplaySpellSubDetail(SpellDetail.SpellOptionsCharge);
-                if (SpellDetail.Expanded)
-                {
-                    DisplaySpellSubDetail(SpellDetail.SpellOptionsHold);
-                    DisplaySpellSubDetail(SpellDetail.SpellOptionsRelease);
-                }
-            }
-        }
-        
         /// <summary>
         /// Load the input field defaults.
         /// </summary>
