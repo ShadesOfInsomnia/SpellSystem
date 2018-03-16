@@ -28,22 +28,18 @@ namespace Shadex
         protected Animator TheAnimator;
 
         /// <summary>Health message temp for each spell.</summary>
-        string HealthMessage = "";
+        protected string HealthMessage = "";
 
         /// <summary>Spell detail temp for each spell.</summary>
-        SpellBookListEntry SpellDetail;
+        protected SpellBookListEntry SpellDetail;
 
         /// <summary>MagicID temp for each spell.</summary>
-        int MagicID = 0;
+        protected int MagicID = 0;
 
         /// <summary>ManaCost temp for each spell.</summary>
-        int ManaCost = 0;
+        protected int ManaCost = 0;
 
-        /// <summary>Min range temp for each spell.</summary>
-        int MinRange = 0;
-
-        /// <summary>Max range temp for each spell.</summary>
-        int MaxRange = 0;
+        
 
 
         /// <summary>
@@ -276,11 +272,9 @@ namespace Shadex
         }        
 
         /// <summary>
-        /// Spell book item options, spawns etc.
+        /// Check attributes are present for sanity.
         /// </summary>
-        /// <param name="cc">Reference to the parent spell book class.</param>
-        /// <param name="i">Loop index.</param>
-        public virtual void DisplaySpellItem(SpellBook cc, int i)
+        protected virtual void CheckAttributes(SpellBook cc, int i)
         {
             // grabs its magic id
             HealthMessage = "";
@@ -295,6 +289,29 @@ namespace Shadex
                 if (HealthMessage != "") HealthMessage += "\n";
                 HealthMessage += "Missing MagicID Attribute";
             }
+
+            // grabs its mana cost
+            var vAttribManaCost = cc.itemListData.items[i].attributes.Find(ai => ai.name.ToString() == "ManaCost");
+            if (vAttribManaCost != null)
+            {
+                ManaCost = vAttribManaCost.value;
+            }
+            if (ManaCost == 0)
+            {
+                if (HealthMessage != "") HealthMessage += "\n";
+                HealthMessage += "Missing ManaCost Attribute";
+            }
+        }
+
+        /// <summary>
+        /// Spell book item options, spawns etc.
+        /// </summary>
+        /// <param name="cc">Reference to the parent spell book class.</param>
+        /// <param name="i">Loop index.</param>
+        public virtual void DisplaySpellItem(SpellBook cc, int i)
+        {
+            // check all attributes are present
+            CheckAttributes(cc, i);
 
             // find the spell details
             SpellDetail = cc.Spells.Find(s => s.MagicID == MagicID);
@@ -312,9 +329,7 @@ namespace Shadex
                 SpellDetail.SpeedCharge = 1;
                 SpellDetail.SpeedHold = 1;
                 SpellDetail.SpeedRelease = 1;
-
-                SpellDetail.SpellOptions.attackLimb = AvatarIKGoal.LeftHand;
-                SpellDetail.SpellOptions.attackLimb2 = AvatarIKGoal.RightHand;
+                
                 SpellDetail.MeleeHand = SpellBookHands.None;
                 SpellDetail.meleeAttackType = vAttackType.Unarmed;
                 SpellDetail.reactionID = 1;
@@ -324,7 +339,9 @@ namespace Shadex
                 SpellDetail.endDamage = 0.9f;
                 SpellDetail.startDamage = 0.05f;
 
-                SpellDetail.SpellOptions = new SpellBookEntry();                
+                SpellDetail.SpellOptions = new SpellBookEntry();
+                SpellDetail.SpellOptions.attackLimb = AvatarIKGoal.LeftHand;
+                SpellDetail.SpellOptions.attackLimb2 = AvatarIKGoal.RightHand;
                 SpellDetail.SpellOptions.SpawnOverTime = new List<SpawnerOptionsOverTime>();
                 SpellDetail.SpellOptions.LimbParticleEffect = cc.DefaultHandParticle;
                 SpellDetail.SpellOptions.LimbParticleEffect2 = cc.DefaultHandParticle;                
@@ -333,6 +350,8 @@ namespace Shadex
                 SpellDetail.SpellOptions.SubType = SpellBookEntrySubType.Casting;
 
                 SpellDetail.SpellOptionsCharge = new SpellBookEntry();
+                SpellDetail.SpellOptionsCharge.attackLimb = AvatarIKGoal.LeftHand;
+                SpellDetail.SpellOptionsCharge.attackLimb2 = AvatarIKGoal.RightHand;
                 SpellDetail.SpellOptionsCharge.SpawnOverTime = new List<SpawnerOptionsOverTime>();
                 SpellDetail.SpellOptionsCharge.LimbParticleEffect = cc.DefaultHandParticle;
                 SpellDetail.SpellOptionsCharge.LimbParticleEffect2 = cc.DefaultHandParticle;
@@ -341,6 +360,8 @@ namespace Shadex
                 SpellDetail.SpellOptionsCharge.SubType = SpellBookEntrySubType.Charge;
 
                 SpellDetail.SpellOptionsHold = new SpellBookEntry();
+                SpellDetail.SpellOptionsHold.attackLimb = AvatarIKGoal.LeftHand;
+                SpellDetail.SpellOptionsHold.attackLimb2 = AvatarIKGoal.RightHand;
                 SpellDetail.SpellOptionsHold.SpawnOverTime = new List<SpawnerOptionsOverTime>();
                 SpellDetail.SpellOptionsHold.LimbParticleEffect = cc.DefaultHandParticle;
                 SpellDetail.SpellOptionsHold.LimbParticleEffect2 = cc.DefaultHandParticle;
@@ -349,6 +370,8 @@ namespace Shadex
                 SpellDetail.SpellOptionsHold.SubType = SpellBookEntrySubType.Hold;
 
                 SpellDetail.SpellOptionsRelease = new SpellBookEntry();
+                SpellDetail.SpellOptionsRelease.attackLimb = AvatarIKGoal.LeftHand;
+                SpellDetail.SpellOptionsRelease.attackLimb2 = AvatarIKGoal.RightHand;
                 SpellDetail.SpellOptionsRelease.SpawnOverTime = new List<SpawnerOptionsOverTime>();
                 SpellDetail.SpellOptionsRelease.LimbParticleEffect = cc.DefaultHandParticle;
                 SpellDetail.SpellOptionsRelease.LimbParticleEffect2 = cc.DefaultHandParticle;
@@ -357,42 +380,6 @@ namespace Shadex
                 SpellDetail.SpellOptionsRelease.SubType = SpellBookEntrySubType.Release;
 
                 cc.Spells.Add(SpellDetail);
-            }
-
-            // grabs its mana cost
-            var vAttribManaCost = cc.itemListData.items[i].attributes.Find(ai => ai.name.ToString() == "ManaCost");
-            if (vAttribManaCost != null)
-            {
-                ManaCost = vAttribManaCost.value;
-            }
-            if (ManaCost == 0)
-            {
-                if (HealthMessage != "") HealthMessage += "\n";
-                HealthMessage += "Missing ManaCost Attribute";
-            }
-
-            // grabs its min range
-            var vAttribMinRange = cc.itemListData.items[i].attributes.Find(ai => ai.name.ToString() == "MinRange");
-            if (vAttribMinRange != null)
-            {
-                MinRange = vAttribMinRange.value;
-            }
-            if (MinRange == 0)
-            {
-                if (HealthMessage != "") HealthMessage += "\n";
-                HealthMessage += "Missing MinRange Attribute";
-            }
-
-            // grabs its max range
-            var vAttribMaxRange = cc.itemListData.items[i].attributes.Find(ai => ai.name.ToString() == "MaxRange");
-            if (vAttribMaxRange != null)
-            {
-                MaxRange = vAttribMaxRange.value;
-            }
-            if (MaxRange == 0)
-            {
-                if (HealthMessage != "") HealthMessage += "\n";
-                HealthMessage += "Missing MaxRange Attribute";
             }
 
             // display the shared spell options GUI
@@ -968,16 +955,7 @@ namespace Shadex
             // check spell options
             if (SpellOptions != null)
             {
-                // check behavior exists
-                if (TheState.behaviours.Count(b => b.GetType() == typeof(SpellBookAttack)) == 0)
-                {
-                    TheState.AddStateMachineBehaviour(typeof(SpellBookAttack));
-                }
-
-                // sync the options
-                SpellBookAttack behave = (SpellBookAttack)TheState.behaviours.FirstOrDefault(b => b.GetType() == typeof(SpellBookAttack));
-                if (behave.SpellOptions == null) behave.SpellOptions = new SpellBookEntry();
-                GlobalFuncs.DuckCopyShallow(behave.SpellOptions, SpellOptions);
+                AddSpellBookAttack(TheState, SpellOptions);
             }
 
             // remove existing melee attack behavior if any
@@ -1238,6 +1216,25 @@ namespace Shadex
             // move exits to col 5
             //Parent.parentStateMachinePosition = col5; col5.y += SEPERATION;
                   
+        }
+
+        /// <summary>
+        /// Add the spell book attack script if not found and sync the options.
+        /// </summary>
+        /// <param name="TheState">State to check.</param>
+        /// <param name="SpellOptions">Options to sync.</param>
+        protected virtual void AddSpellBookAttack(AnimatorState TheState, SpellBookEntry SpellOptions)
+        {
+            // check behavior exists
+            if (TheState.behaviours.Count(b => b.GetType() == typeof(SpellBookAttack)) == 0)
+            {
+                TheState.AddStateMachineBehaviour(typeof(SpellBookAttack));
+            }
+
+            // sync the options
+            SpellBookAttack sb = (SpellBookAttack)TheState.behaviours.FirstOrDefault(b => b.GetType() == typeof(SpellBookAttack));
+            if (sb.SpellOptions == null) sb.SpellOptions = new SpellBookEntry();
+            GlobalFuncs.DuckCopyShallow(sb.SpellOptions, SpellOptions);
         }
     }
 }
