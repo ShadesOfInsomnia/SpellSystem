@@ -235,6 +235,9 @@ namespace Shadex
 
         /// <summary>Reset the attack trigger.</summary>
         public bool resetAttackTrigger;
+
+        /// <summary>Filter the list based upon damage.</summary>
+        public BaseDamage DamageType;
     }
 }
 
