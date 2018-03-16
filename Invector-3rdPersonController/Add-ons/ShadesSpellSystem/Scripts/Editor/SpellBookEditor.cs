@@ -36,7 +36,11 @@ namespace Shadex
         /// <summary>MagicID temp for each spell.</summary>
         protected int MagicID = 0;
 
-      
+        /// <summary>ManaCost temp for each spell.</summary>
+        protected int ManaCost = 0;
+
+        
+
         /// <summary>
         /// Override default inspector with the custom spell book UI
         /// </summary>
@@ -156,20 +160,9 @@ namespace Shadex
         /// </summary>
         protected override void DisplaySpellInfo(SpellBookEntrySubType SubType)
         {
-            // attributes
-            if (SubType == SpellBookEntrySubType.Casting || SubType == SpellBookEntrySubType.Charge) { 
-                GUILayout.BeginHorizontal("box");
-                EditorGUILayout.HelpBox(
-                    "Magic ID   " + MagicID.ToString() + "\n" + 
-                    "Mana Cost " + (ManaCost == 0 ? "???" : ManaCost.ToString()), 
-                    (ManaCost == 0 ? MessageType.Warning : MessageType.Info));
-                EditorGUILayout.HelpBox(
-                    "Min  Range " + (MinRange == 0 ? "???" : MinRange.ToString()) + "\n" +
-                    "Max Range " + (MaxRange == 0 ? "???" : MaxRange.ToString()), 
-                    (MaxRange == 0 || MinRange == 0 ? MessageType.Warning : MessageType.Info));
-                GUILayout.EndHorizontal();
-            }
-            
+            // output attributes
+            DisplayAttributesInfo(SubType);
+
             // chargeable spell?
             EditorGUILayout.LabelField("Casting Animations/Layers", EditorStyles.boldLabel);            
             if (SubType == SpellBookEntrySubType.Casting || SubType == SpellBookEntrySubType.Charge)
@@ -286,7 +279,6 @@ namespace Shadex
             }
 
             // grabs its mana cost
-            int ManaCost = 0;
             var vAttribManaCost = cc.itemListData.items[i].attributes.Find(ai => ai.name.ToString() == "ManaCost");
             if (vAttribManaCost != null)
             {
@@ -296,6 +288,23 @@ namespace Shadex
             {
                 if (HealthMessage != "") HealthMessage += "\n";
                 HealthMessage += "Missing ManaCost Attribute";
+            }
+        }
+
+        /// <summary>
+        /// Output the attribute in
+        /// </summary>
+        /// <param name="SubType"></param>
+        protected virtual void DisplayAttributesInfo(SpellBookEntrySubType SubType)
+        {
+            if (SubType == SpellBookEntrySubType.Casting || SubType == SpellBookEntrySubType.Charge)
+            {
+                GUILayout.BeginHorizontal("box");
+                EditorGUILayout.HelpBox(
+                    "Magic ID   " + MagicID.ToString() + "\n" +
+                    "Mana Cost " + (ManaCost == 0 ? "???" : ManaCost.ToString()),
+                    (ManaCost == 0 ? MessageType.Warning : MessageType.Info));
+                GUILayout.EndHorizontal();
             }
         }
 
