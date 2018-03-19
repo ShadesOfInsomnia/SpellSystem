@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using Invector;
-using Invector.ItemManager;
+using Invector.vItemManager;
 using System;
 
 namespace Shadex

@@ -2,9 +2,10 @@
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
-using Invector.ItemManager;
+using Invector.vItemManager;
 using System.Collections.Generic;
 using UnityEditor.Animations;
+using Invector.vMelee;
 
 namespace Shadex
 {
@@ -403,7 +404,7 @@ namespace Shadex
             {
                 if (HealthMessage != "") HealthMessage += "\n";
                 HealthMessage += "Missing ManaCost Attribute";
-            }
+            }            
         }
 
         /// <summary>
