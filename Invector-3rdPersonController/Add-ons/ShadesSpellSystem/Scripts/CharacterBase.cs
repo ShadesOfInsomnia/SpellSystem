@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -6,7 +6,8 @@ using System.Linq;
 
 #if !VANILLA
 using Invector;
-using Invector.CharacterController;
+using Invector.vCharacterController;
+using Invector.vMelee;
 #endif
 
 namespace Shadex
@@ -167,6 +168,9 @@ namespace Shadex
         /// <summary>Cache of the base class for the attached character.</summary>
         protected vCharacter TheCharacter;
 
+        /// <summary>Cache of the base class for the attached character.</summary>
+        protected vThirdPersonMotor TheCharacterMotor;
+
         /// <summary>Cache the hash to the Core_Level parameter ID.</summary>
         public static readonly int param_CoreLevel = Animator.StringToHash("Core_Level");
 
@@ -200,6 +204,7 @@ namespace Shadex
         {
 #if !VANILLA// add the drop all collectables link
             TheCharacter = GetComponent<vCharacter>();
+            TheCharacterMotor = GetComponent<vThirdPersonMotor>();
             TheCharacter.onDead.AddListener(DropAllCollectables);
 #endif
 
@@ -406,7 +411,8 @@ namespace Shadex
                 int NewValue = 0;
                 if (CoreStatHash == param_CoreStamina)
                 {
-                    NewValue = (int)((TheCharacter.currentStamina / MAXStamina) * 100);
+                    if (TheCharacterMotor)
+                        NewValue = (int)((TheCharacterMotor.currentStamina / MAXStamina) * 100);
                 }
                 else if (CoreStatHash == param_CoreLife)
                 {

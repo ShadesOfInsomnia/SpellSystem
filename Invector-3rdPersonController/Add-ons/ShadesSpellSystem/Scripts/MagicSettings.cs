@@ -1,12 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 #if !VANILLA
 using Invector;
-using Invector.CharacterController;
-using Invector.ItemManager;
+using Invector.vCharacterController;
+using Invector.vItemManager;
 #endif
 
 namespace Shadex
@@ -172,7 +172,7 @@ namespace Shadex
             if (vThirdPerson)
             {
                 vThirdPerson.maxHealth = e.LifeMAX;
-                vThirdPerson.currentHealth = e.Life;
+                vThirdPerson.ChangeHealth((int)e.Life);
                 vThirdPerson.maxStamina = e.StaminaMAX;
             }
 #endif

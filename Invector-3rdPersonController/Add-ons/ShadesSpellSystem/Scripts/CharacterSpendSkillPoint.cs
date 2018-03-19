@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 #if !VANILLA
 using Invector;
-using Invector.ItemManager;
+using Invector.vItemManager;
 #endif
 
 namespace Shadex

@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Invector;
-using Invector.ItemManager;
+using Invector.vItemManager;
 using UnityEditor.Animations;
+using Invector.vMelee;
 
 namespace Shadex
 {

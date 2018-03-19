@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Invector;
-using Invector.CharacterController;
-using Invector.ItemManager;
+using Invector.vCharacterController;
+using Invector.vItemManager;
+using UnityEditor;
 
 namespace Shadex
 {

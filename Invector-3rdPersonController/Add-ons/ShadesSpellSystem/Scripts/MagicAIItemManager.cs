@@ -1,13 +1,15 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Invector;
-using Invector.ItemManager;
-using Invector.CharacterController;
-using Invector.CharacterController.Actions;
+using Invector.vItemManager;
+using Invector.vMelee;
+using Invector.vCharacterController;
+using Invector.vCharacterController.vActions;
 using UnityEngine.Events;
+using Invector.vCharacterController.AI;
 #if UNITY_EDITOR
 using UnityEditor.Events;
 #endif

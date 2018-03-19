@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using Invector;
-using Invector.CharacterController;
+using Invector.vCharacterController;
 
 namespace Shadex
 {

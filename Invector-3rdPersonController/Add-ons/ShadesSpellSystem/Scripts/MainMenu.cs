@@ -4,8 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using Invector;
-using Invector.CharacterController;
-using Invector.ItemManager;
+using Invector.vCharacterController;
+using Invector.vItemManager;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
