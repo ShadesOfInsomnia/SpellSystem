@@ -8,6 +8,7 @@ using Invector.vCharacterController;
 using Invector.vItemManager;
 using System;
 using System.IO;
+using Invector.vMelee;
 
 namespace Shadex
 {

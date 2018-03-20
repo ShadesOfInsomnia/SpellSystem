@@ -236,7 +236,7 @@ namespace Shadex
 
                 // link the ai damage to the leveling system
                 v_AIController vai = Selection.activeGameObject.GetComponent<v_AIController>();
-                vai.onReceiveDamage = new OnReceiveDamage();
+                vai.onReceiveDamage = new vHealthController.OnReceiveDamage();
                 UnityEventTools.AddPersistentListener(vai.onReceiveDamage, levelingsystem.OnRecieveDamage);
 
                 // link the melee manager hits to the leveling system
