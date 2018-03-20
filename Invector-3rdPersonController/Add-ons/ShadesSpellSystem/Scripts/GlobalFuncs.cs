@@ -7,6 +7,8 @@ using UnityEditor.Events;
 #endif
 using System.Linq;
 using System;
+using Invector;
+using Invector.vCharacterController;
 
 namespace Shadex
 {
@@ -179,9 +181,9 @@ namespace Shadex
         public static GameObject FindPlayerInstance()
         {
 #if !VANILLA
-            if (Invector.CharacterController.vThirdPersonController.instance)
+            if (Invector.vCharacterController.vThirdPersonController.instance)
             {  // valid?
-                return Invector.CharacterController.vThirdPersonController.instance.gameObject;  // attempt grab player
+                return Invector.vCharacterController.vThirdPersonController.instance.gameObject;  // attempt grab player
             }
             else
             {  // instance not viable yet

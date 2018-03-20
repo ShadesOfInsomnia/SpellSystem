@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using Invector;
+using Invector.vCamera;
 
 namespace Shadex
 {
