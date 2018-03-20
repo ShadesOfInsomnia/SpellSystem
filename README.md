@@ -29,14 +29,9 @@ We included a resist system that mitigates damage based on damage types. We incl
 
 Please have a read under the documentation for instructions. Even at the time of writing this, i'm sure there are cool features we forgot to document. From the Shades of Insomnia Team, Enjoy. Below is the link to the unity package containing a completely setup Project (Requires Invector Melee)
 
-### Download Links
-[Shades Spell System v2.0a Melee Package](https://www.dropbox.com/s/u9v2dk2cm932qn7/ShadesSpellSystem2.0aMelee.unitypackage)
-
-[Shades Spell System v2.0a Shooter Package](https://www.dropbox.com/s/m5jcxen9byjblzm/ShadesSpellSystem2.0aShooter.unitypackage)
-
 ### Installation Requirements / Order
 * Ensure using Unity 5.6+ (ideally 2017.1+)
-* Install Invector Melee (or Shooter) Controller 2.x
+* Install Invector Melee 2.3+ or Shooter 1.2+ 3rd Person Controller
 * Check Edit->Project Settings->Player->Other Settings.....to view the demos as intended set colour space to linear
 * Install easysave2 if owned (if not don’t import CharacterDataEasySave2.cs), SQLLite is included in the package as a free alternative
 * Install the ShadesSpellSystem2.0aMelee.unitypackage or ShadesSpellSystem2.0aShooter.unitypackage as appropriate
