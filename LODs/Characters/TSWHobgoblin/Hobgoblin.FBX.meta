@@ -1,0 +1,227 @@
+fileFormatVersion: 2
+guid: d4522b4f353f17142915782c04c3d8bd
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: belt
+    100002: Bip01
+    100004: Bip01 Footsteps
+    100006: Bip01 Head
+    100008: Bip01 HeadNub
+    100010: Bip01 L Calf
+    100012: Bip01 L Clavicle
+    100014: Bip01 L Finger0
+    100016: Bip01 L Finger01
+    100018: Bip01 L Finger02
+    100020: Bip01 L Finger0Nub
+    100022: Bip01 L Finger1
+    100024: Bip01 L Finger11
+    100026: Bip01 L Finger12
+    100028: Bip01 L Finger1Nub
+    100030: Bip01 L Foot
+    100032: Bip01 L Forearm
+    100034: Bip01 L Hand
+    100036: Bip01 L Thigh
+    100038: Bip01 L Toe0
+    100040: Bip01 L Toe0Nub
+    100042: Bip01 L UpperArm
+    100044: Bip01 Neck
+    100046: Bip01 Pelvis
+    100048: Bip01 R Calf
+    100050: Bip01 R Clavicle
+    100052: Bip01 R Finger0
+    100054: Bip01 R Finger01
+    100056: Bip01 R Finger02
+    100058: Bip01 R Finger0Nub
+    100060: Bip01 R Finger1
+    100062: Bip01 R Finger11
+    100064: Bip01 R Finger12
+    100066: Bip01 R Finger1Nub
+    100068: Bip01 R Foot
+    100070: Bip01 R Forearm
+    100072: Bip01 R Hand
+    100074: Bip01 R Thigh
+    100076: Bip01 R Toe0
+    100078: Bip01 R Toe0Nub
+    100080: Bip01 R UpperArm
+    100082: Bip01 Spine
+    100084: Bip01 Spine1
+    100086: Bip01 Spine2
+    100088: doom hammer
+    100090: helmet
+    100092: //RootNode
+    100094: Mon_03
+    100096: shield
+    100098: Mesh_AddOn_Head_001
+    100100: Mesh_AddOn_Head_002
+    100102: Mesh_AddOn_Head_003
+    100104: Mesh_AddOn_Shield_001
+    100106: Mesh_AddOn_Shield_002
+    100108: Mesh_AddOn_Shield_003
+    100110: Mesh_Belt
+    100112: Mesh_Body
+    100114: Mesh_Weapon_001
+    100116: Mesh_Weapon_002
+    100118: Mesh_Weapon_003
+    400000: belt
+    400002: Bip01
+    400004: Bip01 Footsteps
+    400006: Bip01 Head
+    400008: Bip01 HeadNub
+    400010: Bip01 L Calf
+    400012: Bip01 L Clavicle
+    400014: Bip01 L Finger0
+    400016: Bip01 L Finger01
+    400018: Bip01 L Finger02
+    400020: Bip01 L Finger0Nub
+    400022: Bip01 L Finger1
+    400024: Bip01 L Finger11
+    400026: Bip01 L Finger12
+    400028: Bip01 L Finger1Nub
+    400030: Bip01 L Foot
+    400032: Bip01 L Forearm
+    400034: Bip01 L Hand
+    400036: Bip01 L Thigh
+    400038: Bip01 L Toe0
+    400040: Bip01 L Toe0Nub
+    400042: Bip01 L UpperArm
+    400044: Bip01 Neck
+    400046: Bip01 Pelvis
+    400048: Bip01 R Calf
+    400050: Bip01 R Clavicle
+    400052: Bip01 R Finger0
+    400054: Bip01 R Finger01
+    400056: Bip01 R Finger02
+    400058: Bip01 R Finger0Nub
+    400060: Bip01 R Finger1
+    400062: Bip01 R Finger11
+    400064: Bip01 R Finger12
+    400066: Bip01 R Finger1Nub
+    400068: Bip01 R Foot
+    400070: Bip01 R Forearm
+    400072: Bip01 R Hand
+    400074: Bip01 R Thigh
+    400076: Bip01 R Toe0
+    400078: Bip01 R Toe0Nub
+    400080: Bip01 R UpperArm
+    400082: Bip01 Spine
+    400084: Bip01 Spine1
+    400086: Bip01 Spine2
+    400088: doom hammer
+    400090: helmet
+    400092: //RootNode
+    400094: Mon_03
+    400096: shield
+    400098: Mesh_AddOn_Head_001
+    400100: Mesh_AddOn_Head_002
+    400102: Mesh_AddOn_Head_003
+    400104: Mesh_AddOn_Shield_001
+    400106: Mesh_AddOn_Shield_002
+    400108: Mesh_AddOn_Shield_003
+    400110: Mesh_Belt
+    400112: Mesh_Body
+    400114: Mesh_Weapon_001
+    400116: Mesh_Weapon_002
+    400118: Mesh_Weapon_003
+    2300000: belt
+    2300002: doom hammer
+    2300004: helmet
+    2300006: shield
+    3300000: belt
+    3300002: doom hammer
+    3300004: helmet
+    3300006: shield
+    4300000: Mon_03
+    4300002: helmet
+    4300004: shield
+    4300006: doom hammer
+    4300008: belt
+    4300010: Mesh_Body
+    4300012: Mesh_Weapon_001
+    4300014: Mesh_Weapon_003
+    4300016: Mesh_Weapon_002
+    4300018: Mesh_AddOn_Head_002
+    4300020: Mesh_AddOn_Shield_003
+    4300022: Mesh_AddOn_Shield_002
+    4300024: Mesh_Belt
+    4300026: Mesh_AddOn_Head_001
+    4300028: Mesh_AddOn_Shield_001
+    4300030: Mesh_AddOn_Head_003
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: Mon_03
+    13700002: Mesh_AddOn_Head_001
+    13700004: Mesh_AddOn_Head_002
+    13700006: Mesh_AddOn_Head_003
+    13700008: Mesh_AddOn_Shield_001
+    13700010: Mesh_AddOn_Shield_002
+    13700012: Mesh_AddOn_Shield_003
+    13700014: Mesh_Belt
+    13700016: Mesh_Body
+    13700018: Mesh_Weapon_001
+    13700020: Mesh_Weapon_002
+    13700022: Mesh_Weapon_003
+  materials:
+    importMaterials: 0
+    materialName: 3
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
