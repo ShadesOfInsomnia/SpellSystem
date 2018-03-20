@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System;
+using Invector.vMelee;
+using Invector.vCharacterController;
 
 namespace Shadex
 {

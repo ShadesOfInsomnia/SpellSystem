@@ -4,8 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using Invector;
-using Invector.CharacterController;
-using Invector.ItemManager;
+using Invector.vCharacterController;
+using Invector.vItemManager;
 using System;
 using System.IO;
 
@@ -189,6 +189,12 @@ namespace Shadex
         {
             if (Selection.activeGameObject != null)
             {  // fail safe
+                // add melee manager for when shooter
+                if (!Selection.activeGameObject.GetComponent<vMeleeManager>())
+                {
+                    Selection.activeGameObject.AddComponent<vMeleeManager>();
+                }
+
                 // inventory
                 vItemManager itemManager = Selection.activeGameObject.GetComponent<vItemManager>();
                 if (!itemManager)
@@ -231,6 +237,10 @@ namespace Shadex
                 vMeleeManager meleeM = Selection.activeGameObject.GetComponent<vMeleeManager>();
                 if (meleeM)
                 {
+                    if (meleeM.onDamageHit == null)
+                    {
+                        meleeM.onDamageHit = new vOnHitEvent();
+                    }
                     UnityEventTools.AddPersistentListener(meleeM.onDamageHit, levelingsystem.OnSendHit);
                 }
 

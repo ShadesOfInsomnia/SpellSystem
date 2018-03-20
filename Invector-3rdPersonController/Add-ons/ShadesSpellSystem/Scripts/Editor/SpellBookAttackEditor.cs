@@ -1,48 +1,59 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.EventSystems;
-using UnityEngine;
-#if !VANILLA
+﻿using UnityEngine;
+using UnityEditor;
+using System.Collections;
 using Invector;
-using Invector.vItemManager;
-#endif
+using System;
+using BehaviorDesigner.Runtime;
 
 namespace Shadex
 {
     /// <summary>
-    /// Character display window skill point to spend via button click.
+    /// Custom editor for the magic attack behavior inspector.
     /// </summary>
-#if !VANILLA
-    [vClassHeader("CHARACTER SPEND SKILL POINT", iconName = "inputIcon")]
-    public class CharacterSpendSkillPoint : vMonoBehaviour
+    [CanEditMultipleObjects]
+    [CustomEditor(typeof(SpellBookAttack), true)]
+    public class SpellBookAttackEditor : SpellBookBaseEditor
     {
-#else
-    public class CharacterSpendSkillPoint : MonoBehaviour {
-#endif
-        /// <summary>Type of skill point to spend as defined in the BaseSkill enum.</summary>
-        [Tooltip("Type of skill point to spend")]
-        public BaseSkill Type;
-
-        private CharacterDisplay DisplayUI;
 
         /// <summary>
-        /// Find the character display class on load.
+        /// Occurs when the inspector GUI draws a frame, sets the skin to use invectors.
         /// </summary>
-        void Start()
-        {
-            DisplayUI = GetComponentInParent<CharacterDisplay>();
+        public override void OnInspectorGUI()
+        {        
+            defaultSkin = GUI.skin;
+            if (skin) GUI.skin = skin;
+
+            SpellBookAttack cc = (SpellBookAttack)target;
+
+            DisplaySpellSubDetail(cc.SpellOptions);
+
+            GUI.skin = defaultSkin;
         }
 
         /// <summary>
-        /// Occurs when the spend skill point +/- buttons are pressed.
+        /// No header applied, this is empty to allow the spell book to share the same code.
         /// </summary>
-        /// <param name="eventData">Event sender, unused.</param>
-        public void OnClick(BaseEventData eventData)
+        protected override void DisplaySpellHeader(SpellBookEntrySubType SubType)
         {
-            if (DisplayUI)
-            {
-                DisplayUI.SpendSkillPoint(Type);  // spend the skill point
-            }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(3);
+        }
+
+        /// <summary>
+        /// Always true for the attack behavior, also allows sharing with the spell book.
+        /// </summary>
+        /// <returns>True.</returns>
+        protected override bool IsExpanded()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// No spell info output, this is empty to allow the spell book to share the same code.
+        /// </summary>
+        protected override void DisplaySpellInfo(SpellBookEntrySubType SubType)
+        {
+
         }
     }
 }

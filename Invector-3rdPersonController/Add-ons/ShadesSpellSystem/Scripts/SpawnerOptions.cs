@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System.Linq;
+using UnityEngine;
 using System;
 
 namespace Shadex
@@ -73,6 +72,14 @@ namespace Shadex
         /// <summary>Apply physical force to the specified radius.</summary>
         [Tooltip("Apply physical force to the specified radius")]
         public PhysicsOptions PhysicsForceOptions;
+
+        /// <summary>Audio clip to play when this spawn occurs.</summary>
+        [Tooltip("Audio clip to play on spawn")]
+        public AudioClip PlayOnSpawn;
+
+        /// <summary>Attached audio source to play the clip on.</summary>
+        [Tooltip("Audio source to play the clip")]
+        public AudioSource SourceOfAudio;
 
 #if UNITY_EDITOR
         [HideInInspector] public bool bInitialised;
@@ -425,6 +432,7 @@ namespace Shadex
         float fSpawnRate;
         [HideInInspector] public int SpawnedSoFar = 999;
         [HideInInspector] public GameObject goSpawnedParticle;
+        [HideInInspector] public bool ShowAdvancedOptions;
 
 #if UNITY_EDITOR
         /// <summary>
@@ -457,19 +465,32 @@ namespace Shadex
                 fSpawnRate = ((SpawnEndTime - SpawnStartTime) / NumberToSpawn);  // cache 
             }
             else if (SpawnedSoFar < NumberToSpawn + 1)  // still more instances to spawn          
-            {      
+            {
                 if (Time > (SpawnStartTime + (fSpawnRate * SpawnedSoFar)))  // time for the next spawn
                 {
                     SpawnedSoFar += 1;  // count number spawned   
 
-                    if (UseRootTransform)  // spawn from the animator base      
-                    {                    
-                        goSpawnedParticle = Spawn(Animator.rootPosition, Quaternion.identity, WhichTarget);
+                    if (Prefab)  // only spawn if the prefab is set
+                    { 
+                        if (UseRootTransform)  // spawn from the animator base      
+                        {
+                            goSpawnedParticle = Spawn(Animator.rootPosition, Quaternion.identity, WhichTarget);
+                        }
+                        else  // use the magic spawn point
+                        {
+                            goSpawnedParticle = Spawn(SpawnPoint, WhichTarget);  // create the spawn instance
+                        }
                     }
-                    else  // use the magic spawn point
+
+                    if (SourceOfAudio && PlayOnSpawn) // play audio?
                     {  
-                        goSpawnedParticle = Spawn(SpawnPoint, WhichTarget);  // create the spawn instance
+                        if (!SourceOfAudio.isPlaying)  // ignore if already playing
+                        {  
+                            SourceOfAudio.clip = PlayOnSpawn;  // set the clip
+                            SourceOfAudio.Play();  // play the clip
+                        }
                     }
+
                     return goSpawnedParticle;  // return a reference to the instance
                 }
             }
@@ -492,13 +513,7 @@ namespace Shadex
         [Tooltip("Number of instances to spawn")]
         public int NumberToSpawn;
 
-        /// <summary>Audio clip to play when this spawn occurs.</summary>
-        [Tooltip("Audio clip to play on spawn")]
-        public AudioClip PlayOnSpawn;
 
-        /// <summary>Attached audio source to play the clip on.</summary>
-        [Tooltip("Audio source to play the clip")]
-        public AudioSource SourceOfAudio;
 
 #if UNITY_EDITOR
         /// <summary>

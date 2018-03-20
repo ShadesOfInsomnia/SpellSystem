@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Invector.vCharacterController.AI;
 #if !VANILLA
 using Invector;
 #endif

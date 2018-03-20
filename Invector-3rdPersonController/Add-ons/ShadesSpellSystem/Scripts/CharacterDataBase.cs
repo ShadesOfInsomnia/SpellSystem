@@ -1,15 +1,13 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 using System;
 using UnityEngine.UI;
 #if !VANILLA
 using Invector;
-using Invector.ItemManager;
+using Invector.vItemManager;
 #endif
 
 namespace Shadex
@@ -462,7 +460,6 @@ namespace Shadex
         /// <returns></returns>
         public int SimpleDataGUIPopup(ref List<SimpleDataPair> Pairs, int SelectedID, params GUILayoutOption[] options)
         {
-#if UNITY_EDITOR
             int iSelected = 0;  // index of the currently selected ID
 
             // create the string array to popup from (and find the index of the ID
@@ -488,9 +485,6 @@ namespace Shadex
             { // no change, return orginal ID
                 return SelectedID;
             }
-#else
-            return -1;
-#endif
         }  
 
         /// <summary>

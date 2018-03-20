@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,8 @@ using UnityEngine.AI;
 using System;
 #if !VANILLA
 using Invector;
-using Invector.ItemManager;
+using Invector.vItemManager;
+using Invector.vCharacterController.AI;
 #endif
 
 namespace Shadex
@@ -215,7 +216,7 @@ namespace Shadex
             if (ai)
             {
                 ai.maxHealth = e.LifeMAX;
-                ai.currentHealth = e.Life;
+                ai.ChangeHealth((int)e.Life);
                 fManaRemaining = e.Mana;
             }
 #endif

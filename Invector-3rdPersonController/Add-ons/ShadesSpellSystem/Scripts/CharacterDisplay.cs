@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 //using UnityEditor.Events;
 #if !VANILLA
 using Invector;
-using Invector.ItemManager;
+using Invector.vItemManager;
 #endif
 
 namespace Shadex

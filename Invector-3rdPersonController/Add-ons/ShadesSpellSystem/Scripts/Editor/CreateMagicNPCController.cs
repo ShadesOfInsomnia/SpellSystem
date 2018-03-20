@@ -1,12 +1,14 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor.Events;
 using System.Collections.Generic;
 using UnityEditor;
 using Invector;
-using Invector.CharacterController;
-using Invector.ItemManager;
+using Invector.vCharacterController;
+using Invector.vItemManager;
 using System;
 using System.IO;
+using Invector.vCharacterController.AI;
+using Invector.vMelee;
 
 namespace Shadex
 {
