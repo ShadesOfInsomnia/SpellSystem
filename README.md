@@ -32,6 +32,7 @@ Please have a read under the documentation for instructions. Even at the time of
 ### Installation Requirements / Order
 * Ensure using Unity 5.6+ (ideally 2017.1+)
 * Install Invector Melee 2.3+ or Shooter 1.2+ 3rd Person Controller
+* Install Unity Post Processing Stack (or remove from the camera in the demo scenes)
 * Check Edit->Project Settings->Player->Other Settings.....to view the demos as intended set colour space to linear
 * Install easysave2 if owned (if not don’t import CharacterDataEasySave2.cs), SQLLite is included in the package as a free alternative
 * Install the latest spell system git hub release, download and extract the zip from the releases page, then copy the entire invector folder into the project assets folder, you will be prompted to overwrite two files, these are the item enums for spells and are mandatory. 
