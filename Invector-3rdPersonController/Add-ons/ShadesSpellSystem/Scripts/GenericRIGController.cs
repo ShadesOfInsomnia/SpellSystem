@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using Invector;
+using Invector.vCharacterController.AI;
 
 namespace Shadex
 {
