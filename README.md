@@ -34,7 +34,7 @@ Please have a read under the documentation for instructions. Even at the time of
 * Install Invector Melee 2.3+ or Shooter 1.2+ 3rd Person Controller
 * Check Edit->Project Settings->Player->Other Settings.....to view the demos as intended set colour space to linear
 * Install easysave2 if owned (if not don’t import CharacterDataEasySave2.cs), SQLLite is included in the package as a free alternative
-* Install the ShadesSpellSystem2.0aMelee.unitypackage or ShadesSpellSystem2.0aShooter.unitypackage as appropriate
+* Install the latest spell system git hub release, download and extract the zip from the releases page, then copy the entire invector folder into the project assets folder, you will be prompted to overwrite two files, these are the item enums for spells and are mandatory. 
 * To run the mainmenu_lobby scene, add the level1 and level2 scenes to the build settings.
 * If you’re running a non-windows OS then you will need to download the appropriate SQLLite dll or not import it and use easy save2, see www.sqlite.org/download.html
 
@@ -75,6 +75,7 @@ Please have a read under the documentation for instructions. Even at the time of
 * Custom Scripts to do everything from Raise the Dead to Heal.
 * Basic Character Creation System (Name, Axis, Class, Race and Alignment)
 * Full pooling system, automatic or pre-warmed
+* Spell book wizard, centralised spell creation automatically applied to multiple animators
 
 
 
