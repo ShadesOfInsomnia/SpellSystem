@@ -1,4 +1,4 @@
-namespace Invector.ItemManager {
+namespace Invector.vItemManager {
      public enum vItemType {
        Consumable=0,
        MeleeWeapon=1,
@@ -20,6 +20,13 @@ namespace Invector.ItemManager {
        MagicID=9,
        ManaCost=10,
        SecundaryAmmoCount=11,
-       SecundaryDamage=12
+       SecundaryDamage=12,
+       MinRange=13,
+       MaxRange=14,
+       Intelligence=15,
+       Strength=16,
+       Dexterity=17,
+       Wisdom=18,
+       Charisma=19
      }
 }
