@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
@@ -293,34 +293,62 @@ namespace Shadex
             switch (SubType) {
                 case SpellBookEntrySubType.Charge:
                     SpellDetail.ClipSpellChargeInit = EditorGUILayout.ObjectField("Charge Init: ", SpellDetail.ClipSpellChargeInit, typeof(AnimationClip), false) as AnimationClip;
+
                     GUILayout.BeginHorizontal();
                     SpellDetail.MirrorCharge = EditorGUILayout.Toggle("Mirror:", SpellDetail.MirrorCharge);
                     GUILayout.Label("Speed:", GUILayout.Width(50));
                     SpellDetail.SpeedCharge = EditorGUILayout.FloatField(SpellDetail.SpeedCharge);
                     GUILayout.EndHorizontal();
+
+                    GUILayout.BeginHorizontal();
+                    SpellDetail.FootIKCharge = EditorGUILayout.Toggle("Foot IK:", SpellDetail.FootIKCharge);
+                    GUILayout.Label("Offset:", GUILayout.Width(50));
+                    SpellDetail.CycleOffsetCharge = EditorGUILayout.FloatField(SpellDetail.CycleOffsetCharge);
+                    GUILayout.EndHorizontal();
                     break;
                 case SpellBookEntrySubType.Hold:
                     SpellDetail.ClipSpellChargeHold = EditorGUILayout.ObjectField("Charge Hold: ", SpellDetail.ClipSpellChargeHold, typeof(AnimationClip), false) as AnimationClip;
+
                     GUILayout.BeginHorizontal();
                     SpellDetail.MirrorHold = EditorGUILayout.Toggle("Mirror:", SpellDetail.MirrorHold);
                     GUILayout.Label("Speed:", GUILayout.Width(50));
                     SpellDetail.SpeedHold = EditorGUILayout.FloatField(SpellDetail.SpeedHold);
                     GUILayout.EndHorizontal();
+
+                    GUILayout.BeginHorizontal();
+                    SpellDetail.FootIKHold = EditorGUILayout.Toggle("Foot IK:", SpellDetail.FootIKHold);
+                    GUILayout.Label("Offset:", GUILayout.Width(50));
+                    SpellDetail.CycleOffsetHold = EditorGUILayout.FloatField(SpellDetail.CycleOffsetHold);
+                    GUILayout.EndHorizontal();
                     break;
                 case SpellBookEntrySubType.Release:
                     SpellDetail.ClipSpellChargeRelease = EditorGUILayout.ObjectField("Charge Release: ", SpellDetail.ClipSpellChargeRelease, typeof(AnimationClip), false) as AnimationClip;
+
                     GUILayout.BeginHorizontal();
                     SpellDetail.MirrorRelease = EditorGUILayout.Toggle("Mirror:", SpellDetail.MirrorRelease);
                     GUILayout.Label("Speed:", GUILayout.Width(50));
                     SpellDetail.SpeedRelease = EditorGUILayout.FloatField(SpellDetail.SpeedRelease);
                     GUILayout.EndHorizontal();
+
+                    GUILayout.BeginHorizontal();
+                    SpellDetail.FootIKRelease = EditorGUILayout.Toggle("Foot IK:", SpellDetail.FootIKRelease);
+                    GUILayout.Label("Offset:", GUILayout.Width(50));
+                    SpellDetail.CycleOffsetRelease = EditorGUILayout.FloatField(SpellDetail.CycleOffsetRelease);
+                    GUILayout.EndHorizontal();
                     break;
                 default:  // casting
-                    SpellDetail.ClipSpellCast = EditorGUILayout.ObjectField("Spell Cast: ", SpellDetail.ClipSpellCast, typeof(AnimationClip), false) as AnimationClip;                    
+                    SpellDetail.ClipSpellCast = EditorGUILayout.ObjectField("Spell Cast: ", SpellDetail.ClipSpellCast, typeof(AnimationClip), false) as AnimationClip;
+
                     GUILayout.BeginHorizontal();
                     SpellDetail.MirrorCast = EditorGUILayout.Toggle("Mirror:", SpellDetail.MirrorCast);
                     GUILayout.Label("Speed:", GUILayout.Width(50));
                     SpellDetail.SpeedCast = EditorGUILayout.FloatField(SpellDetail.SpeedCast);
+                    GUILayout.EndHorizontal();
+
+                    GUILayout.BeginHorizontal();
+                    SpellDetail.FootIKCast = EditorGUILayout.Toggle("Foot IK:", SpellDetail.FootIKCast);
+                    GUILayout.Label("Offset:", GUILayout.Width(50));
+                    SpellDetail.CycleOffsetCast = EditorGUILayout.FloatField(SpellDetail.CycleOffsetCast);
                     GUILayout.EndHorizontal();
                     break;
             }
@@ -627,7 +655,7 @@ namespace Shadex
             // birth started state
             ChangesMade += ValidateState(
                 anim.Controller.layers[0].stateMachine, anim.Controller.layers[0].stateMachine,
-                "I am born", anim.ClipSpawn, anim.DontSetAnimationClips, false, 1f,
+                "I am born", anim.ClipSpawn, anim.DontSetAnimationClips, false, 1f, false, 0f,
                 true, null, new AnimatorCondition[] {
                     new AnimatorCondition() { parameter = "BirthStarted", mode = AnimatorConditionMode.If, threshold = 0 }
                 },
@@ -780,7 +808,8 @@ namespace Shadex
                                 // check charge init state
                                 ChangesMade += ValidateState(
                                     Parent, anim.Controller.layers[(SpellDetail.AllowMovement ? anim.MagicLayerMoveIndex : anim.MagicLayerFixedIndex)].stateMachine,
-                                    vi.name + " Charge", SpellDetail.ClipSpellChargeInit, anim.DontSetAnimationClips, SpellDetail.MirrorCharge, SpellDetail.SpeedCharge,
+                                    vi.name + " Charge", SpellDetail.ClipSpellChargeInit, anim.DontSetAnimationClips, 
+                                    SpellDetail.MirrorCharge, SpellDetail.SpeedCharge, SpellDetail.FootIKCharge, SpellDetail.CycleOffsetCharge,
                                     true, null, new AnimatorCondition[]
                                     {
                                         new AnimatorCondition() { parameter = "MagicCharge", mode = AnimatorConditionMode.If, threshold = 0 },
@@ -792,7 +821,8 @@ namespace Shadex
                                 // check charge hold state
                                 ChangesMade += ValidateState(
                                     Parent, anim.Controller.layers[(SpellDetail.AllowMovement ? anim.MagicLayerMoveIndex : anim.MagicLayerFixedIndex)].stateMachine,
-                                    vi.name + " Hold", SpellDetail.ClipSpellChargeHold, anim.DontSetAnimationClips, SpellDetail.MirrorHold, SpellDetail.SpeedHold,
+                                    vi.name + " Hold", SpellDetail.ClipSpellChargeHold, anim.DontSetAnimationClips, 
+                                    SpellDetail.MirrorHold, SpellDetail.SpeedHold, SpellDetail.FootIKHold, SpellDetail.CycleOffsetHold,
                                     false, FindState(vi.name + " Charge", Parent), null,
                                     null, null, SpellDetail.SpellOptionsHold, null, true, false
                                 );
@@ -800,7 +830,8 @@ namespace Shadex
                                 // check charge init state
                                 ChangesMade += ValidateState(
                                     Parent, anim.Controller.layers[(SpellDetail.AllowMovement ? anim.MagicLayerMoveIndex : anim.MagicLayerFixedIndex)].stateMachine,
-                                    vi.name + " Release", SpellDetail.ClipSpellChargeRelease, anim.DontSetAnimationClips, SpellDetail.MirrorRelease, SpellDetail.SpeedRelease,
+                                    vi.name + " Release", SpellDetail.ClipSpellChargeRelease, anim.DontSetAnimationClips, 
+                                    SpellDetail.MirrorRelease, SpellDetail.SpeedRelease, SpellDetail.FootIKRelease, SpellDetail.CycleOffsetRelease,
                                     true, null, new AnimatorCondition[]
                                     {
                                         new AnimatorCondition() { parameter = "MagicAttack", mode = AnimatorConditionMode.If, threshold = 0 },
@@ -834,7 +865,8 @@ namespace Shadex
                                 // create if state doesn't exist
                                 ChangesMade += ValidateState(
                                     Parent, anim.Controller.layers[(SpellDetail.AllowMovement ? anim.MagicLayerMoveIndex : anim.MagicLayerFixedIndex)].stateMachine,
-                                    vi.name + " (" + vAttribMagicID.value + ")", SpellDetail.ClipSpellCast, anim.DontSetAnimationClips, SpellDetail.MirrorCast, SpellDetail.SpeedCast,
+                                    vi.name + " (" + vAttribMagicID.value + ")", SpellDetail.ClipSpellCast, anim.DontSetAnimationClips, 
+                                    SpellDetail.MirrorCast, SpellDetail.SpeedCast, SpellDetail.FootIKCast, SpellDetail.CycleOffsetCast,
                                     true, null, new AnimatorCondition[] 
                                     {
                                         new AnimatorCondition() { parameter = "MagicAttack", mode = AnimatorConditionMode.If, threshold = 0 },
@@ -946,7 +978,8 @@ namespace Shadex
         /// <returns>Count of the number of changes applied.</returns>
         protected int ValidateState(
             AnimatorStateMachine Parent, AnimatorStateMachine Root,
-            string StateName, AnimationClip TheClip, bool DontApplyClip, bool Mirror, float Speed,
+            string StateName, AnimationClip TheClip, 
+            bool DontApplyClip, bool Mirror, float Speed, bool footIK, float cycleOffset,
             bool SourceAnyState, AnimatorState SourceState, 
             AnimatorCondition[] EntryConditions, 
             AnimatorState DestinationState, AnimatorStateMachine DestinationStateMachine, 
@@ -974,6 +1007,8 @@ namespace Shadex
                     TheState.motion = TheClip;
                     TheState.mirror = Mirror;
                     TheState.speed = Speed;
+                    TheState.iKOnFeet = footIK;
+                    TheState.cycleOffset = cycleOffset;
                     StateChangesMade += 1;
                 }
             }
