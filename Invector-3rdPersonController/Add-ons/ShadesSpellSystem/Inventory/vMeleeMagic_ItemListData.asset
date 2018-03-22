@@ -1,0 +1,1285 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f3602cfd0ac79644a19fea8f4fd1b49, type: 3}
+  m_Name: vMeleeMagic_ItemListData
+  m_EditorClassIdentifier: 
+  items:
+  - {fileID: 114000013967465728}
+  - {fileID: 114000011454979648}
+  - {fileID: 114000014017037032}
+  - {fileID: 114000014005472098}
+  - {fileID: 114000013983157954}
+  - {fileID: 114000013569560620}
+  - {fileID: 114000012982302300}
+  - {fileID: 114000011522160142}
+  - {fileID: 114000012184096246}
+  - {fileID: 114000010878405866}
+  - {fileID: 114984035831903988}
+  - {fileID: 114129779177853984}
+  - {fileID: 114430432520164444}
+  - {fileID: 114591309724458670}
+  - {fileID: 114163081952138346}
+  - {fileID: 114331979779257532}
+  - {fileID: 114205908309403126}
+  - {fileID: 114357801333169444}
+  - {fileID: 114334497651238882}
+  - {fileID: 114244084498512034}
+  - {fileID: 114177490829584346}
+  - {fileID: 114056420540812832}
+  - {fileID: 114697818355162032}
+  - {fileID: 114052805539135490}
+  - {fileID: 114032278025433180}
+  - {fileID: 114253355198175360}
+  - {fileID: 114336811694716192}
+  - {fileID: 114465947780687306}
+  - {fileID: 114832702067172434}
+  - {fileID: 114987356931173150}
+  - {fileID: 114756676743860302}
+  - {fileID: 114588566666266212}
+  - {fileID: 114491319972674652}
+  - {fileID: 114147277995769422}
+  - {fileID: 114860970985419312}
+  - {fileID: 114961003089711298}
+  - {fileID: 114960680252681926}
+  inEdition: 0
+  itemsHidden: 1
+--- !u!114 &114000010878405866
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: vGreat Shield
+  m_EditorClassIdentifier: 
+  id: 9
+  description: 'Melee Shield
+
+    Recoil: Hard
+
+    Bonus: Break Attack '
+  type: 1
+  icon: {fileID: 21300000, guid: 4a46b7c6ff6f17a4a95bfb58b3397585, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 1000012874595254, guid: d4ca9135af96d5142987a1f1427b099a,
+    type: 2}
+  dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 2}
+  attributes:
+  - name: 3
+    value: 0
+    isBool: 0
+  - name: 4
+    value: 100
+    isBool: 0
+  - name: 5
+    value: 90
+    isBool: 0
+  isInEquipArea: 1
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 2
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.3
+--- !u!114 &114000011454979648
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: vShort Katana
+  m_EditorClassIdentifier: 
+  id: 1
+  description: Melee Weapon
+  type: 1
+  icon: {fileID: 21300000, guid: 56e79d7e38be01c4c9171802884dfb05, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 1000011247033104, guid: 43ec053b9c111644e80b4ddb5f535508,
+    type: 2}
+  dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 2}
+  attributes:
+  - name: 2
+    value: 25
+    isBool: 0
+  - name: 3
+    value: 20
+    isBool: 0
+  - name: 4
+    value: 85
+    isBool: 0
+  - name: 5
+    value: 70
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 1
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114000011522160142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: vGreat Sword
+  m_EditorClassIdentifier: 
+  id: 7
+  description: Melee Weapon
+  type: 1
+  icon: {fileID: 21300000, guid: 68199bff0f78a2d4ca77e20ccc91ef76, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 1000014209087140, guid: d03b45803e637bb4fb00a1ca9030d66e,
+    type: 2}
+  dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 2}
+  attributes:
+  - name: 2
+    value: 30
+    isBool: 0
+  - name: 3
+    value: 20
+    isBool: 0
+  - name: 4
+    value: 85
+    isBool: 0
+  - name: 5
+    value: 70
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 3
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114000012184096246
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: vGreat Katana
+  m_EditorClassIdentifier: 
+  id: 8
+  description: Melee Weapon
+  type: 1
+  icon: {fileID: 21300000, guid: 75c369d61ea60a54e877b01a25ae0916, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 1000013423493360, guid: 6bbee781522ce5243a02bf72cd914cf5,
+    type: 2}
+  dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 2}
+  attributes:
+  - name: 2
+    value: 25
+    isBool: 0
+  - name: 3
+    value: 20
+    isBool: 0
+  - name: 4
+    value: 85
+    isBool: 0
+  - name: 5
+    value: 10
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 4
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114000012982302300
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: vShield
+  m_EditorClassIdentifier: 
+  id: 6
+  description: 'Melee Shield
+
+    Recoil: Low'
+  type: 1
+  icon: {fileID: 21300000, guid: 40e348f6451ddf7438089a59a033e57f, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 1000010116632662, guid: 2232bbcc5a195274c9744c2c6352e910,
+    type: 2}
+  dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 2}
+  attributes:
+  - name: 3
+    value: 0
+    isBool: 0
+  - name: 4
+    value: 80
+    isBool: 0
+  - name: 5
+    value: 90
+    isBool: 0
+  isInEquipArea: 1
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 2
+  customEquipPoint: shieldEquipPoint
+  equipDelayTime: 0.5
+--- !u!114 &114000013569560620
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Max Health Potion
+  m_EditorClassIdentifier: 
+  id: 5
+  description: Increases the MaxHealth
+  type: 0
+  icon: {fileID: 21300000, guid: e60fbeee962473a4bb627f9d7dc341b0, type: 3}
+  stackable: 1
+  maxStack: 10
+  amount: 2
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 2}
+  attributes:
+  - name: 7
+    value: 50
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114000013967465728
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Fire Axe
+  m_EditorClassIdentifier: 
+  id: 0
+  description: Burning Weapon
+  type: 1
+  icon: {fileID: 21300000, guid: b2158c09d5bc7284989f53a47f7638e3, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 1000010725870802, guid: d0c3e008e9401004da8cd7925081daef,
+    type: 2}
+  dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 2}
+  attributes:
+  - name: 2
+    value: 30
+    isBool: 0
+  - name: 3
+    value: 35
+    isBool: 0
+  - name: 4
+    value: 60
+    isBool: 0
+  - name: 5
+    value: 85
+    isBool: 0
+  isInEquipArea: 1
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 3
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.3
+--- !u!114 &114000013983157954
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Stamina Up Potion
+  m_EditorClassIdentifier: 
+  id: 4
+  description: Increase Stamina
+  type: 0
+  icon: {fileID: 21300000, guid: a7eb39caa37204044ae09aa0c8699270, type: 3}
+  stackable: 1
+  maxStack: 10
+  amount: 1
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 8
+    value: 20
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114000014005472098
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: vShort Sword
+  m_EditorClassIdentifier: 
+  id: 3
+  description: Melee Weapon
+  type: 1
+  icon: {fileID: 21300000, guid: 359a7ebb90d1a2c4eba5c493a73ca543, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 1000012884940116, guid: 5dc53aa14e78ec54fbf2281c1abb7f47,
+    type: 2}
+  dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 2}
+  attributes:
+  - name: 2
+    value: 15
+    isBool: 0
+  - name: 3
+    value: 25
+    isBool: 0
+  - name: 4
+    value: 85
+    isBool: 0
+  - name: 5
+    value: 60
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 1
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.4
+--- !u!114 &114000014017037032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Health Potion
+  m_EditorClassIdentifier: 
+  id: 2
+  description: Recover Health
+  type: 0
+  icon: {fileID: 21300000, guid: 862e9f0d31ea667448a05c4d0ec24492, type: 3}
+  stackable: 1
+  maxStack: 10
+  amount: 5
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 2}
+  attributes:
+  - name: 0
+    value: 25
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114032278025433180
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Chained Lightning
+  m_EditorClassIdentifier: 
+  id: 24
+  description: A spell of Chained Lightning
+  type: 2
+  icon: {fileID: 21300000, guid: 8cc7ca0e29ced7b4f84e8c4ef7deb28b, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 1321
+    isBool: 0
+  - name: 11
+    value: 25
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114052805539135490
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Water Blast
+  m_EditorClassIdentifier: 
+  id: 23
+  description: A Blast of Water
+  type: 2
+  icon: {fileID: 21300000, guid: 7f44e5d4df72d7448af30e9e916a1009, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 77
+    isBool: 0
+  - name: 11
+    value: 7
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114056420540812832
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Meteor Scroll
+  m_EditorClassIdentifier: 
+  id: 21
+  description: A fire burning greatly
+  type: 2
+  icon: {fileID: 21300000, guid: a19cebe0599724c469f757f6e0b2d9a4, type: 3}
+  stackable: 1
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 207
+    isBool: 0
+  - name: 11
+    value: 50
+    isBool: 0
+  isInEquipArea: 1
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114129779177853984
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: DEbug Scroll
+  m_EditorClassIdentifier: 
+  id: 11
+  description: Toxic, dont drink!
+  type: 2
+  icon: {fileID: 21300000, guid: f85ea78a8f8f76546a8d8affdc6d19aa, type: 3}
+  stackable: 1
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 666
+    isBool: 0
+  - name: 11
+    value: 25
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114147277995769422
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Raise the Fallen
+  m_EditorClassIdentifier: 
+  id: 33
+  description: Summon Minions
+  type: 2
+  icon: {fileID: 21300000, guid: 8d41c4d75ffb95449ad8cdbfefa74218, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 10
+    isBool: 0
+  - name: 11
+    value: 25
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114163081952138346
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Lightning Strike Scroll
+  m_EditorClassIdentifier: 
+  id: 14
+  description: Just sit in this chair
+  type: 2
+  icon: {fileID: 21300000, guid: e5f8e29c0eb39d74e9509b0469b5204c, type: 3}
+  stackable: 1
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 202
+    isBool: 0
+  - name: 11
+    value: 25
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114177490829584346
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Spin Slash Ability
+  m_EditorClassIdentifier: 
+  id: 20
+  description: Special Ability?
+  type: 2
+  icon: {fileID: 21300000, guid: 53085f18b2c38eb4e8539c23811c3347, type: 3}
+  stackable: 1
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 206
+    isBool: 0
+  - name: 11
+    value: 10
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114205908309403126
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Mana Potion
+  m_EditorClassIdentifier: 
+  id: 16
+  description: Recover Mana
+  type: 0
+  icon: {fileID: 21300000, guid: 686309ee74ddecf4881a11c0f29efcc6, type: 3}
+  stackable: 1
+  maxStack: 10
+  amount: 5
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 2}
+  attributes:
+  - name: 6
+    value: 50
+    isBool: 0
+  isInEquipArea: 1
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114244084498512034
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Poison Bolt Scroll
+  m_EditorClassIdentifier: 
+  id: 19
+  description: Your strength weakens
+  type: 2
+  icon: {fileID: 21300000, guid: b9c61c6896eff5b43ae44d047f49b31d, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 205
+    isBool: 0
+  - name: 11
+    value: 25
+    isBool: 0
+  isInEquipArea: 1
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114253355198175360
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Light
+  m_EditorClassIdentifier: 
+  id: 25
+  description: Item Description
+  type: 2
+  icon: {fileID: 21300000, guid: e3d72b1724a89604fad7dc2c671426ae, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 300
+    isBool: 0
+  - name: 11
+    value: 20
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114331979779257532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Cyclone Scroll
+  m_EditorClassIdentifier: 
+  id: 15
+  description: Blown away
+  type: 2
+  icon: {fileID: 21300000, guid: 6cc9f2390267d6f47b3bfdc10c348ba3, type: 3}
+  stackable: 1
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 203
+    isBool: 0
+  - name: 11
+    value: 50
+    isBool: 0
+  isInEquipArea: 1
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114334497651238882
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Heal Scroll
+  m_EditorClassIdentifier: 
+  id: 18
+  description: I am a doctor
+  type: 2
+  icon: {fileID: 21300000, guid: b3199ae29bf246642875fc68fab4595b, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 204
+    isBool: 0
+  - name: 11
+    value: 25
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114336811694716192
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Cyclone Armor
+  m_EditorClassIdentifier: 
+  id: 26
+  description: Item Description
+  type: 2
+  icon: {fileID: 21300000, guid: 119553e379b55eb47aa9ceca2a67cc85, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 301
+    isBool: 0
+  - name: 11
+    value: 10
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114357801333169444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Max Mana Potion
+  m_EditorClassIdentifier: 
+  id: 17
+  description: Recover Mana
+  type: 0
+  icon: {fileID: 21300000, guid: 686309ee74ddecf4881a11c0f29efcc6, type: 3}
+  stackable: 1
+  maxStack: 10
+  amount: 1
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 2}
+  attributes:
+  - name: 11
+    value: 250
+    isBool: 0
+  isInEquipArea: 1
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114430432520164444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Fireball OnFire Scroll
+  m_EditorClassIdentifier: 
+  id: 12
+  description: Burn me!
+  type: 2
+  icon: {fileID: 21300000, guid: f2b5bcc8d9349dc40bd5dee94a4ad2be, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 101
+    isBool: 0
+  - name: 11
+    value: 15
+    isBool: 0
+  isInEquipArea: 1
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114465947780687306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Sword Of Venom
+  m_EditorClassIdentifier: 
+  id: 27
+  description: 'A Venomous Sword '
+  type: 1
+  icon: {fileID: 21300000, guid: 359a7ebb90d1a2c4eba5c493a73ca543, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 1000014209087140, guid: fd40fafb51191714cad1b5a57f56e4c0,
+    type: 2}
+  dropObject: {fileID: 0}
+  attributes: []
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 1
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114491319972674652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Summon Minions
+  m_EditorClassIdentifier: 
+  id: 32
+  description: Summon Minions
+  type: 2
+  icon: {fileID: 21300000, guid: fccc7156f5a20d847b6f18880c73d76d, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 11
+    isBool: 0
+  - name: 11
+    value: 50
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114588566666266212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Sword of the Frozen Angels
+  m_EditorClassIdentifier: 
+  id: 31
+  description: A sword forged by Angels in the Frosts of Heaven
+  type: 1
+  icon: {fileID: 21300000, guid: 56e79d7e38be01c4c9171802884dfb05, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 1209492747258262, guid: 3eb62d7b221b0394386c721b44520073,
+    type: 2}
+  dropObject: {fileID: 0}
+  attributes: []
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 1
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114591309724458670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Magic Missile Scroll
+  m_EditorClassIdentifier: 
+  id: 13
+  description: Arcane delight
+  type: 2
+  icon: {fileID: 21300000, guid: 33470548a8c102c45bec7658b3637d33, type: 3}
+  stackable: 1
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 200
+    isBool: 0
+  - name: 11
+    value: 25
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114697818355162032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Frost Nova Scroll
+  m_EditorClassIdentifier: 
+  id: 22
+  description: No effect on penguins
+  type: 2
+  icon: {fileID: 21300000, guid: 336877fe8c424a148a4a8ae3f76ae28c, type: 3}
+  stackable: 1
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 100
+    isBool: 0
+  - name: 11
+    value: 35
+    isBool: 0
+  isInEquipArea: 1
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114756676743860302
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Demonbane
+  m_EditorClassIdentifier: 
+  id: 30
+  description: The Bane of Demons
+  type: 1
+  icon: {fileID: 21300000, guid: 56e79d7e38be01c4c9171802884dfb05, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 1847071119235500, guid: b18bd81436d5e2743b3c4ea3a46cae1d,
+    type: 2}
+  dropObject: {fileID: 0}
+  attributes: []
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 1
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114832702067172434
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Sword Of Lightning
+  m_EditorClassIdentifier: 
+  id: 28
+  description: Electric Ninja
+  type: 1
+  icon: {fileID: 21300000, guid: 802fef64ca31fd649a94d330fbbca54d, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 1662099113401298, guid: bdf6b4cfd48fcf847927d118ee14f177,
+    type: 2}
+  dropObject: {fileID: 0}
+  attributes: []
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 1
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114860970985419312
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Charged Fireball
+  m_EditorClassIdentifier: 
+  id: 34
+  description: 'A Powerful charged fireball
+
+'
+  type: 2
+  icon: {fileID: 21300000, guid: 4ec98da35265dc54f8f4a4d5609f90c1, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 2
+    isBool: 0
+  - name: 11
+    value: 25
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114960680252681926
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Throwing Dagger
+  m_EditorClassIdentifier: 
+  id: 36
+  description: Throw a Dagger Castlevaynia style
+  type: 2
+  icon: {fileID: 21300000, guid: 7d241e1f7f5888c4088588ac1434e13c, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 501
+    isBool: 0
+  - name: 6
+    value: 10
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114961003089711298
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Archery
+  m_EditorClassIdentifier: 
+  id: 35
+  description: Shoot an Enemy with a bow
+  type: 2
+  icon: {fileID: 21300000, guid: 7620ac69cdf61754eb28ef8b1854e15c, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 500
+    isBool: 0
+  - name: 6
+    value: 15
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114984035831903988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Teleport Scroll
+  m_EditorClassIdentifier: 
+  id: 10
+  description: Going Places
+  type: 2
+  icon: {fileID: 21300000, guid: 05e2d6af00483bc42a42f768f4505213, type: 3}
+  stackable: 1
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 0}
+  dropObject: {fileID: 0}
+  attributes:
+  - name: 10
+    value: 1
+    isBool: 0
+  - name: 11
+    value: 50
+    isBool: 0
+  isInEquipArea: 0
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 0
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
+--- !u!114 &114987356931173150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Magma Sword
+  m_EditorClassIdentifier: 
+  id: 29
+  description: The sword of Burning +3
+  type: 1
+  icon: {fileID: 21300000, guid: 56e79d7e38be01c4c9171802884dfb05, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 1
+  originalObject: {fileID: 1679310780200018, guid: 1ceb0a15672ec6743b6e0d5bd6aed022,
+    type: 2}
+  dropObject: {fileID: 0}
+  attributes: []
+  isInEquipArea: 1
+  displayAttributes: 1
+  twoHandWeapon: 0
+  EquipID: 1
+  customEquipPoint: defaultPoint
+  equipDelayTime: 0.5
