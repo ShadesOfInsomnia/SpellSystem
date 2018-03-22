@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -157,6 +157,12 @@ namespace Shadex
         /// <summary>Mirror the cast animation.</summary>
         public bool MirrorCast;
 
+        /// <summaryAdd foot ik to the cast animation.</summary>
+        public bool FootIKCast;
+
+        /// <summaryCycle offset for the cast animation.</summary>
+        public float CycleOffsetCast;
+
 
         /// <summary>Animation charge init clip.</summary>
         public AnimationClip ClipSpellChargeInit;
@@ -166,6 +172,12 @@ namespace Shadex
 
         /// <summary>Mirror the cast animation.</summary>
         public bool MirrorCharge;
+
+        /// <summaryApply foot ik to the charge animation.</summary>
+        public bool FootIKCharge;
+
+        /// <summaryCycle offset for the charge animation.</summary>
+        public float CycleOffsetCharge;
 
 
         /// <summary>Animation charge hold clip.</summary>
@@ -177,6 +189,12 @@ namespace Shadex
         /// <summary>Mirror the cast animation.</summary>
         public bool MirrorHold;
 
+        /// <summaryApply foot ik to the hold animation.</summary>
+        public bool FootIKHold;
+
+        /// <summaryCycle offset for the hold animation.</summary>
+        public float CycleOffsetHold;
+
 
         /// <summary>Animation charge release clip.</summary>
         public AnimationClip ClipSpellChargeRelease;
@@ -186,6 +204,12 @@ namespace Shadex
 
         /// <summary>Mirror the cast animation.</summary>
         public bool MirrorRelease;
+
+        /// <summaryApply foot ik to the hold animation.</summary>
+        public bool FootIKRelease;
+
+        /// <summaryCycle offset for the release animation.</summary>
+        public float CycleOffsetRelease;
 
 
         /// <summary>Spell options to be copied to the animator states for normal casting.</summary>
