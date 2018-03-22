@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System.Collections;
 using Invector;
 using System;
+using BehaviorDesigner.Runtime;
 
 namespace Shadex
 {
@@ -137,21 +138,33 @@ namespace Shadex
 
                         // prefab                                                
                         SpawnDetail.Prefab = EditorGUILayout.ObjectField("Prefab: ", SpawnDetail.Prefab, typeof(GameObject), false) as GameObject;
-                        GUILayout.BeginHorizontal();
-                        SpawnDetail.NumberToSpawn = EditorGUILayout.IntField("Spawn Quantity:", SpawnDetail.NumberToSpawn);
-                        GUILayout.Label("Timeout:", GUILayout.Width(50));
-                        SpawnDetail.DestructionTimeOut = EditorGUILayout.FloatField(SpawnDetail.DestructionTimeOut);
-                        GUILayout.EndHorizontal();
+                        if (SpawnDetail.Prefab)
+                        {
+                            GUILayout.BeginHorizontal();
+                            SpawnDetail.NumberToSpawn = EditorGUILayout.IntField("Spawn Quantity:", SpawnDetail.NumberToSpawn);
+                            GUILayout.Label("Timeout:", GUILayout.Width(50));
+                            SpawnDetail.DestructionTimeOut = EditorGUILayout.FloatField(SpawnDetail.DestructionTimeOut);
+                            GUILayout.EndHorizontal();
+                        }
 
-                        // offset/rotation
-                        SpawnDetail.Offset = EditorGUILayout.Vector3Field("Offset: ", SpawnDetail.Offset);
-                        SpawnDetail.Angle = EditorGUILayout.Vector3Field("Angle: ", SpawnDetail.Angle);
+                        // audio clip
+                        SpawnDetail.PlayOnSpawn = EditorGUILayout.ObjectField("Audio Clip: ", SpawnDetail.PlayOnSpawn, typeof(AudioClip), false) as AudioClip;
+
+                        // audio source
+                        if (SpawnDetail.PlayOnSpawn)
+                        {
+                            SpawnDetail.SourceOfAudio = EditorGUILayout.ObjectField("Audio Source: ", SpawnDetail.SourceOfAudio, typeof(AudioSource), false) as AudioSource;
+                        }
 
                         // advanced options
-                        if (SpawnDetail.ShowAdvancedOptions)
+                        if (SpawnDetail.ShowAdvancedOptions && SpawnDetail.Prefab)
                         {
-                            // pooling
+                            // offset/rotation
                             EditorGUILayout.LabelField("Advanced Spawning", EditorStyles.boldLabel);
+                            SpawnDetail.Offset = EditorGUILayout.Vector3Field("Offset: ", SpawnDetail.Offset);
+                            SpawnDetail.Angle = EditorGUILayout.Vector3Field("Angle: ", SpawnDetail.Angle);
+
+                            // pooling                            
                             GUILayout.BeginHorizontal();
                             SpawnDetail.DoNotPool = EditorGUILayout.Toggle("Do Not Pool:", SpawnDetail.DoNotPool);
                             if (!SpawnDetail.DoNotPool)
@@ -187,7 +200,6 @@ namespace Shadex
                             }
 
                             // parenting
-                            
                             GUILayout.BeginHorizontal();
                             SpawnDetail.KeepParent = EditorGUILayout.Toggle("Keep Parent:", SpawnDetail.KeepParent);
 
@@ -219,16 +231,7 @@ namespace Shadex
                                 SpawnDetail.RandomSphere.IncludeZ = EditorGUILayout.Toggle(SpawnDetail.RandomSphere.IncludeZ, GUILayout.Width(20));
                                 GUILayout.FlexibleSpace();
                                 GUILayout.EndHorizontal();
-                            }
-
-                            
-
-                            // audio source
-                            EditorGUILayout.LabelField("Play Audio", EditorStyles.boldLabel);
-                            SpawnDetail.SourceOfAudio = EditorGUILayout.ObjectField("Audio Source: ", SpawnDetail.SourceOfAudio, typeof(AudioSource), false) as AudioSource;
-
-                            // audio source
-                            SpawnDetail.PlayOnSpawn = EditorGUILayout.ObjectField("Audio Clip: ", SpawnDetail.PlayOnSpawn, typeof(AudioClip), false) as AudioClip;
+                            }                                                   
                         }
 
                         // delete this spawn
@@ -240,9 +243,12 @@ namespace Shadex
                         }
 
                         // show expanded options
-                        if (GUILayout.Button((SpawnDetail.ShowAdvancedOptions ? "Less" : "More")))
+                        if (SpawnDetail.Prefab)
                         {
-                            SpawnDetail.ShowAdvancedOptions = !SpawnDetail.ShowAdvancedOptions;
+                            if (GUILayout.Button((SpawnDetail.ShowAdvancedOptions ? "Less" : "More")))
+                            {
+                                SpawnDetail.ShowAdvancedOptions = !SpawnDetail.ShowAdvancedOptions;
+                            }
                         }
                         GUILayout.EndHorizontal();
 
