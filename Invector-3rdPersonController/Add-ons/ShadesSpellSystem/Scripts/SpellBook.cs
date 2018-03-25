@@ -127,6 +127,9 @@ namespace Shadex
 
         /// <summary>Include reflect leveling system skills to the animator.</summary>
         public bool IncludeReflectSkills = true;
+
+        /// <summary>Include reflect leveling system skills to the animator.</summary>
+        public bool DedicatedFullBodyLayer;
     }
 
     /// <summary>
