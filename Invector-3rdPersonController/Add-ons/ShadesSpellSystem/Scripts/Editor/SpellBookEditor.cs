@@ -594,12 +594,15 @@ namespace Shadex
                     // allow choice of layers
                     if (anim.Controller != null)
                     {
-                        EditorGUILayout.LabelField("Layers", EditorStyles.boldLabel);
-                        anim.MagicLayerFixedIndex = EditorGUILayout.Popup("Full Body :", anim.MagicLayerFixedIndex, anim.AllLayerNames.ToArray());
+                        EditorGUILayout.LabelField("Full Body", EditorStyles.boldLabel);
+                        anim.MagicLayerFixedIndex = EditorGUILayout.Popup("Layer :", anim.MagicLayerFixedIndex, anim.AllLayerNames.ToArray());
                         if (!anim.Controller.layers[anim.MagicLayerFixedIndex].iKPass)
                         {
                             EditorGUILayout.HelpBox("IK needs setting on this layer!", MessageType.Error);
                         }
+                        anim.DedicatedFullBodyLayer = EditorGUILayout.Toggle("No Container : ", anim.DedicatedFullBodyLayer);
+
+                        EditorGUILayout.LabelField("Upper Body", EditorStyles.boldLabel);
                         anim.MagicLayerMoveIndex = EditorGUILayout.Popup("Upper Body :", anim.MagicLayerMoveIndex, anim.AllLayerNames.ToArray());
                         if (!anim.Controller.layers[anim.MagicLayerMoveIndex].iKPass)
                         {
@@ -683,14 +686,18 @@ namespace Shadex
             // check layers have IK
             anim.Controller.layers[anim.MagicLayerFixedIndex].iKPass = true;
             anim.Controller.layers[anim.MagicLayerMoveIndex].iKPass = true;
-            
 
-            // magic container state machine on full body            
-            AnimatorStateMachine MagicContainerFixed = FindStateMachine("Magic", anim.Controller.layers[anim.MagicLayerFixedIndex].stateMachine);
-            if (MagicContainerFixed == null)
+
+            // magic container state machine on full body    
+            AnimatorStateMachine MagicContainerFixed = anim.Controller.layers[anim.MagicLayerFixedIndex].stateMachine;
+            if (!anim.DedicatedFullBodyLayer)
             {
-                MagicContainerFixed = anim.Controller.layers[anim.MagicLayerFixedIndex].stateMachine.AddStateMachine("Magic");
-                ChangesMade += 1;
+                MagicContainerFixed = FindStateMachine("Magic", anim.Controller.layers[anim.MagicLayerFixedIndex].stateMachine);
+                if (MagicContainerFixed == null)
+                {
+                    MagicContainerFixed = anim.Controller.layers[anim.MagicLayerFixedIndex].stateMachine.AddStateMachine("Magic");
+                    ChangesMade += 1;
+                }
             }
             TidyStateMachineChildren(MagicContainerFixed);
 
@@ -707,28 +714,17 @@ namespace Shadex
             // find destination magic null state on full body
             AnimatorStateMachine AttacksContainer = FindStateMachine("Attacks", anim.Controller.layers[anim.MagicLayerFixedIndex].stateMachine);
             AnimatorStateMachine NullFixed = null;
-            if (AttacksContainer != null)
+            if (AttacksContainer != null)  // found attack state machine
             {
-                NullFixed = FindStateMachine("Null", AttacksContainer);
-                if (NullFixed == null) // not found
-                {
-                    Console.Write("CRITICAL ERROR, attacks->null state on fixed casting layer is MISSING!");
-                    return;
-                }
+                NullFixed = ValidateNullStateMachine(AttacksContainer);  // ensure null exists
             }
-            else  // not found
+            else  // not found, find/create null on the root
             {
-                Console.Write("CRITICAL ERROR, attacks state on fixed casting layer is MISSING!");
-                return;
+                NullFixed = ValidateNullStateMachine(anim.Controller.layers[anim.MagicLayerFixedIndex].stateMachine);  // ensure null exists                
             }
 
             // find destination magic null state on upper body
-            AnimatorStateMachine NullMove = FindStateMachine("Null", anim.Controller.layers[anim.MagicLayerMoveIndex].stateMachine);
-            if (NullMove == null) // not found
-            {
-                Console.Write("CRITICAL ERROR, null state on move casting layer is MISSING!");
-                return;
-            }
+            AnimatorStateMachine NullMove = ValidateNullStateMachine(anim.Controller.layers[anim.MagicLayerMoveIndex].stateMachine);
 
             // check all magic spells are inside the state
             foreach (vItem vi in cc.itemListData.items)
@@ -881,26 +877,6 @@ namespace Shadex
             }
 
 
-            //// waypoints
-            //if (cc.IncludeWaypointActions)
-            //{
-            //    if (cc.TheAnimatorController.parameters.Count(a => a.name == "WaypointActionSet") == 0)
-            //    {
-            //        cc.TheAnimatorController.AddParameter("WaypointActionSet", AnimatorControllerParameterType.Int);
-            //        ChangesMade += 1;
-            //    }
-            //    if (cc.TheAnimatorController.parameters.Count(a => a.name == "WaypointActionStart") == 0)
-            //    {
-            //        cc.TheAnimatorController.AddParameter("WaypointActionStart", AnimatorControllerParameterType.Trigger);
-            //        ChangesMade += 1;
-            //    }
-            //    if (cc.TheAnimatorController.parameters.Count(a => a.name == "WaypointID") == 0)
-            //    {
-            //        cc.TheAnimatorController.AddParameter("WaypointID", AnimatorControllerParameterType.Int);
-            //        ChangesMade += 1;
-            //    }
-            //}
-
             // skills
             if (anim.IncludeReflectSkills)
             {
@@ -1013,34 +989,34 @@ namespace Shadex
                 }
             }
 
+            // remove existing behaviors
+            if (TheState.behaviours.Count(b => b.GetType() == typeof(vMeleeAttackControl)) == 0)
+            {
+                TheState.behaviours = new StateMachineBehaviour[0];
+            }
+
             // check spell options
             if (SpellOptions != null)
             {
                 AddSpellBookAttack(TheState, SpellOptions);
             }
 
-            // remove existing melee attack behavior if any
-            if (TheState.behaviours.Count(b => b.GetType() == typeof(vMeleeAttackControl)) == 0)
-            {
-                TheState.behaviours = TheState.behaviours.Where(b => b.GetType() != typeof(vMeleeAttackControl)).ToArray();
-            }
-
             // add melee attack behavior if selected
             if (MeleeAttackBehavior != null)
             {
-                vMeleeAttackControl NewMeleeAttack = (vMeleeAttackControl)TheState.AddStateMachineBehaviour(typeof(vMeleeAttackControl));
-                //GlobalFuncs.DuckCopyShallow(NewMeleeAttack, MeleeAttackBehavior);  // this caused weirdness like adding the behavior onto the animator in the project view, replaced with manual copy
-                NewMeleeAttack.activeRagdoll = MeleeAttackBehavior.activeRagdoll;
-                NewMeleeAttack.allowMovementAt = MeleeAttackBehavior.allowMovementAt;
-                NewMeleeAttack.attackName = MeleeAttackBehavior.attackName;
-                NewMeleeAttack.bodyParts = MeleeAttackBehavior.bodyParts;
-                NewMeleeAttack.damageMultiplier = MeleeAttackBehavior.damageMultiplier;
-                NewMeleeAttack.endDamage = MeleeAttackBehavior.endDamage;
-                NewMeleeAttack.meleeAttackType = MeleeAttackBehavior.meleeAttackType;
-                NewMeleeAttack.reactionID = MeleeAttackBehavior.reactionID;
-                NewMeleeAttack.recoilID = MeleeAttackBehavior.recoilID;
-                NewMeleeAttack.resetAttackTrigger = MeleeAttackBehavior.resetAttackTrigger;
-                NewMeleeAttack.startDamage = MeleeAttackBehavior.startDamage;
+                AddMeleeAttack(TheState, MeleeAttackBehavior);
+                //vMeleeAttackControl NewMeleeAttack = (vMeleeAttackControl)TheState.AddStateMachineBehaviour(typeof(vMeleeAttackControl));
+                //NewMeleeAttack.activeRagdoll = MeleeAttackBehavior.activeRagdoll;
+                //NewMeleeAttack.allowMovementAt = MeleeAttackBehavior.allowMovementAt;
+                //NewMeleeAttack.attackName = MeleeAttackBehavior.attackName;
+                //NewMeleeAttack.bodyParts = MeleeAttackBehavior.bodyParts;
+                //NewMeleeAttack.damageMultiplier = MeleeAttackBehavior.damageMultiplier;
+                //NewMeleeAttack.endDamage = MeleeAttackBehavior.endDamage;
+                //NewMeleeAttack.meleeAttackType = MeleeAttackBehavior.meleeAttackType;
+                //NewMeleeAttack.reactionID = MeleeAttackBehavior.reactionID;
+                //NewMeleeAttack.recoilID = MeleeAttackBehavior.recoilID;
+                //NewMeleeAttack.resetAttackTrigger = MeleeAttackBehavior.resetAttackTrigger;
+                //NewMeleeAttack.startDamage = MeleeAttackBehavior.startDamage;
             }
 
 
@@ -1149,6 +1125,25 @@ namespace Shadex
         }
 
         /// <summary>
+        /// Find or Create null state machine.
+        /// </summary>
+        /// <param name="Parent">Container for the null state machine.</param>
+        /// <returns>Null state machine found or created.</returns>
+        protected AnimatorStateMachine ValidateNullStateMachine(AnimatorStateMachine Parent)
+        {
+            AnimatorStateMachine NullStateMachine = FindStateMachine("Null", Parent);
+            if (NullStateMachine == null) // not found
+            {
+                NullStateMachine = Parent.AddStateMachine("Null");
+                Parent.entryTransitions = new AnimatorTransition[0];
+                Parent.AddEntryTransition(NullStateMachine);
+                AnimatorState NullSub = NullStateMachine.AddState("Null");
+                NullStateMachine.AddEntryTransition(NullSub);
+            }
+            return NullStateMachine;
+        }
+
+        /// <summary>
         /// Find a state child on a state machine.
         /// </summary>
         /// <param name="StateName">Name of the state child to find.</param>
@@ -1185,21 +1180,21 @@ namespace Shadex
             Parent.exitPosition = RightPosition; RightPosition.y += 100;
             Parent.parentStateMachinePosition = RightPosition;
 
-            return;
-            // setup columns
-            const float SEPERATION = 100f;
-            Vector3 col1 = new Vector3(0, 0, 0);
-            Vector3 col2 = new Vector3(SEPERATION * 2, 0, 0);
-            Vector3 col3 = new Vector3(SEPERATION * 4, 0, 0);
-            Vector3 col4 = new Vector3(SEPERATION * 6, 0, 0);
-            Vector3 col5 = new Vector3(SEPERATION * 6, 0, 0);
-            var StatesProcessed = new List<AnimatorState>();
-            //var StateMachinesProcessed = new List<AnimatorStateMachine>();
+            //return;
+            //// setup columns
+            //const float SEPERATION = 100f;
+            //Vector3 col1 = new Vector3(0, 0, 0);
+            //Vector3 col2 = new Vector3(SEPERATION * 2, 0, 0);
+            //Vector3 col3 = new Vector3(SEPERATION * 4, 0, 0);
+            //Vector3 col4 = new Vector3(SEPERATION * 6, 0, 0);
+            //Vector3 col5 = new Vector3(SEPERATION * 6, 0, 0);
+            //var StatesProcessed = new List<AnimatorState>();
+            ////var StateMachinesProcessed = new List<AnimatorStateMachine>();
 
-            // align the entry states in column 1
-            Parent.entryPosition = col1; col1.y += SEPERATION;
-            Parent.anyStatePosition = col1; col1.y += SEPERATION;
-            Parent.exitPosition = col5; col5.y += SEPERATION;
+            //// align the entry states in column 1
+            //Parent.entryPosition = col1; col1.y += SEPERATION;
+            //Parent.anyStatePosition = col1; col1.y += SEPERATION;
+            //Parent.exitPosition = col5; col5.y += SEPERATION;
 
             //// move all states with an entry transition to column 2
             //foreach (AnimatorTransition transition in Parent.entryTransitions)
@@ -1240,11 +1235,11 @@ namespace Shadex
             //{
             //    var s = child; s.position = col2; col2.y += SEPERATION;
             //}
-            for (int i = 0; i < Parent.stateMachines.Length; i++)
-            {
-                Parent.stateMachines[i].position = col2;
-                col2.y += SEPERATION;
-            }
+            //for (int i = 0; i < Parent.stateMachines.Length; i++)
+            //{
+            //    Parent.stateMachines[i].position = col2;
+            //    col2.y += SEPERATION;
+            //}
 
             //// move states with transitions to column3
             //foreach (ChildAnimatorState child in Parent.states)
@@ -1296,6 +1291,33 @@ namespace Shadex
             SpellBookAttack sb = (SpellBookAttack)TheState.behaviours.FirstOrDefault(b => b.GetType() == typeof(SpellBookAttack));
             if (sb.SpellOptions == null) sb.SpellOptions = new SpellBookEntry();
             GlobalFuncs.DuckCopyShallow(sb.SpellOptions, SpellOptions);
+        }
+
+        protected virtual void AddMeleeAttack(AnimatorState TheState, vMeleeAttackControl MeleeAttackBehavior)
+        {
+            // check behavior exists
+            vMeleeAttackControl NewMeleeAttack;
+            if (TheState.behaviours.Count(b => b.GetType() == typeof(vMeleeAttackControl)) == 0)
+            {
+                NewMeleeAttack = (vMeleeAttackControl)TheState.AddStateMachineBehaviour(typeof(vMeleeAttackControl));
+            }
+            else
+            {
+                NewMeleeAttack = (vMeleeAttackControl)TheState.behaviours.FirstOrDefault(b => b.GetType() == typeof(vMeleeAttackControl));
+            }
+
+            // sync the options
+            NewMeleeAttack.activeRagdoll = MeleeAttackBehavior.activeRagdoll;
+            NewMeleeAttack.allowMovementAt = MeleeAttackBehavior.allowMovementAt;
+            NewMeleeAttack.attackName = MeleeAttackBehavior.attackName;
+            NewMeleeAttack.bodyParts = MeleeAttackBehavior.bodyParts;
+            NewMeleeAttack.damageMultiplier = MeleeAttackBehavior.damageMultiplier;
+            NewMeleeAttack.endDamage = MeleeAttackBehavior.endDamage;
+            NewMeleeAttack.meleeAttackType = MeleeAttackBehavior.meleeAttackType;
+            NewMeleeAttack.reactionID = MeleeAttackBehavior.reactionID;
+            NewMeleeAttack.recoilID = MeleeAttackBehavior.recoilID;
+            NewMeleeAttack.resetAttackTrigger = MeleeAttackBehavior.resetAttackTrigger;
+            NewMeleeAttack.startDamage = MeleeAttackBehavior.startDamage;
         }
     }
 }
