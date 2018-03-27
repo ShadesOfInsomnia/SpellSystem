@@ -39,13 +39,7 @@ namespace Shadex
 
         /// <summary>ManaCost temp for each spell.</summary>
         protected int ManaCost = 0;
-
-        /// <summary>Filter the spells by damage type.</summary>
-        protected bool DamageFilterEnabled;
-
-        /// <summary>Index of the filter.</summary>
-        protected BaseDamage DamageFilterIndex;
-        
+       
 
         /// <summary>
         /// Override default inspector with the custom spell book UI
@@ -94,35 +88,8 @@ namespace Shadex
 
             // allow edit of the defaults
             InputFields(cc);
-            
-            // process current inventory
-            EditorGUILayout.LabelField("Available Spells", EditorStyles.boldLabel);
-            cc.itemListData = EditorGUILayout.ObjectField("Inventory: ", cc.itemListData, typeof(vItemListData), false) as vItemListData;
-            if (cc.itemListData)
-            {
-                // allow edit of item list data
-                if (GUILayout.Button("Edit Items in List"))
-                {
-                    vItemListWindow.CreateWindow(cc.itemListData);
-                }
-
-                // filter by damage type
-                GUILayout.BeginHorizontal();
-                DamageFilterEnabled = EditorGUILayout.Toggle("Damage Type Filter:", DamageFilterEnabled);
-                DamageFilterIndex = (BaseDamage)EditorGUILayout.EnumPopup(DamageFilterIndex, GUILayout.ExpandWidth(true));
-                GUILayout.EndHorizontal();
-
-                // process all inventory items
-                for (int i = 0; i < cc.itemListData.items.Count; i++)
-                {
-                    // only interested in the spells
-                    if (cc.itemListData.items[i].type == vItemType.Spell)
-                    {
-                        // custom edit of spell options for the behavior state
-                        DisplaySpellItem(cc, i);
-                    }                    
-                }
-            }
+            DefaultValues(cc);
+            CoreOptions(cc);
 
             // end the container, revert the skin
             GUILayout.EndVertical();
@@ -209,7 +176,7 @@ namespace Shadex
             }
 
             // display the shared spell options GUI            
-            if (!DamageFilterEnabled || (DamageFilterEnabled && SpellDetail.DamageType == DamageFilterIndex))
+            if (!cc.DamageFilterEnabled || (cc.DamageFilterEnabled && SpellDetail.DamageType == cc.DamageFilterIndex))
             {
                 if (!SpellDetail.Charge)
                 {
@@ -530,6 +497,7 @@ namespace Shadex
         /// <summary>
         /// Input fields for animator controller validation.
         /// </summary>
+        /// <param name="cc">Spell book base object.</param>
         protected virtual void InputFields(SpellBook cc)
         {
             // add a new animator controller
@@ -630,8 +598,51 @@ namespace Shadex
                     cc.ApplyToExpanded = false;
                 }
             }
+        }
 
-            // defaults
+        /// <summary>
+        /// Core spell configuration.
+        /// </summary>
+        /// <param name="cc">Spell book base object.</param>
+        protected virtual void CoreOptions(SpellBook cc)
+        {
+            // process current inventory
+            EditorGUILayout.LabelField("Available Spells", EditorStyles.boldLabel);
+            cc.itemListData = EditorGUILayout.ObjectField("Inventory: ", cc.itemListData, typeof(vItemListData), false) as vItemListData;
+            if (cc.itemListData)
+            {
+                // allow edit of item list data
+                if (GUILayout.Button("Edit Items in List"))
+                {
+                    vItemListWindow.CreateWindow(cc.itemListData);
+                }
+
+                // filter by damage type
+                GUILayout.BeginHorizontal();
+                cc.DamageFilterEnabled = EditorGUILayout.Toggle("Damage Type Filter:", cc.DamageFilterEnabled);
+                cc.DamageFilterIndex = (BaseDamage)EditorGUILayout.EnumPopup(cc.DamageFilterIndex, GUILayout.ExpandWidth(true));
+                GUILayout.EndHorizontal();
+
+
+                // process all inventory items
+                for (int i = 0; i < cc.itemListData.items.Count; i++)
+                {
+                    // only interested in the spells
+                    if (cc.itemListData.items[i].type == vItemType.Spell)
+                    {
+                        // custom edit of spell options for the behavior state
+                        DisplaySpellItem(cc, i);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Default values for when creating a new spell
+        /// </summary>
+        /// <param name="cc">Spell book base object.</param>
+        public virtual void DefaultValues(SpellBook cc)
+        {
             EditorGUILayout.LabelField("Defaults", EditorStyles.boldLabel);
             cc.ClipSpawn = EditorGUILayout.ObjectField("Spawn: ", cc.ClipSpawn, typeof(AnimationClip), false) as AnimationClip;
             cc.ClipSpellCast = EditorGUILayout.ObjectField("Spell Cast: ", cc.ClipSpellCast, typeof(AnimationClip), false) as AnimationClip;
