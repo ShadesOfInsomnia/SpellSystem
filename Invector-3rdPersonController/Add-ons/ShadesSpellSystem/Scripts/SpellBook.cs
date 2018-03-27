@@ -44,6 +44,12 @@ namespace Shadex
 
         /// <summary>List of all spells from the inventory with prefabs, spawn options.</summary>
         public List<SpellBookListEntry> Spells = new List<SpellBookListEntry>();
+
+        /// <summary>Filter the spells by damage type.</summary>
+        public bool DamageFilterEnabled;
+
+        /// <summary>Index of the filter.</summary>
+        public BaseDamage DamageFilterIndex;
     }
 
     /// <summary>
