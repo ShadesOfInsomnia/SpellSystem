@@ -81,7 +81,7 @@ Please have a read under the documentation for instructions. Even at the time of
 * Spell book wizard, centralised spell creation automatically applied to multiple animators
 
 
-
+![Invector](https://static.wixstatic.com/media/f7eaa8_8311fce352b64e57911dbc58ed01cc8e.png/v1/fill/w_208,h_129,al_c,usm_0.66_1.00_0.01/f7eaa8_8311fce352b64e57911dbc58ed01cc8e.png)
 ### About the Invector 3rd Person Controller
 Developing a 3rd Person Controller is really hard and takes too much time, so invector developed this awesome template so you can set up a character controller or AI in less then 10 seconds and melee combat within minutes, leaving space for you to focus on making your game!
 
