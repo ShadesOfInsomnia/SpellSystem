@@ -1,7 +1,6 @@
 A FREE [Invector](https://assetstore.unity.com/publishers/13943) addon brought to you by 
-# Shades of Insomnia
+# Shades of Insomnia - the undisputed kings of feature creep…
 ![Shade's Spell System](ShadesSpellSystem.png)
-the undisputed kings of feature creep…
 
 ***
 * Copyright        : 2018 Shades of Insomnia
@@ -114,3 +113,5 @@ Invector's [Shooter Template](https://assetstore.unity.com/packages/templates/sy
 * Advanced Scope View
 * Aiming System with dispersion, range, shot frequency, recoil, etc...
 * Particles to emitt on attack
+
+![Shade's Spell System](Invector-3rdPersonController/Add-ons/ShadesSpellSystem/UI/LogoLong.png)
