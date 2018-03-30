@@ -1,7 +1,7 @@
 A FREE [Invector](https://assetstore.unity.com/publishers/13943) addon brought to you by 
+***
 # Shades of Insomnia - the undisputed kings of feature creep…
 ![Shade's Spell System](ShadesSpellSystem.png)
-
 ***
 * Copyright        : 2018 Shades of Insomnia
 * Founding Members : Charles Page (Shade) & Rob Alexander (Insomnia)
