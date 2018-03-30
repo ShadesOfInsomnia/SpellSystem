@@ -96,6 +96,7 @@ namespace Shadex
             GUI.skin = defaultSkin;
         }
 
+
         /// <summary>
         /// Spell book item options, spawns etc.
         /// </summary>
@@ -559,36 +560,7 @@ namespace Shadex
                     }
                     GUILayout.EndHorizontal();
 
-                    // allow choice of layers
-                    if (anim.Controller != null)
-                    {
-                        EditorGUILayout.LabelField("Full Body", EditorStyles.boldLabel);
-                        anim.MagicLayerFixedIndex = EditorGUILayout.Popup("Layer :", anim.MagicLayerFixedIndex, anim.AllLayerNames.ToArray());
-                        if (!anim.Controller.layers[anim.MagicLayerFixedIndex].iKPass)
-                        {
-                            EditorGUILayout.HelpBox("IK needs setting on this layer!", MessageType.Error);
-                        }
-                        anim.DedicatedFullBodyLayer = EditorGUILayout.Toggle("No Container : ", anim.DedicatedFullBodyLayer);
-
-                        EditorGUILayout.LabelField("Upper Body", EditorStyles.boldLabel);
-                        anim.MagicLayerMoveIndex = EditorGUILayout.Popup("Upper Body :", anim.MagicLayerMoveIndex, anim.AllLayerNames.ToArray());
-                        if (!anim.Controller.layers[anim.MagicLayerMoveIndex].iKPass)
-                        {
-                            EditorGUILayout.HelpBox("IK needs setting on this layer!", MessageType.Error);
-                        }
-                    }
-
-                    // spawn clip
-                    EditorGUILayout.LabelField("Options", EditorStyles.boldLabel);
-                    anim.ClipSpawn = EditorGUILayout.ObjectField("Spawn: ", anim.ClipSpawn, typeof(AnimationClip), false) as AnimationClip;
-
-                    // don't overwrite clips  (for non humans)
-                    GUILayout.BeginHorizontal();
-                    anim.DontSetAnimationClips = EditorGUILayout.Toggle("Do NOT Set Clips: ", anim.DontSetAnimationClips);
-
-                    // write reflect skill inputs
-                    anim.IncludeReflectSkills = EditorGUILayout.Toggle("Reflect Skills: ", anim.IncludeReflectSkills);
-                    GUILayout.EndHorizontal();
+                    AnimatorOptions(anim);
                     GUILayout.EndVertical();
                 }
 
@@ -635,6 +607,44 @@ namespace Shadex
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Options specific to each animator that needs validating.
+        /// </summary>
+        /// <param name="anim">Container for the animator controller and its settings.</param>
+        protected virtual void AnimatorOptions(SpellBookApplyTo anim)
+        {
+            // allow choice of layers
+            if (anim.Controller != null)
+            {
+                EditorGUILayout.LabelField("Full Body", EditorStyles.boldLabel);
+                anim.MagicLayerFixedIndex = EditorGUILayout.Popup("Layer :", anim.MagicLayerFixedIndex, anim.AllLayerNames.ToArray());
+                if (!anim.Controller.layers[anim.MagicLayerFixedIndex].iKPass)
+                {
+                    EditorGUILayout.HelpBox("IK needs setting on this layer!", MessageType.Error);
+                }
+                anim.DedicatedFullBodyLayer = EditorGUILayout.Toggle("No Container : ", anim.DedicatedFullBodyLayer);
+
+                EditorGUILayout.LabelField("Upper Body", EditorStyles.boldLabel);
+                anim.MagicLayerMoveIndex = EditorGUILayout.Popup("Upper Body :", anim.MagicLayerMoveIndex, anim.AllLayerNames.ToArray());
+                if (!anim.Controller.layers[anim.MagicLayerMoveIndex].iKPass)
+                {
+                    EditorGUILayout.HelpBox("IK needs setting on this layer!", MessageType.Error);
+                }
+            }
+
+            // spawn clip
+            EditorGUILayout.LabelField("Options", EditorStyles.boldLabel);
+            anim.ClipSpawn = EditorGUILayout.ObjectField("Spawn: ", anim.ClipSpawn, typeof(AnimationClip), false) as AnimationClip;
+
+            // don't overwrite clips  (for non humans)
+            GUILayout.BeginHorizontal();
+            anim.DontSetAnimationClips = EditorGUILayout.Toggle("Do NOT Set Clips: ", anim.DontSetAnimationClips);
+
+            // write reflect skill inputs
+            anim.IncludeReflectSkills = EditorGUILayout.Toggle("Reflect Skills: ", anim.IncludeReflectSkills);
+            GUILayout.EndHorizontal();
         }
 
         /// <summary>
