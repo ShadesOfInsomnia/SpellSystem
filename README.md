@@ -1,6 +1,6 @@
-![Shade's Spell System](ShadesSpellSystem.png)
 A FREE [Invector](https://assetstore.unity.com/publishers/13943) addon brought to you by 
 # Shades of Insomnia
+![Shade's Spell System](ShadesSpellSystem.png)
 the undisputed kings of feature creep…
 
 ***
@@ -29,6 +29,8 @@ In the new system you will find a massive amount of new tools, systems and optio
 We included a resist system that mitigates damage based on damage types. We included Magic Weapons, We included Teleports, and Creature Summons, Scripts to increase spell size by level. We even created a leveling system with point allocation upon level up. Oh and an entire attribute system that can hook into other existing systems. Oh yea, and fire breathing Iguana's! Like i said, Kings of Feature Creep.
 
 Please have a read under the documentation for instructions. Even at the time of writing this, i'm sure there are cool features we forgot to document. From the Shades of Insomnia Team, Enjoy. Below is the link to the unity package containing a completely setup Project (Requires Invector Melee)
+
+[Download the configuration guide, quick start tutorial and feature explanations in PDF format](https://github.com/ShadesOfInsomnia/SpellSystem/blob/master/Invector-3rdPersonController/Add-ons/ShadesSpellSystem/Getting%20Started%20Guide2.1.pdf)
 
 ### Installation Requirements / Order
 * Ensure using Unity 5.6+ (ideally 2017.1+)
