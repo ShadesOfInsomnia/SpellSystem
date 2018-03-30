@@ -560,7 +560,7 @@ namespace Shadex
                     }
                     GUILayout.EndHorizontal();
 
-                    AnimatorOptions(anim);
+                    AnimatorOptions(anim, cc);
                     GUILayout.EndVertical();
                 }
 
@@ -613,7 +613,7 @@ namespace Shadex
         /// Options specific to each animator that needs validating.
         /// </summary>
         /// <param name="anim">Container for the animator controller and its settings.</param>
-        protected virtual void AnimatorOptions(SpellBookApplyTo anim)
+        protected virtual void AnimatorOptions(SpellBookApplyTo anim, SpellBook cc)
         {
             // allow choice of layers
             if (anim.Controller != null)
