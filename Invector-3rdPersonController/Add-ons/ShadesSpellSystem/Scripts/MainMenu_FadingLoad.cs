@@ -1,16 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+#if !VANILLA
 using Invector;
 using Invector.vCamera;
+#endif
 
 namespace Shadex
 {
     /// <summary>
     /// Fades in all levels loaded via event hook override.
     /// </summary>
+#if !VANILLA
     [vClassHeader("FADING LOADER", iconName = "triggerIcon")]
     public class MainMenu_FadingLoad : vMonoBehaviour
+#else
+    public class MainMenu_FadingLoad : MonoBehaviour
+#endif
     {
         /// <summary>Speed of the fade to background and back again transition.</summary>
         [Tooltip("Transition speed")]
@@ -18,8 +24,10 @@ namespace Shadex
 
         /// <summary>Reference to the invector third person controller player camera.</summary>
         [Header("Class links")]
+#if !VANILLA
         [Tooltip("Invector TPC camera")]
         public vThirdPersonCamera PlayerCamera;
+#endif
 
         /// <summary>Reference to the main menu component which hold most of the settings.</summary>
         [Tooltip("Shadex main menu component")]
@@ -135,7 +143,9 @@ namespace Shadex
             }
 
             // start time and fade in from full screen texture
+#if !VANILLA
             PlayerCamera.Init();
+#endif
             foreach (GameObject ui in GameMainMenu.UserInterface)
             {
                 ui.SetActive(GameMainMenu.isNotLobby);

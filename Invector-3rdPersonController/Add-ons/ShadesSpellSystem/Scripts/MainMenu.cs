@@ -3,9 +3,11 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+#if !VANILLA
 using Invector;
 using Invector.vCharacterController;
 using Invector.vItemManager;
+#endif
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -14,8 +16,12 @@ namespace Shadex
     /// <summary>
     /// Game main menu uGUI wrapper
     /// </summary>
+#if !VANILLA
     [vClassHeader("MAINMENU", iconName = "inputIcon")]
     public class MainMenu : vMonoBehaviour
+#else
+    public class MainMenu : MonoBehaviour
+#endif
     {
         /// <summary>Lobby (main menu scene name), note to use level loading/new game your scenes must be in the unity build list, including when running in the editor.</summary>
         [Header("Scenes")]
@@ -26,9 +32,11 @@ namespace Shadex
         [Tooltip("Scene to load on a new game")]
         public string FirstSceneName;
 
+#if !VANILLA
         /// <summary>Link to the inventory to prevent both menus keys clashing".</summary>
         [Tooltip("Link to the inventory to prevent both menus keys clashing")]
         public vInventory Inventory;
+#endif
 
         /// <summary>Slight delay needed before lobby main menu is opened to load the lobby scene.</summary>
         [Header("Menu Options")]
@@ -139,6 +147,7 @@ namespace Shadex
         [Tooltip("Scrollable list master item game object for cloning")]
         public GameObject LoadGameScrollItem;
 
+#if !VANILLA
         /// <summary>Open menu input.</summary>
         [Header("Input Mapping")]
         public GenericInput openMenu = new GenericInput("Escape", "Start", "Start");
@@ -155,7 +164,7 @@ namespace Shadex
 
         /// <summary>Menu back/cancel input.</summary>
         public GenericInput cancel = new GenericInput("Backspace", "B", "B");
-
+#endif
         // internal
         private StandaloneInputModule inputModule;
         [HideInInspector] public bool isOpen, lockInput, isNotLobby, updatedTimeScale;
@@ -271,7 +280,9 @@ namespace Shadex
                         GlobalFuncs.TheDatabase().ClearInventoryAndHUD();
 
                         // close the menu and load the scene
+#if !VANILLA
                         Inventory.gameObject.SetActive(true);
+#endif
                         NewCharacterWindow.SetActive(false);
                         Fader.BeginFade(1);
                         isOpen = false;
@@ -404,7 +415,9 @@ namespace Shadex
                 // close the menu and load the scene
                 if (SceneName != "")
                 {
+#if !VANILLA
                     Inventory.gameObject.SetActive(true);
+#endif
                     LoadGameWindow.SetActive(false);
                     FirstWindow.gameObject.SetActive(false);
                     Fader.BeginFade(1);
@@ -427,7 +440,9 @@ namespace Shadex
         /// </summary>
         public void ContinueGame()
         {
+#if !VANILLA
             Inventory.gameObject.SetActive(true);
+#endif
             ContinueButton.SetActive(false);
             SaveGameButton.SetActive(true);
             SelectedSlotID = LatestSaveSlotID;
@@ -472,7 +487,9 @@ namespace Shadex
                 {
                     ui.SetActive(true);
                 }
+#if !VANILLA
                 Inventory.gameObject.SetActive(true);
+#endif
                 FirstWindow.gameObject.SetActive(false);
                 isOpen = false;
                 lockInput = false;
@@ -503,12 +520,16 @@ namespace Shadex
         public IEnumerator delayedContinue()
         {
             ReAnimating = true;  // disable main menu
+#if !VANILLA
             Inventory.enabled = false; // and the inventory keys
+#endif
 
             // disable leveling system (otherwise health regen reanimates the character)
             LevelingSystem.enabled = false;
+#if !VANILLA
             var invectorController = GlobalFuncs.FindPlayerInstance().GetComponent<vCharacter>();
             invectorController.enabled = false;
+#endif
 
             // disable UI
             foreach (GameObject ui in UserInterface)
@@ -531,10 +552,13 @@ namespace Shadex
 
             // restart the game from the last save
             LevelingSystem.enabled = true;
+#if !VANILLA
             invectorController.enabled = true;
+            Inventory.enabled = true;
+#endif
             LevelingSystem.reCalcCore(true);
             ReAnimating = false;
-            Inventory.enabled = true;
+            
             ContinueGame();
         }
 
@@ -555,7 +579,9 @@ namespace Shadex
                 originalTimeScale = Time.timeScale;
             }
             Time.timeScale = timeScaleWhileIsOpen;
+#if !VANILLA
             Inventory.gameObject.SetActive(false);
+#endif
         }
 
         /// <summary>
@@ -564,11 +590,17 @@ namespace Shadex
         public virtual void ControlWindowsInput()
         {
             if (ReAnimating) return;  // dead so ignore keys
+#if !VANILLA
             if (Inventory)
                 if (Inventory.isOpen) return;  // ignore if the inventory is open
+#endif
 
             // check menu open/back keys
+#if !VANILLA
             if (openMenu.GetButtonDown())
+#else
+            if (Input.GetKeyDown("mainmenu"))
+#endif
             {
                 if (!isOpen)
                 {
@@ -580,7 +612,9 @@ namespace Shadex
                         originalTimeScale = Time.timeScale;
                     }
                     Time.timeScale = timeScaleWhileIsOpen;
+#if !VANILLA
                     Inventory.gameObject.SetActive(false);
+#endif
                     foreach (GameObject ui in UserInterface)
                     {
                         ui.SetActive(false);
@@ -596,7 +630,9 @@ namespace Shadex
                         if (!FirstWindow.gameObject.activeInHierarchy)
                         {
                             isOpen = false;
+#if !VANILLA
                             Inventory.gameObject.SetActive(true);
+#endif
                             Time.timeScale = originalTimeScale;
                             foreach (GameObject ui in UserInterface)
                             {
@@ -619,10 +655,12 @@ namespace Shadex
         {
             if (inputModule)
             {
+#if !VANILLA
                 inputModule.horizontalAxis = horizontal.buttonName;
                 inputModule.verticalAxis = vertical.buttonName;
                 inputModule.submitButton = submit.buttonName;
                 inputModule.cancelButton = cancel.buttonName;
+#endif
             }
             else
             {

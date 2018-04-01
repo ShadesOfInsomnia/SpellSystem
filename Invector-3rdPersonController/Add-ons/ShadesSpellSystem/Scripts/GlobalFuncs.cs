@@ -72,18 +72,18 @@ namespace Shadex
 
         /// <summary>Reference to the Magic Pool, set by itself or the accessor function.</summary>
         public static MagicPool mpi;
-#if !VANILLA
+
         /// <summary>Cached reference to the character database.</summary>
         public static CharacterDataBase cDB;
 
         /// <summary>Cached reference to the main menu.</summary>
         public static MainMenu mainM;
-#endif
+
 
         /// <summary>Cached reference to the main menu.</summary>
         public static MagicSettings mSet;
 
-#if !VANILLA
+
         /// <summary>
         /// Find the character database component.
         /// </summary>
@@ -100,7 +100,7 @@ namespace Shadex
             }
             return cDB;
         }
-#endif
+
         /// <summary>
         /// Find the character database component.
         /// </summary>
@@ -118,7 +118,6 @@ namespace Shadex
             return mSet;
         }
 
-#if !VANILLA
         /// <summary>
         /// Find the main menu component.
         /// </summary>
@@ -135,7 +134,7 @@ namespace Shadex
             }
             return mainM;
         }  
-#endif
+
         /// <summary>
         /// Find or create the magic pool component.
         /// </summary>
