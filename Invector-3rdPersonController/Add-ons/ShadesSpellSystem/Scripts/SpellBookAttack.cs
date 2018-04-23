@@ -192,7 +192,7 @@ namespace Shadex
         override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             // OnStateExit may be called before the last OnStateIK so we need to check the LimbParticleEffect haven't been destroyed.
-            if (!goLimb1_ParticleInstance) return;  // dropout if no limb particle
+            if (goLimb1_ParticleInstance == null) return;  // dropout if no limb particle
 
             // Find the position and rotation of the limb the LimbParticleEffect should follow.
             Vector3 limbPosition = animator.GetIKPosition(SpellOptions.attackLimb);
@@ -203,6 +203,7 @@ namespace Shadex
             goLimb1_ParticleInstance.transform.rotation = limbRotation;
 
             // handle the second limb if available
+            if (goLimb2_ParticleInstance == null) return;  // dropout if no limb particle
             if (SpellOptions.attackLimb != SpellOptions.attackLimb2)
             {
                 // Find the position and rotation of the limb the LimbParticleEffect should follow.

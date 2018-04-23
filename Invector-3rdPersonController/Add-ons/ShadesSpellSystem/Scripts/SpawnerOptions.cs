@@ -482,7 +482,7 @@ namespace Shadex
                         }
                     }
 
-                    if (SourceOfAudio && PlayOnSpawn) // play audio?
+                    if (PlayOnSpawn && SourceOfAudio && SourceOfAudio.isActiveAndEnabled) // play audio?
                     {  
                         if (!SourceOfAudio.isPlaying)  // ignore if already playing
                         {  

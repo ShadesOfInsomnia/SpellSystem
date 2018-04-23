@@ -37,9 +37,21 @@ namespace Shadex
         [Tooltip("Delay before removing the damage value")]
         public float CounterTimer = 1.5f;
 
-        // internal
-        private float damage;  // accumulated damage whilst displaying
-        private string NameOfAI;  // cache the name
+        /// <summary>
+        /// accumulated damage whilst displaying.
+        /// </summary>
+        protected float damage;
+
+        /// <summary>
+        /// Cache the name.
+        /// </summary>
+        protected string NameOfAI;  
+
+        /// <summary>
+        /// Prevent endless destroy loop.
+        /// </summary>
+        protected bool AlreadyDestroyed;
+
 
         /// <summary>
         /// Add a listener to the leveling component if available.
@@ -70,12 +82,17 @@ namespace Shadex
         /// <param name="Stats">Stats that have been updated.</param>
         private void UpdateHUDListener(CharacterBase LevelingSystem, CharacterUpdated Stats)
         {
-            if (Stats.Life <= 0)
-            {  // alive?
-                Destroy(gameObject);  // no
+            if (Stats.Life <= 0) // alive?
+            {
+                if (!AlreadyDestroyed)  // fail safe
+                {
+                    if (LevelingSystem) LevelingSystem.NotifyUpdateHUD -= UpdateHUDListener;
+                    Destroy(gameObject);  // no
+                    AlreadyDestroyed = true;
+                }
             }
-            else
-            {  // still here
+            else // still here
+            {  
                 if (NameDisplay) NameDisplay.text = NameOfAI + " [" + Stats.Level.ToString() + "]";
                 HealthSlider.maxValue = Stats.LifeMAX;     // keep the max health in line           
                 if (HealthSlider.value > Stats.Life)
