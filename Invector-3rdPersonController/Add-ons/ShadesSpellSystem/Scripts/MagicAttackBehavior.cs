@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 namespace Shadex
@@ -221,6 +221,7 @@ namespace Shadex
             goLimb1_ParticleInstance.transform.rotation = limbRotation;
 
             // handle the second limb if available
+            if (!goLimb2_ParticleInstance) return;  // dropout if no limb particle
             if (attackLimb != attackLimb2)
             {
                 // Find the position and rotation of the limb the LimbParticleEffect should follow.
