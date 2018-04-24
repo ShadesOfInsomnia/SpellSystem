@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Invector;
 using Invector.vItemManager;
+#if UNITY_EDITOR
 using UnityEditor.Animations;
+#endif
 using Invector.vMelee;
 
 namespace Shadex
@@ -113,9 +115,10 @@ namespace Shadex
     [Serializable]
     public class SpellBookApplyTo
     {
-        /// <summary>Animation controller to update. </summary>
+#if UNITY_EDITOR
+        /// <summary>Animation controller to update. </summary>       
         public AnimatorController Controller;
-
+#endif
         /// <summary>Default animation spawn clip.</summary>
         public AnimationClip ClipSpawn;
 
@@ -169,7 +172,7 @@ namespace Shadex
         /// <summaryAdd foot ik to the cast animation.</summary>
         public bool FootIKCast;
 
-        /// <summaryCycle offset for the cast animation.</summary>
+        /// <summary>Cycle offset for the cast animation.</summary>
         public float CycleOffsetCast;
 
 
@@ -182,10 +185,10 @@ namespace Shadex
         /// <summary>Mirror the cast animation.</summary>
         public bool MirrorCharge;
 
-        /// <summaryApply foot ik to the charge animation.</summary>
+        /// <summary>Apply foot ik to the charge animation.</summary>
         public bool FootIKCharge;
 
-        /// <summaryCycle offset for the charge animation.</summary>
+        /// <summary>Cycle offset for the charge animation.</summary>
         public float CycleOffsetCharge;
 
 
@@ -201,7 +204,7 @@ namespace Shadex
         /// <summaryApply foot ik to the hold animation.</summary>
         public bool FootIKHold;
 
-        /// <summaryCycle offset for the hold animation.</summary>
+        /// <summary>Cycle offset for the hold animation.</summary>
         public float CycleOffsetHold;
 
 

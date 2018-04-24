@@ -6,7 +6,6 @@ using Invector;
 using Invector.vCharacterController;
 using Invector.vItemManager;
 using Invector.vMelee;
-using UnityEditor;
 
 namespace Shadex
 {

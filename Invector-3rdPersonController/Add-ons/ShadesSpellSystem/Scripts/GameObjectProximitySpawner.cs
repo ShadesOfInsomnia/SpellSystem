@@ -53,7 +53,7 @@ namespace Shadex
         /// </summary>
         void Update()
         {
-            if (Time.time > CheckRate)
+            if (Time.time > NextCheck)
             {
                 NextCheck = Time.time + CheckRate;
                 if (Vector3.Distance(MyTransform.position, PlayerTransform.position) < Proximity)
