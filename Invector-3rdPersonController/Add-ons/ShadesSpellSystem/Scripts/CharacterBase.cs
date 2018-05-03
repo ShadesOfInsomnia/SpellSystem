@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -165,13 +165,11 @@ namespace Shadex
         /// <summary>Cache of the animator for the attached character.</summary>
         protected Animator TheAnimator;
 
-#if !VANILLA
         /// <summary>Cache of the base class for the attached character.</summary>
         protected vCharacter TheCharacter;
 
         /// <summary>Cache of the base class for the attached character.</summary>
         protected vThirdPersonMotor TheCharacterMotor;
-#endif
 
         /// <summary>Cache the hash to the Core_Level parameter ID.</summary>
         public static readonly int param_CoreLevel = Animator.StringToHash("Core_Level");
@@ -413,10 +411,8 @@ namespace Shadex
                 int NewValue = 0;
                 if (CoreStatHash == param_CoreStamina)
                 {
-#if !VANILLA
                     if (TheCharacterMotor)
                         NewValue = (int)((TheCharacterMotor.currentStamina / MAXStamina) * 100);
-#endif
                 }
                 else if (CoreStatHash == param_CoreLife)
                 {
@@ -489,7 +485,6 @@ namespace Shadex
             ForceUpdateHUD();
         }
 
-#if !VANILLA
         /// <summary>
         /// Triggered when collider takes a hit on this player/NPC, linked to invector hit event.
         /// </summary>
@@ -505,7 +500,6 @@ namespace Shadex
             }
         }
 
-
         /// <summary>
         /// Triggered when invector vObjectDamage strikes this player/NPC, linked to invector damage event.
         /// </summary>
@@ -515,7 +509,7 @@ namespace Shadex
             MagicObjectDamage mdamage = Damage.sender.GetComponent<MagicObjectDamage>();  // attempt grab magic damage
             OnRecieveMagicDamage(mdamage, Damage.damageValue);
         }  
-#endif
+
         /// <summary>
         /// Damage mitigation by elemental type.
         /// </summary>
@@ -1154,11 +1148,21 @@ namespace Shadex
             }
             return null;
         }
+
+        /// <summary>
+        /// Find the specified skill (aka attribute) total (ie skill points+skill points from equipment).
+        /// </summary>
+        /// <param name="Skill">Which skill to find.</param>
+        /// <returns>Total skill points from character and equipment.</returns>
+        public virtual float GetSkillTotal(BaseSkill Skill)
+        {
+            return Skills[(int)Skill].Value + SkillModTotals[(int)Skill].Value;
+        }
     }  
 
-#endregion
+    #endregion
 
-#region "Modifier Stack & Other Lists"
+    #region "Modifier Stack & Other Lists"
     
     /// <summary>
     /// Modifier stack source for filtering.
@@ -1337,7 +1341,7 @@ namespace Shadex
         public float Value;
     }
 
-#endregion
+    #endregion
 }
 
 /* *****************************************************************************************************************************
