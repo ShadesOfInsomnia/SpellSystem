@@ -29,7 +29,7 @@ We included a resist system that mitigates damage based on damage types. We incl
 
 Please have a read under the documentation for instructions. Even at the time of writing this, i'm sure there are cool features we forgot to document. From the Shades of Insomnia Team, Enjoy. Below is the link to the unity package containing a completely setup Project (Requires Invector Melee)
 
-[Download the configuration guide, quick start tutorial and feature explanations in PDF format](https://github.com/ShadesOfInsomnia/SpellSystem/blob/master/Invector-3rdPersonController/Add-ons/ShadesSpellSystem/Getting%20Started%20Guide2.1.pdf)
+[Download the configuration guide, quick start tutorial and feature explanations in PDF format](https://github.com/ShadesOfInsomnia/SpellSystem/blob/master/Invector-3rdPersonController/Add-ons/ShadesSpellSystem/Getting%20Started%20Guide2.2a.pdf)
 
 ### Installation Requirements / Order
 * Ensure using Unity 5.6+ (ideally 2017.1+)
