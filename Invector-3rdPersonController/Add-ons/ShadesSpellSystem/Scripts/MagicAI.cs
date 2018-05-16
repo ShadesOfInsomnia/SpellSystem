@@ -46,7 +46,7 @@ namespace Shadex
         [Header("AI Item Manager")]
         /// <summary>Animator trigger to activate using a spell stored in the item manager.</summary>
         [Tooltip("Animator trigger to activate using a spell stored in the item manager")]
-        public string AnimatorTrigger = "AIMagicAttack";
+        public string AnimatorTrigger = "MagicAttack";
 
         [Header("Animator Random Attack Sets")]
         /// <summary>Animator trigger to randomly activate spell.</summary>

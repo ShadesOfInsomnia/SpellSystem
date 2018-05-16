@@ -89,9 +89,9 @@ namespace Shadex
                 {
                     InventoryPrefab = AssetDatabase.LoadAssetAtPath("Assets/Invector-3rdPersonController/Add-ons/ShadesSpellSystem/Inventory/Inventory_MeleeMagic_Auto.prefab", typeof(vInventory)) as vInventory;
                 }
-                if (File.Exists(Application.dataPath + "/Invector-3rdPersonController/Add-ons/ShadesSpellSystem/Inventory/vMeleeMagic_ItemListData.asset"))
+                if (File.Exists(Application.dataPath + "/Invector-3rdPersonController/Add-ons/ShadesSpellSystem/Inventory/vMeleeMagic_ItemListDataV2.asset"))
                 {
-                    ItemListData = AssetDatabase.LoadAssetAtPath("Assets/Invector-3rdPersonController/Add-ons/ShadesSpellSystem/Inventory/vMeleeMagic_ItemListData.asset", typeof(vItemListData)) as vItemListData;
+                    ItemListData = AssetDatabase.LoadAssetAtPath("Assets/Invector-3rdPersonController/Add-ons/ShadesSpellSystem/Inventory/vMeleeMagic_ItemListDataV2.asset", typeof(vItemListData)) as vItemListData;
                 }
 
                 // find the vUI root hierarchy object

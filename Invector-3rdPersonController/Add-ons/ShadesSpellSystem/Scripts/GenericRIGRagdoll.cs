@@ -427,7 +427,7 @@ namespace Shadex
                 {
                     foreach (CharacterJoint comp in joints)
                         if (!ignoreTags.Contains(comp.gameObject.tag))
-                            DestroyObject(comp);
+                            Destroy(comp);
                 }
 
                 var rigidbodys = GetComponentsInChildren<Rigidbody>();
@@ -435,7 +435,7 @@ namespace Shadex
                 {
                     foreach (Rigidbody comp in rigidbodys)
                         if (!ignoreTags.Contains(comp.gameObject.tag))
-                            DestroyObject(comp);
+                            Destroy(comp);
                 }
 
                 var colliders = GetComponentsInChildren<Collider>();
@@ -443,7 +443,7 @@ namespace Shadex
                 {
                     foreach (Collider comp in colliders)
                         if (!ignoreTags.Contains(comp.gameObject.tag))
-                            DestroyObject(comp);
+                            Destroy(comp);
                 }
             }
 

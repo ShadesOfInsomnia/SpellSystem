@@ -86,8 +86,11 @@ namespace Shadex
             {
                 if (!AlreadyDestroyed)  // fail safe
                 {
-                    if (LevelingSystem) LevelingSystem.NotifyUpdateHUD -= UpdateHUDListener;
-                    Destroy(gameObject);  // no
+                    if (LevelingSystem) {
+                        LevelingSystem.NotifyUpdateHUD -= UpdateHUDListener;
+                        //Destroy(LevelingSystem.gameObject);
+                    }
+                    if (gameObject) Destroy(gameObject);  
                     AlreadyDestroyed = true;
                 }
             }
