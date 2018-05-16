@@ -91,9 +91,9 @@ namespace Shadex
                 }
 
                 // spell system components, grab prefabs
-                if (File.Exists(Application.dataPath + "/Invector-3rdPersonController/Add-ons/ShadesSpellSystem/Inventory/vMeleeMagic_ItemListData.asset"))
+                if (File.Exists(Application.dataPath + "/Invector-3rdPersonController/Add-ons/ShadesSpellSystem/Inventory/vMeleeMagic_ItemListDataV2.asset"))
                 {
-                    ItemListData = AssetDatabase.LoadAssetAtPath("Assets/Invector-3rdPersonController/Add-ons/ShadesSpellSystem/Inventory/vMeleeMagic_ItemListData.asset", typeof(vItemListData)) as vItemListData;
+                    ItemListData = AssetDatabase.LoadAssetAtPath("Assets/Invector-3rdPersonController/Add-ons/ShadesSpellSystem/Inventory/vMeleeMagic_ItemListDataV2.asset", typeof(vItemListData)) as vItemListData;
                 }
                 if (File.Exists(Application.dataPath + "/Invector-3rdPersonController/Add-ons/ShadesSpellSystem/UI/enemyHealthUI.prefab"))
                 {
