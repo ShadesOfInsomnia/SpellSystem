@@ -163,18 +163,17 @@ namespace Shadex
         /// <param name="e">Character stats update contained within class properties.</param>
         protected virtual void UpdateHUDListener(CharacterBase cb, CharacterUpdated e)
         {
-            if (XPText) XPText.text = e.XP.ToString();
-            if (ManaSlider)
-            {
-                ManaSlider.maxValue = e.ManaMAX;
-                ManaSlider.value = e.Mana;
-            }
+            XPText.text = e.XP.ToString();
+            ManaSlider.maxValue = e.ManaMAX;
+            ManaSlider.value = e.Mana;
+
 
 #if !VANILLA
             if (vThirdPerson)
             {
                 vThirdPerson.maxHealth = e.LifeMAX;
-                vThirdPerson.ChangeHealth((int)e.Life);
+                //vThirdPerson.ChangeHealth((int)e.Life);
+                vThirdPerson.ChangeHealth((int)(e.LifeMAX - e.Life) * -1 );
                 vThirdPerson.maxStamina = e.StaminaMAX;
             }
 #endif
@@ -182,13 +181,10 @@ namespace Shadex
             if (e.Level > iLastLevel)
             {
                 iLastLevel = e.Level;
-                if (LevelText) LevelText.text = e.Level.ToString();
-                if (LevelUpText)
-                {
-                    LevelUpText.CrossFadeAlpha(1f, 0.01f, false);
-                    LevelUpText.text = "Congratulations, you reached level " + e.Level.ToString();
-                    LevelUpText.CrossFadeAlpha(0f, FadeDuration, false);
-                }
+                LevelText.text = e.Level.ToString();
+                LevelUpText.CrossFadeAlpha(1f, 0.01f, false);
+                LevelUpText.text = "Congratulations, you reached level " + e.Level.ToString();
+                LevelUpText.CrossFadeAlpha(0f, FadeDuration, false);
             }
         }  
 
@@ -301,38 +297,42 @@ namespace Shadex
         public virtual void SpellEquiped(vItem viSpell)
         {
             var vAttribMagicID = viSpell.attributes.Find(ai => ai.name.ToString() == "MagicID");  // grab the magic id
-            if (vAttribMagicID != null)
-            {  // fail safe
-                foreach (MagicSpellTrigger st in SpellsTriggers)
-                {  // check all triggers
-                    for (int i = 0; i < st.EquipSlots.Length; i++)
-                    {  // check all equp slots for this trigger
-                        if (st.EquipSlots[i])
-                        {  // invector inventory 
-                            if (st.EquipSlots[i].item)
-                            {  // has an item                       
-                                if (st.EquipSlots[i].item.attributes.Find(ai => ai.name.ToString() == "MagicID").value == vAttribMagicID.value)
-                                {   // found 
-                                    if (st.EquipDisplay)
-                                    {  // do we have a display for this input
-                                        st.MagicId = vAttribMagicID.value;  // grab the magic id 
-                                        var vAttribManaCost = viSpell.attributes.Find(ai => ai.name.ToString() == "ManaCost");  // grab the mana cost
-                                        if (vAttribManaCost != null)
-                                        {  // fail safe
-                                            st.ManaCost = viSpell.attributes.Find(ai => ai.name.ToString() == "ManaCost").value;  // grab the mana cost
-                                        }
-                                        else
-                                        {
-                                            st.ManaCost = 50;  // missing manacost, apply default
-                                            if (DebuggingMessages)
-                                            {
-                                                Debug.Log(viSpell.name + " is missing attribute ManaCost, applying default");
+            if (vAttribMagicID != null)  // fail safe
+            {  
+                foreach (MagicSpellTrigger st in SpellsTriggers)  // check all triggers
+                {  
+                    for (int i = 0; i < st.EquipSlots.Length; i++)  // check all equp slots for this trigger
+                    {  
+                        if (st.EquipSlots[i]) // invector inventory 
+                        {  
+                            if (st.EquipSlots[i].item) // has an item  
+                            {     
+                                var magicID = st.EquipSlots[i].item.attributes.Find(ai => ai.name.ToString() == "MagicID");  // grab the magic id to compare to
+                                if (magicID != null)  // fail safe
+                                {
+                                    if (st.EquipSlots[i].item.attributes.Find(ai => ai.name.ToString() == "MagicID").value == vAttribMagicID.value)
+                                    {   
+                                        if (st.EquipDisplay) // do we have a display for this input
+                                        {  
+                                            st.MagicId = vAttribMagicID.value;  // grab the magic id 
+                                            var vAttribManaCost = viSpell.attributes.Find(ai => ai.name.ToString() == "ManaCost");  // grab the mana cost
+                                            if (vAttribManaCost != null) // fail safe
+                                            {  
+                                                st.ManaCost = viSpell.attributes.Find(ai => ai.name.ToString() == "ManaCost").value;  // grab the mana cost
                                             }
+                                            else
+                                            {
+                                                st.ManaCost = 50;  // missing mana cost, apply default
+                                                if (DebuggingMessages)
+                                                {
+                                                    Debug.Log(viSpell.name + " is missing attribute ManaCost, applying default");
+                                                }
+                                            }
+                                            st.EquipDisplay.AddItem(viSpell);  // update the slot with the spell icon
+                                            st.CurrentSlotId = i; // assign the spell just set as active
                                         }
-                                        st.EquipDisplay.AddItem(viSpell);  // update the slot with the spell icon
-                                        st.CurrentSlotId = i; // assign the spell just set as active
+                                        break;   // work complete
                                     }
-                                    break;   // work complete
                                 }
                             }
                         }
