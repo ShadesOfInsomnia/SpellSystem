@@ -172,8 +172,7 @@ namespace Shadex
             if (vThirdPerson)
             {
                 vThirdPerson.maxHealth = e.LifeMAX;
-                //vThirdPerson.ChangeHealth((int)e.Life);
-                vThirdPerson.ChangeHealth((int)(e.LifeMAX - e.Life) * -1 );
+                vThirdPerson.ChangeHealth((int)e.Life);
                 vThirdPerson.maxStamina = e.StaminaMAX;
             }
 #endif
