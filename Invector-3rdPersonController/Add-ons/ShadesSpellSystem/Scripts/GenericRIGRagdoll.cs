@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -427,7 +427,7 @@ namespace Shadex
                 {
                     foreach (CharacterJoint comp in joints)
                         if (!ignoreTags.Contains(comp.gameObject.tag))
-                            Destroy(comp);
+                            Destroy(comp);// DestroyObject(comp);
                 }
 
                 var rigidbodys = GetComponentsInChildren<Rigidbody>();
@@ -435,7 +435,7 @@ namespace Shadex
                 {
                     foreach (Rigidbody comp in rigidbodys)
                         if (!ignoreTags.Contains(comp.gameObject.tag))
-                            Destroy(comp);
+                            Destroy(comp);// DestroyObject(comp);
                 }
 
                 var colliders = GetComponentsInChildren<Collider>();
@@ -443,7 +443,7 @@ namespace Shadex
                 {
                     foreach (Collider comp in colliders)
                         if (!ignoreTags.Contains(comp.gameObject.tag))
-                            Destroy(comp);
+                            Destroy(comp);// DestroyObject(comp);
                 }
             }
 

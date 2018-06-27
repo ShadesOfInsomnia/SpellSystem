@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -15,6 +15,9 @@ namespace Shadex
     /// <remarks>
     /// Provides name cleanup, simplygon LOD output merging, non standard bone structure basic ragdoll creation 
     /// and equipment material/visibility handling over multiple LOD levels/genders.
+    /// 
+    /// TODO
+    /// - allow specify of base folders
     /// </remarks>
     public class ReOrganiseHelper : EditorWindow
     {
@@ -50,7 +53,7 @@ namespace Shadex
 
         // configure character
         //private string[] sCharacterPaths = { "Resources/Prefabs/Characters/Clean", "Resources/Prefabs/Creatures/Clean" };
-        string[] sCharacterPaths; // = { "Prefabs/Characters/Clean", "Prefabs/Creatures/Clean" };
+        string[] sCharacterPaths = { "Invector-3rdPersonController/Add-ons.resource/SFB/Prefabs/Characters/Clean", "Invector-3rdPersonController/Add-ons.resource/SFB/Prefabs/Creatures/Clean" };
         int iCurrentCreator = 0;
         string[] sCreatorPrefix = { "All", "SFB", "Not SFB" };
         int iCurrentCharacter = -1;
@@ -153,6 +156,7 @@ namespace Shadex
                     sCullingLevel = EditorPrefs.GetString("ReOrg_CullingLevel", "0.02");
                     bLastLODLevelHalf = EditorPrefs.GetBool("ReOrg_LastLODLevelHalf", true);
 
+#if CREATEFOLDERS
                     // ensure key paths exist
                     if (!Directory.Exists(Application.dataPath + "/Prefabs"))
                     {
@@ -170,6 +174,7 @@ namespace Shadex
                     {
                         Directory.CreateDirectory(Application.dataPath + "/LODs");
                     }
+
 
                     // build available character paths           
                     string[] sPrefabSubFolders = Directory.GetDirectories(Application.dataPath + "/Prefabs");
@@ -230,10 +235,8 @@ namespace Shadex
                             Directory.CreateDirectory(Application.dataPath + "/LODs/Characters");  // character LODs and FBX
                         }
                     }
-
-                    // next time build the known asset producer list and allow edit of the above paths ///////////////////////////////////////////////////////
-
-
+#endif
+                    
                     // detect characters
                     foreach (string sLocation in sCharacterPaths)
                     {
@@ -1753,30 +1756,40 @@ namespace Shadex
                             // search for equipment/body parts
                             ccCharComponents = null;  // clear the components list
                             ccCharMaterials = null;  // clear the materials list
-                            foreach (Transform tChild in goActiveCharacter.GetComponentsInChildren<Transform>(true))
-                            {  // loop through children recursive
-                                if (tChild.GetComponent<MeshRenderer>() || tChild.GetComponent<SkinnedMeshRenderer>())
-                                {  // valid mesh component                                
-                                   // check if member of LOD group parent object
+                            foreach (Transform tChild in goActiveCharacter.GetComponentsInChildren<Transform>(true))// loop through children recursive
+                            {  
+                                if (tChild.GetComponent<MeshRenderer>() || tChild.GetComponent<SkinnedMeshRenderer>())// valid mesh component        
+                                {                          
+                                    // check if member of LOD group parent object
                                     bool bLOD = false;  // LOD level flag
                                     bool bLOD1 = false;   // LOD1 level flag   
                                     eGender egSex = eGender.Both;
-                                    if (tChild.name.Contains("_LOD"))
-                                    {  // is it LOD in bones
+                                    if (tChild.name.Contains("_LOD")) // is it LOD in bones
+                                    {  
                                         bLOD = true;  // it is
                                         if (tChild.name.EndsWith("_LOD1"))
                                         {  // is it LOD1
                                             bLOD1 = true;  // it is indeed
                                         }
                                     }
-                                    else
-                                    { // search back to root to determine if child of LOD level
+                                    else // search back to root to determine if child of LOD level
+                                    { 
                                         Transform tPreviousChild = tChild;  // store the previous for when has gender
                                         Transform tFindParent = tChild;  // init the search
-                                        while (tFindParent.parent.name != goActiveCharacter.name && !(tFindParent.parent.name == "Male" || tFindParent.parent.name == "Female"))
-                                        {  // loop back until find child of object being analysed                                        
+                                        while (tFindParent.parent.name != goActiveCharacter.name && !(
+                                            tFindParent.parent.name == "Male" || 
+                                            tFindParent.parent.name == "Female" || 
+                                            tFindParent.parent.name.Contains("_Holder")
+                                        ))
+                                        {  // loop back until find child of object being analyzed                                        
                                             tFindParent = tFindParent.parent;  // move up 1 level
                                             tPreviousChild = tFindParent;  // store the current level
+                                        }
+
+                                        // dont include weapon holders
+                                        if (tFindParent.parent.name.Contains("_Holder"))
+                                        {
+                                            continue;  // skip
                                         }
 
                                         // set the gender if relevent
@@ -2879,7 +2892,7 @@ namespace Shadex
         /// <summary>Collider radius.</summary>
         public float Radius;  
     }  
-    #endregion 
+#endregion
 }
 
 /* *****************************************************************************************************************************
