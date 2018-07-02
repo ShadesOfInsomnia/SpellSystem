@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor.Events;
 using System.Collections;
 using System.Collections.Generic;
@@ -214,7 +214,7 @@ namespace Shadex
                 {
                     hitDamageParticle = Selection.activeGameObject.AddComponent<vHitDamageParticle>();
                 }
-                hitDamageParticle.defaultHitEffect = HitDamageParticle;
+                hitDamageParticle.defaultDamageEffect = HitDamageParticle;
 
                 // UI
                 GameObject goItemCollectionDisplay = PrefabUtility.InstantiatePrefab(ItemCollectionDisplay) as GameObject;
