@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor.Events;
 using System.Collections.Generic;
 using UnityEditor;
@@ -179,7 +179,7 @@ namespace Shadex
                 {
                     hitDamageParticle = Selection.activeGameObject.AddComponent<vHitDamageParticle>();
                 }
-                hitDamageParticle.defaultHitEffect = HitDamageParticle;
+                hitDamageParticle.defaultDamageEffect = HitDamageParticle;
 
                 // melee manager
                 vMeleeManager meleeManager = Selection.activeGameObject.GetComponent<vMeleeManager>();
@@ -236,7 +236,7 @@ namespace Shadex
 
                 // link the ai damage to the leveling system
                 v_AIController vai = Selection.activeGameObject.GetComponent<v_AIController>();
-                vai.onReceiveDamage = new vHealthController.OnReceiveDamage();
+                vai.onReceiveDamage = new Invector.OnReceiveDamage();
                 UnityEventTools.AddPersistentListener(vai.onReceiveDamage, levelingsystem.OnRecieveDamage);
 
                 // link the melee manager hits to the leveling system
