@@ -268,6 +268,12 @@ namespace Shadex
         public bool IncludeZ;
 
         /// <summary>
+        /// Use the nav mesh sphere relocate instead, above axis are ignored.
+        /// </summary>
+        [Tooltip("Use the nav mesh sphere relocate instead, above axis are ignored")]
+        public bool ForceOnNAVMesh;
+
+        /// <summary>
         /// Apply random position to a game object within the specified radius.
         /// </summary>
         /// <param name="Instance">Game object instance to randomise the position of within a sphere.</param>
@@ -275,21 +281,29 @@ namespace Shadex
         {
             if (Radius > 0f)  // randomise position within a radius enabled?
             {
-                UnityEngine.Random.InitState(System.Environment.TickCount);  // reseed
-                Vector3 v3NewPosition = Instance.transform.position + (UnityEngine.Random.insideUnitSphere * Radius);  // alter the position
-                if (!IncludeX)  // don't include the X plane
+                // normal spawn within a sphere
+                if (!ForceOnNAVMesh)
                 {
-                    v3NewPosition.x = Instance.transform.position.x;  // reset 
+                    UnityEngine.Random.InitState(System.Environment.TickCount);  // reseed
+                    Vector3 v3NewPosition = Instance.transform.position + (UnityEngine.Random.insideUnitSphere * Radius);  // alter the position
+                    if (!IncludeX)  // don't include the X plane
+                    {
+                        v3NewPosition.x = Instance.transform.position.x;  // reset 
+                    }
+                    if (!IncludeY)  // don't include the Y plane
+                    {
+                        v3NewPosition.y = Instance.transform.position.y;  // reset 
+                    }
+                    if (!IncludeZ)  // don't include the Z plane
+                    {
+                        v3NewPosition.z = Instance.transform.position.z;  // reset 
+                    }
+                    Instance.transform.position = v3NewPosition;  // update the transform
                 }
-                if (!IncludeY)  // don't include the Y plane
+                else  // NAV mesh variant
                 {
-                    v3NewPosition.y = Instance.transform.position.y;  // reset 
+                    Instance.transform.position = GlobalFuncs.RandomNavSphere(Instance.transform.position, Radius);
                 }
-                if (!IncludeZ)  // don't include the Z plane
-                {
-                    v3NewPosition.z = Instance.transform.position.z;  // reset 
-                }
-                Instance.transform.position = v3NewPosition;  // update the transform
             }
         }
     }
