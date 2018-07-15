@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System;
+using Invector.vItemManager;
 
 namespace Shadex
 {
@@ -266,6 +266,52 @@ namespace Shadex
             }
         }  
 
+        /// <summary>
+        /// Is this a ranged unit type?
+        /// </summary>
+        /// <returns></returns>
+        public bool isUnitRanged()
+        {
+            switch (CurrentClass)
+            {
+                case BaseClass.Mage:
+                case BaseClass.Hunter:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Is this a magic unit type?
+        /// </summary>
+        /// <returns></returns>
+        public bool isUnitMagic()
+        {
+            if (gameObject.tag == "Player")
+            {
+                // attempt grab the AI inventory list
+                var itemManager = GetComponent<vItemManager>();
+                if (itemManager)
+                {
+                    // found it, return unit is magic if any spells added to the inventory
+                    return itemManager.items.FindAll(vi => vi.type == vItemType.Spell).Count > 0;
+                }
+            }
+            else  // AI
+            {
+                // attempt grab the AI inventory list
+                var itemManager = GetComponent<MagicAIItemManager>();
+                if (itemManager)
+                {
+                    // found it, return unit is magic if any spells added to the inventory
+                    return itemManager.items.FindAll(vi => vi.type == vItemType.Spell).Count > 0;
+                }
+            }
+
+            // definitely not
+            return false;
+        }
     }  
 }
 
