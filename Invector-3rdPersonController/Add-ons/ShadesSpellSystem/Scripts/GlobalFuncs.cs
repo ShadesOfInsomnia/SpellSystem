@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,6 +10,7 @@ using System;
 #if !VANILLA
 using Invector;
 using Invector.vCharacterController;
+using UnityEngine.AI;
 #endif
 
 namespace Shadex
@@ -133,7 +134,7 @@ namespace Shadex
                 }
             }
             return mainM;
-        }  
+        }
 
         /// <summary>
         /// Find or create the magic pool component.
@@ -204,7 +205,7 @@ namespace Shadex
             }
 #endif
             return null;  // player not found
-        }  
+        }
 
         /// <summary>
         /// Find the player lock on if enabled
@@ -366,7 +367,7 @@ namespace Shadex
                 }
             }
             return listTargetsInRange;   // work complete
-        }  
+        }
 
         /// <summary>
         /// Spawn a list of prefabs via a derived spawner options list.
@@ -468,15 +469,26 @@ namespace Shadex
         /// <param name="Radius">Random radius options.</param>
         /// <param name="Target">Spawn targeting.</param>
         /// <returns></returns>
-        public static GameObject SpawnBasic(GameObject Prefab, int HowMany, Transform Where, RandomSphereOptions Radius, SpawnTarget Target)
+        public static List<GameObject> SpawnBasic(GameObject Prefab, int HowMany, Transform Where, RandomSphereOptions Radius, SpawnTarget Target)
         {
-            var soSpawnMe = new SpawnerOptionsDelayedSequence();
-            soSpawnMe.Prefab = Prefab;
-            soSpawnMe.NumberToSpawn = HowMany;
-            soSpawnMe.RandomSphere = Radius;
-            soSpawnMe.PhysicsForceOptions = new PhysicsOptions();
-            soSpawnMe.RandomRotate = new RandomRotateOptions();
-            return soSpawnMe.Spawn(Where, Target);
+            // set up
+            var retunedSpawns = new List<GameObject>();
+            if (HowMany <= 0) HowMany = 1;
+
+            // generate instances
+            for (int i = 0; i < HowMany; i++)
+            {
+                var soSpawnMe = new SpawnerOptionsDelayedSequence();
+                soSpawnMe.Prefab = Prefab;
+                soSpawnMe.NumberToSpawn = 1;
+                soSpawnMe.RandomSphere = Radius;
+                soSpawnMe.PhysicsForceOptions = new PhysicsOptions();
+                soSpawnMe.RandomRotate = new RandomRotateOptions();
+                retunedSpawns.Add(soSpawnMe.Spawn(Where, Target));
+            }
+
+            // all done
+            return retunedSpawns;
         }
 
         /// <summary>
@@ -632,6 +644,50 @@ namespace Shadex
 
                 dstF.SetValue(dst, f.GetValue(src, null), null);
             }
+        }
+
+        /// <summary>
+        /// Rotate a vector around a pivot vector by an vector3 angle. 
+        /// </summary>
+        /// <param name="point">Vector3 position of object to rotate.</param>
+        /// <param name="pivot">Vector3 position to rotate the object around.</param>
+        /// <param name="angles">Vector3 angles/direction to rotate by.</param>
+        /// <returns>New vector3 position.</returns>
+        public static Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
+        {
+            return RotatePointAroundPivot(point, pivot, Quaternion.Euler(angles));
+        }
+
+        /// <summary>
+        /// Rotate a vector around a pivot vector by an quaternion angle variant. 
+        /// </summary>
+        /// <param name="point">Vector3 position of object to rotate.</param>
+        /// <param name="pivot">Vector3 position to rotate the object around.</param>
+        /// <param name="angles">Quaternion angles/direction to rotate by.</param>
+        /// <returns>New vector3 position.</returns>
+        public static Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Quaternion rotation)
+        {
+            return rotation * (point - pivot) + pivot;
+        }
+
+        /// <summary>
+        /// Calc a valid point on a nav mesh randomly within a sphere.
+        /// </summary>
+        /// <param name="origin">Center point of the search.</param>
+        /// <param name="dist">Max distance of the search (keep small).</param>
+        /// <param name="layermask">Optional layer to search.</param>
+        /// <returns>Random position.</returns>
+        public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask = -1)
+        {
+            Vector3 randDirection = UnityEngine.Random.insideUnitSphere * dist;
+
+            randDirection += origin;
+
+            NavMeshHit navHit;
+
+            NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
+
+            return navHit.position;
         }
     }
 }
