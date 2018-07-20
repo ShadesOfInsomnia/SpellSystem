@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 
 namespace Shadex
@@ -35,14 +35,14 @@ namespace Shadex
                 Debug.Log("No Active Selection");
         }
 
-        [MenuItem("Invector/Shades Spell System/Character Components/Generic RIG Controller")]
-        static void MagicAIControllerMenu()
-        {
-            if (Selection.activeGameObject)
-                Selection.activeGameObject.AddComponent<GenericRIGController>();
-            else
-                Debug.Log("No Active Selection");
-        }
+        //[MenuItem("Invector/Shades Spell System/Character Components/Generic RIG Controller")]
+        //static void MagicAIControllerMenu()
+        //{
+        //    if (Selection.activeGameObject)
+        //        Selection.activeGameObject.AddComponent<GenericRIGController>();
+        //    else
+        //        Debug.Log("No Active Selection");
+        //}
 
         [MenuItem("Invector/Shades Spell System/Character Components/Magic Settings")]
         static void MagicInputMenu()
