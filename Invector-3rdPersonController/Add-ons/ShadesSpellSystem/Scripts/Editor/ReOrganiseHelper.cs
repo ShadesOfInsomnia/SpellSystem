@@ -366,17 +366,17 @@ namespace Shadex
                 }
                 GUILayout.EndVertical();
 
-                // build a generic rag doll
-                GUILayout.BeginVertical(EditorStyles.helpBox);
-                GUILayout.BeginHorizontal();
-                bShowGenericRagDoll = GUILayout.Toggle(bShowGenericRagDoll, "Generic Ragdoll", "Foldout", GUILayout.ExpandWidth(true));
-                GUILayout.EndHorizontal();
-                if (bShowGenericRagDoll)
-                {
-                    vCollapseOtherTabs(ref bShowGenericRagDoll);  // collapse other foldouts
-                    vGUIBuildGenericRagdoll();  // execute
-                }
-                GUILayout.EndVertical();
+                //// build a generic rag doll
+                //GUILayout.BeginVertical(EditorStyles.helpBox);
+                //GUILayout.BeginHorizontal();
+                //bShowGenericRagDoll = GUILayout.Toggle(bShowGenericRagDoll, "Generic Ragdoll", "Foldout", GUILayout.ExpandWidth(true));
+                //GUILayout.EndHorizontal();
+                //if (bShowGenericRagDoll)
+                //{
+                //    vCollapseOtherTabs(ref bShowGenericRagDoll);  // collapse other foldouts
+                //    vGUIBuildGenericRagdoll();  // execute
+                //}
+                //GUILayout.EndVertical();
 
                 // character equipment & material selector
                 GUILayout.BeginVertical(EditorStyles.helpBox);
@@ -1052,604 +1052,604 @@ namespace Shadex
         /// <summary>
         /// Creates a ragdoll from bone chains.
         /// </summary>
-        private void vGUIBuildGenericRagdoll()
-        {
-            try
-            {
-                // find valid generic rigged chars in the scene
-                if (!bNot1stOpenRagDoll || GUILayout.Button("Refresh", GUILayout.ExpandWidth(true)))
-                {  // analyse button
-                    bNot1stOpenRagDoll = true;  // cause refresh on first open
-                    reset();  // clear flags & arrays
-                    iCurrentEnemy = -1;  // clear selection                
-                    goValidEnemies = null;  // ensure array is empty            
-                    GameObject[] goEnemiesFound = GameObject.FindGameObjectsWithTag("Enemy");  // find all with tag enemy                
-                    Animator aniTemp;   // temp object for valid animator/non human check
-                    foreach (GameObject goPotentialGenericEnemy in goEnemiesFound)
-                    {  // process all gameobjects found
-                        aniTemp = goPotentialGenericEnemy.GetComponent<Animator>();  // grab animator
-                        if (aniTemp)
-                        {  // valid?
-                            if (aniTemp.avatar.isValid)
-                            {  // valid avatar?
-                                if (goValidEnemies == null)
-                                {  // 1st?
-                                    goValidEnemies = new GameObject[1];  // create element 0
-                                    sValidEnemies = new string[1];  // same for the shortlist
-                                }
-                                else
-                                {  // array initialised
-                                    Array.Resize<GameObject>(ref goValidEnemies, goValidEnemies.Length + 1);  // extend array by 1
-                                    Array.Resize<string>(ref sValidEnemies, sValidEnemies.Length + 1);  // same for the shortlist
-                                }
-                                goValidEnemies[goValidEnemies.Length - 1] = goPotentialGenericEnemy;  // add the enemy to array
-                                sValidEnemies[sValidEnemies.Length - 1] = goPotentialGenericEnemy.name + (aniTemp.isHuman ? " (Human)" : " (Generic)");  // same for the shortlist
-                            }
-                        }
-                    }
-                }
+        //private void vGUIBuildGenericRagdoll()
+        //{
+        //    try
+        //    {
+        //        // find valid generic rigged chars in the scene
+        //        if (!bNot1stOpenRagDoll || GUILayout.Button("Refresh", GUILayout.ExpandWidth(true)))
+        //        {  // analyse button
+        //            bNot1stOpenRagDoll = true;  // cause refresh on first open
+        //            reset();  // clear flags & arrays
+        //            iCurrentEnemy = -1;  // clear selection                
+        //            goValidEnemies = null;  // ensure array is empty            
+        //            GameObject[] goEnemiesFound = GameObject.FindGameObjectsWithTag("Enemy");  // find all with tag enemy                
+        //            Animator aniTemp;   // temp object for valid animator/non human check
+        //            foreach (GameObject goPotentialGenericEnemy in goEnemiesFound)
+        //            {  // process all gameobjects found
+        //                aniTemp = goPotentialGenericEnemy.GetComponent<Animator>();  // grab animator
+        //                if (aniTemp)
+        //                {  // valid?
+        //                    if (aniTemp.avatar.isValid)
+        //                    {  // valid avatar?
+        //                        if (goValidEnemies == null)
+        //                        {  // 1st?
+        //                            goValidEnemies = new GameObject[1];  // create element 0
+        //                            sValidEnemies = new string[1];  // same for the shortlist
+        //                        }
+        //                        else
+        //                        {  // array initialised
+        //                            Array.Resize<GameObject>(ref goValidEnemies, goValidEnemies.Length + 1);  // extend array by 1
+        //                            Array.Resize<string>(ref sValidEnemies, sValidEnemies.Length + 1);  // same for the shortlist
+        //                        }
+        //                        goValidEnemies[goValidEnemies.Length - 1] = goPotentialGenericEnemy;  // add the enemy to array
+        //                        sValidEnemies[sValidEnemies.Length - 1] = goPotentialGenericEnemy.name + (aniTemp.isHuman ? " (Human)" : " (Generic)");  // same for the shortlist
+        //                    }
+        //                }
+        //            }
+        //        }
 
-                // build screen
-                if (goValidEnemies != null)
-                {
-                    // available enemy list
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Label("Characters", GUILayout.Width(80));
-                    iNewValue = EditorGUILayout.Popup(iCurrentEnemy, sValidEnemies, GUILayout.ExpandWidth(true));  // dropdown of available AI's
-                    if (iNewValue != iCurrentEnemy)
-                    {  // new enemy selected    
-                        reset();  // clear flags & arrays
-                        iCurrentEnemy = iNewValue;  // update the selection. 
-                        goBuildRoot = goValidEnemies[iCurrentEnemy];  // store the selection gameobject for fast access
-                        Selection.activeGameObject = goBuildRoot;  // select in hierarchy
+        //        // build screen
+        //        if (goValidEnemies != null)
+        //        {
+        //            // available enemy list
+        //            GUILayout.BeginHorizontal();
+        //            GUILayout.Label("Characters", GUILayout.Width(80));
+        //            iNewValue = EditorGUILayout.Popup(iCurrentEnemy, sValidEnemies, GUILayout.ExpandWidth(true));  // dropdown of available AI's
+        //            if (iNewValue != iCurrentEnemy)
+        //            {  // new enemy selected    
+        //                reset();  // clear flags & arrays
+        //                iCurrentEnemy = iNewValue;  // update the selection. 
+        //                goBuildRoot = goValidEnemies[iCurrentEnemy];  // store the selection gameobject for fast access
+        //                Selection.activeGameObject = goBuildRoot;  // select in hierarchy
 
-                        // check for previous body root bones
-                        Transform[] tAllBonesAndAttachments = goBuildRoot.GetComponentsInChildren<Transform>();  // list all transforms
-                        foreach (Transform tMaybe in tAllBonesAndAttachments)
-                        {  // check all character joints
-                            CharacterJoint cj = tMaybe.GetComponent<CharacterJoint>();  // attempt grab joint
-                            if (cj)
-                            {  // found
-                                if (cj.connectedBody)
-                                {
-                                    CharacterJoint cjP = cj.connectedBody.GetComponent<CharacterJoint>();  // attempt grab parent joint
-                                    if (!cjP)
-                                    {  // no joint on parent so is a root
-                                        if (!tRootBones.Contains(cj.connectedBody.transform))
-                                        {  // search root bone list
-                                            tRootBones.Add(cj.connectedBody.transform); // not found, add
-                                        }
-                                    }
-                                }
-                            }
-                        }
+        //                // check for previous body root bones
+        //                Transform[] tAllBonesAndAttachments = goBuildRoot.GetComponentsInChildren<Transform>();  // list all transforms
+        //                foreach (Transform tMaybe in tAllBonesAndAttachments)
+        //                {  // check all character joints
+        //                    CharacterJoint cj = tMaybe.GetComponent<CharacterJoint>();  // attempt grab joint
+        //                    if (cj)
+        //                    {  // found
+        //                        if (cj.connectedBody)
+        //                        {
+        //                            CharacterJoint cjP = cj.connectedBody.GetComponent<CharacterJoint>();  // attempt grab parent joint
+        //                            if (!cjP)
+        //                            {  // no joint on parent so is a root
+        //                                if (!tRootBones.Contains(cj.connectedBody.transform))
+        //                                {  // search root bone list
+        //                                    tRootBones.Add(cj.connectedBody.transform); // not found, add
+        //                                }
+        //                            }
+        //                        }
+        //                    }
+        //                }
 
-                        // attempt find default root bone from the 1st render
-                        foreach (Transform tMaybe in tAllBonesAndAttachments)
-                        {  // loop until find a renderer
-                            targetRenderer = tMaybe.GetComponent<SkinnedMeshRenderer>();  // grab the render
-                            if (targetRenderer)
-                            {  // found?                                
-                                tNext = targetRenderer.rootBone;  // grab its root
-                                while (tNext.parent.name != goBuildRoot.name)
-                                {  // loop backwards to find the real root bone
-                                    tNext = tNext.parent;  // move up
-                                }
-                                break;  // work complete                            
-                            }
-                        }
-                        tRootBone = tNext;
-                        if (tRootBones.Count == 0)
-                        {
-                            tRootBones.Add(tNext);  // add, even if null
-                        }
-                        updateRootBoneNameList();  // refresh the short list
-                        if (tRootBone)
-                        {  // root bone found
-                            Selection.activeGameObject = tRootBone.gameObject;  // select in hierarchy
-                        }
+        //                // attempt find default root bone from the 1st render
+        //                foreach (Transform tMaybe in tAllBonesAndAttachments)
+        //                {  // loop until find a renderer
+        //                    targetRenderer = tMaybe.GetComponent<SkinnedMeshRenderer>();  // grab the render
+        //                    if (targetRenderer)
+        //                    {  // found?                                
+        //                        tNext = targetRenderer.rootBone;  // grab its root
+        //                        while (tNext.parent.name != goBuildRoot.name)
+        //                        {  // loop backwards to find the real root bone
+        //                            tNext = tNext.parent;  // move up
+        //                        }
+        //                        break;  // work complete                            
+        //                    }
+        //                }
+        //                tRootBone = tNext;
+        //                if (tRootBones.Count == 0)
+        //                {
+        //                    tRootBones.Add(tNext);  // add, even if null
+        //                }
+        //                updateRootBoneNameList();  // refresh the short list
+        //                if (tRootBone)
+        //                {  // root bone found
+        //                    Selection.activeGameObject = tRootBone.gameObject;  // select in hierarchy
+        //                }
 
-                        // list all bones in all skinned mesh renderers
-                        foreach (Transform tMaybe in tAllBonesAndAttachments)
-                        {  // process all renderers
-                            targetRenderer = tMaybe.GetComponent<SkinnedMeshRenderer>();  // grab the render
-                            if (targetRenderer)
-                            {  // found?
-                                foreach (Transform tBone in targetRenderer.bones)
-                                {  // process all linked bones
-                                    if (!sAllBones.Contains(tBone.name))
-                                    { // not a duplicate
-                                        sAllBones.Add(tBone.name);  // push the bone name onto the array
-                                        CharacterJoint cj = tBone.GetComponent<CharacterJoint>();  // already a joint?
+        //                // list all bones in all skinned mesh renderers
+        //                foreach (Transform tMaybe in tAllBonesAndAttachments)
+        //                {  // process all renderers
+        //                    targetRenderer = tMaybe.GetComponent<SkinnedMeshRenderer>();  // grab the render
+        //                    if (targetRenderer)
+        //                    {  // found?
+        //                        foreach (Transform tBone in targetRenderer.bones)
+        //                        {  // process all linked bones
+        //                            if (!sAllBones.Contains(tBone.name))
+        //                            { // not a duplicate
+        //                                sAllBones.Add(tBone.name);  // push the bone name onto the array
+        //                                CharacterJoint cj = tBone.GetComponent<CharacterJoint>();  // already a joint?
 
-                                        // set the collider from the bone (if it exists)
-                                        eColliderType ct = (tBone.name.ToUpper() == "HEAD" ? eColliderType.Sphere : eColliderType.Capsule);  // default collider type
-                                        float fFoundRadius = 0f;
-                                        BoxCollider bc = tBone.GetComponent<BoxCollider>();
-                                        SphereCollider sc = tBone.GetComponent<SphereCollider>();
-                                        CapsuleCollider cc = tBone.GetComponent<CapsuleCollider>();
-                                        if (bc)
-                                        {
-                                            ct = eColliderType.Box;
-                                        }
-                                        else if (sc)
-                                        {
-                                            ct = eColliderType.Sphere;
-                                            fFoundRadius = sc.radius;
-                                        }
-                                        else if (cc)
-                                        {
-                                            ct = eColliderType.Capsule;
-                                            fFoundRadius = cc.radius;
-                                        }
+        //                                // set the collider from the bone (if it exists)
+        //                                eColliderType ct = (tBone.name.ToUpper() == "HEAD" ? eColliderType.Sphere : eColliderType.Capsule);  // default collider type
+        //                                float fFoundRadius = 0f;
+        //                                BoxCollider bc = tBone.GetComponent<BoxCollider>();
+        //                                SphereCollider sc = tBone.GetComponent<SphereCollider>();
+        //                                CapsuleCollider cc = tBone.GetComponent<CapsuleCollider>();
+        //                                if (bc)
+        //                                {
+        //                                    ct = eColliderType.Box;
+        //                                }
+        //                                else if (sc)
+        //                                {
+        //                                    ct = eColliderType.Sphere;
+        //                                    fFoundRadius = sc.radius;
+        //                                }
+        //                                else if (cc)
+        //                                {
+        //                                    ct = eColliderType.Capsule;
+        //                                    fFoundRadius = cc.radius;
+        //                                }
 
-                                        // set the bone options
-                                        lAllBones.Add(new BoneOptions() { Shown = cj, Type = ct, Bone = tBone, Radius = fFoundRadius });
-                                    }
-                                }
-                            }
-                        }
+        //                                // set the bone options
+        //                                lAllBones.Add(new BoneOptions() { Shown = cj, Type = ct, Bone = tBone, Radius = fFoundRadius });
+        //                            }
+        //                        }
+        //                    }
+        //                }
 
-                        // set hitboxes toggle
-                        Component[] goHitboxes = goBuildRoot.GetComponentsInChildren(typeof(vHitBox), true);  // get all hitboxes
-                        if (goHitboxes.Length > 0)
-                        {  // found some?
-                            bHitboxesShown = goHitboxes[0].transform.gameObject.activeInHierarchy;  // toggle on if first active
-                        }
-                        else
-                        {  // thats a negative
-                            bHitboxesShown = false;  // toggle off
-                        }
+        //                // set hitboxes toggle
+        //                Component[] goHitboxes = goBuildRoot.GetComponentsInChildren(typeof(vHitBox), true);  // get all hitboxes
+        //                if (goHitboxes.Length > 0)
+        //                {  // found some?
+        //                    bHitboxesShown = goHitboxes[0].transform.gameObject.activeInHierarchy;  // toggle on if first active
+        //                }
+        //                else
+        //                {  // thats a negative
+        //                    bHitboxesShown = false;  // toggle off
+        //                }
 
-                    }
-                    GUILayout.EndHorizontal();
+        //            }
+        //            GUILayout.EndHorizontal();
 
-                    // character selected
-                    if (iCurrentEnemy > -1)
-                    {
-                        // list known root bones
-                        for (int i = 0; i < tRootBones.Count; i++)
-                        {
-                            GUILayout.BeginHorizontal();
-                            GUILayout.Label("Root Bone", GUILayout.Width(80));
-                            tNewValue = EditorGUILayout.ObjectField(tRootBones[i], typeof(Transform), true) as Transform;
-                            if (tRootBones[i] != tNewValue)
-                            {  // updated?
-                                tRootBones[i] = tNewValue;  // set
-                                updateRootBoneNameList();  // refresh the short list                            
-                            }
-                            if (GUILayout.Button("X", GUILayout.Width(30)))
-                            {  // remove root bone
-                                tRootBones.Remove(tRootBones[i]);  // death, use with care
-                                updateRootBoneNameList();  // refresh the short list
-                            }
-                            GUILayout.EndHorizontal();
-                        }
-                        if (GUILayout.Button("Add Root Bone", GUILayout.ExpandWidth(true)))
-                        {
-                            tRootBones.Add(null);  // add an empty root bone slot
-                            updateRootBoneNameList();  // refresh the short list                        
-                        }
+        //            // character selected
+        //            if (iCurrentEnemy > -1)
+        //            {
+        //                // list known root bones
+        //                for (int i = 0; i < tRootBones.Count; i++)
+        //                {
+        //                    GUILayout.BeginHorizontal();
+        //                    GUILayout.Label("Root Bone", GUILayout.Width(80));
+        //                    tNewValue = EditorGUILayout.ObjectField(tRootBones[i], typeof(Transform), true) as Transform;
+        //                    if (tRootBones[i] != tNewValue)
+        //                    {  // updated?
+        //                        tRootBones[i] = tNewValue;  // set
+        //                        updateRootBoneNameList();  // refresh the short list                            
+        //                    }
+        //                    if (GUILayout.Button("X", GUILayout.Width(30)))
+        //                    {  // remove root bone
+        //                        tRootBones.Remove(tRootBones[i]);  // death, use with care
+        //                        updateRootBoneNameList();  // refresh the short list
+        //                    }
+        //                    GUILayout.EndHorizontal();
+        //                }
+        //                if (GUILayout.Button("Add Root Bone", GUILayout.ExpandWidth(true)))
+        //                {
+        //                    tRootBones.Add(null);  // add an empty root bone slot
+        //                    updateRootBoneNameList();  // refresh the short list                        
+        //                }
 
-                        // mass to apply to each bone rigid body
-                        GUILayout.BeginHorizontal();
-                        GUILayout.Label("Bone Mass", GUILayout.Width(80));
-                        fBoneMass = EditorGUILayout.FloatField(fBoneMass, GUILayout.ExpandWidth(true));
-                        GUILayout.EndHorizontal();
-
-
-                        // hide/show hitboxes
-                        if (GUILayout.Button("Toggle Hitboxes " + (bHitboxesShown ? "OFF" : "ON"), GUILayout.ExpandWidth(true)))
-                        {
-                            bHitboxesShown = !bHitboxesShown;  // toggle flag
-                            Component[] goHitboxes = goBuildRoot.GetComponentsInChildren(typeof(vHitBox), true);  // get all hitboxes
-                            if (goHitboxes.Length > 0)
-                            {  // found some?
-                                foreach (vHitBox hb in goHitboxes)
-                                {
-                                    hb.transform.gameObject.SetActive(bHitboxesShown);  // toggle the hitbox
-                                }
-                            }
-                        }
-
-                        // list bone chains
-                        if (tRootBone)
-                        {  // found default root bone
-                           // display limb chains
-                            if (lcLimbChainList.Count == 0)
-                            {  // scan the object 1st
-                                GUILayout.BeginHorizontal();
-                                if (GUILayout.Button("Scan for bone chains", GUILayout.ExpandWidth(true)))
-                                {  // analyse linked bone chains list
-                                    lcLimbChainList = new List<LimbChain>();  // clear the previous limb chains
-                                    addLimbChainStarts(tRootBone);  // add limb chain starts from the root bone
-                                    bool bMore = true;  // flag to keep looping until all chains found
-                                    while (bMore)
-                                    {  // more chains to process recursivly
-                                        bMore = false;  // drop out if no more sub chains
-                                        foreach (LimbChain lc in lcLimbChainList)
-                                        {  // check all limb chains found
-                                            if (!lc.ChainEnd)
-                                            {  // new limb chain
-                                               // init
-                                                bMore = true;  // process the array again
-                                                bool bAlreadyHas = false;  // init the processed already check
-                                                lc.Bones = new List<int>();  // init the bone chain list
-                                                Transform tNext = lc.ChainStart;  // init the forward loop  
-                                                if (tNext.GetComponent<CharacterJoint>()) bAlreadyHas = true;  // joint component check
-                                                lc.Bones.Add(sAllBones.IndexOf(tNext.name));  // add the start bone
-
-                                                // loop down the chain
-                                                while (iCountBoneChilds(tNext) == 1)
-                                                {  // process the bone hierarchy until no more bones or new sub bone chains found                 
-                                                    tNext = tNext.GetChild(0);  // check next bone child
-                                                    lc.Links += 1;  // up the link count
-                                                    if (tNext.GetComponent<CharacterJoint>()) bAlreadyHas = true;  // joint component check
-                                                    lc.Bones.Add(sAllBones.IndexOf(tNext.name));  // add the bone                                                
-                                                }
-
-                                                // finishup
-                                                lc.AddedAlready = bAlreadyHas;  // flag whether already added the components
-                                                                                 //lc.iBones.Add(sAllBones.IndexOf(tNext.name));  // add the bone
-                                                lc.ChainEnd = tNext;  // store the chain end
-
-                                                // enforce all members of the bone chain visible for members set to not include if any link members added already
-                                                if (bAlreadyHas)
-                                                {  // found link in chain with a character joint
-                                                    for (int i = 0; i < lc.Bones.Count; i++)
-                                                    {  // check all bones
-                                                       // set visibility
-                                                        if (!lAllBones[lc.Bones[i]].Shown)
-                                                        {  // not currently visible
-                                                            lAllBones[lc.Bones[i]].Shown = true;  // flag visible
-                                                            lAllBones[lc.Bones[i]].Type = eColliderType.DontInclude;  // flag as not included
-                                                        }
-
-                                                        // search for the root bone for the chain
-                                                        if (lAllBones[lc.Bones[i]].Type != eColliderType.DontInclude)
-                                                        {  // bone is included
-                                                            CharacterJoint cj = lAllBones[lc.Bones[i]].Bone.GetComponent<CharacterJoint>();  // grab char joint
-                                                            if (cj)
-                                                            {  // found?
-                                                                for (int j = 0; j < tRootBones.Count; j++)
-                                                                {  // check all roots
-                                                                    if (cj.connectedBody.transform == tRootBones[j])
-                                                                    {  // matched root bone
-                                                                        lc.Rootbone = j;  // set the root bone for the chain
-                                                                        break;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-
-                                                // refresh the ends of the chain                                            
-                                                checkLimbChainEnds(lc);
-
-                                                // loop again?
-                                                if (iCountBoneChilds(tNext) > 0)
-                                                {  // sub chains found
-                                                    addLimbChainStarts(tNext);  // create more limb chain starts        
-                                                    break;  // array needs re-processing as has been modified
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    // check for limb chains linked to other limb chains (now we have them all)
-                                    foreach (LimbChain lc in lcLimbChainList)
-                                    {  // process all chains
-                                        if (lc.AddedAlready)
-                                        {  // only include chains already with components
-                                            CharacterJoint cj = lc.ChainStart.GetComponent<CharacterJoint>();  // grab char joint
-                                            if (cj)
-                                            {  // success
-                                                if (cj.connectedBody.transform != tRootBones[lc.Rootbone])
-                                                {  // bone linked to is not the root bone
-                                                    for (int i = 0; i < tLinkBones.Count; i++)
-                                                    {  // check all link bones
-                                                        if (cj.connectedBody.transform == tLinkBones[i])
-                                                        {  // found?
-                                                            lc.Linkbone = i + 1;  // set
-                                                            break;  // work complete
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                GUILayout.EndHorizontal();
-                            }
-                            else
-                            {   // scanned already display
-                                // header row
-                                GUILayout.BeginHorizontal();
-                                GUILayout.Label("Inc", GUILayout.Width(30));
-                                GUILayout.Label("Root Bone", GUILayout.ExpandWidth(true));
-                                GUILayout.Label("Link Bone", GUILayout.ExpandWidth(true));
-                                GUILayout.Label("Chain Start", GUILayout.ExpandWidth(true));
-                                GUILayout.Label("Chain End", GUILayout.ExpandWidth(true));
-                                GUILayout.Label("Del", GUILayout.Width(30));
-                                GUILayout.EndHorizontal();
-
-                                // limb chain lines GUI for enable and analysis       
-                                int iEnabledChains = 0;
-                                int iAddedAlready = 0;
-                                foreach (LimbChain lc in lcLimbChainList)
-                                {  // display all limb chains found
-                                    GUILayout.BeginHorizontal();
-
-                                    // toggle include in ragdoll
-                                    if (lc.AddedAlready)
-                                    {  // already added components
-                                        GUILayout.Toggle(true, "", GUILayout.Width(10));  // dont allow change
-                                    }
-                                    else
-                                    {  // not added already, include
-                                        lc.Enable = GUILayout.Toggle(lc.Enable, "", GUILayout.Width(10));  // allow inclusion (or not)
-                                        if (lc.Enable) iEnabledChains++;  // count for the build button enable
-                                    }
-
-                                    // length of the chain      
-                                    GUILayout.Label((lc.Links < 10 ? "0" : "") + lc.Links.ToString(), GUILayout.Width(20));
-
-                                    // root bone to link to
-                                    iNewValue = EditorGUILayout.Popup(lc.Rootbone, sRootBones, GUILayout.ExpandWidth(true));
-                                    if (lc.Rootbone != iNewValue)
-                                    {  // new root bone                                    
-                                        lc.Rootbone = iNewValue;  // set it   
-
-                                        // apply the change to the character joint
-                                        if (lc.Linkbone == 0)
-                                        {  // link bone override not enabled?
-                                            CharacterJoint cj = lc.ChainStart.GetComponent<CharacterJoint>();  // attempt grab character joint
-                                            if (cj)
-                                            {  // found character joint
-                                                Rigidbody rb = tRootBones[lc.Rootbone].GetComponent<Rigidbody>();  // find root rigidbody
-                                                if (rb)
-                                                { // root bone has rigid body to connect to
-                                                    cj.connectedBody = rb; // connect to the new root
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    // link bone to link to instead of root
-                                    iNewValue = EditorGUILayout.Popup(lc.Linkbone, sLinkBones, GUILayout.ExpandWidth(true));
-                                    if (lc.Linkbone != iNewValue)
-                                    {  // new link bone?
-                                        lc.Linkbone = iNewValue;  // set it   
-
-                                        // apply the change to the character joint
-                                        CharacterJoint cj = lc.ChainStart.GetComponent<CharacterJoint>();  // attempt grab character joint
-                                        if (cj)
-                                        {  // found character joint
-                                            if (lc.Linkbone > 0)
-                                            {  // link bone override enabled
-                                                Rigidbody rb = tLinkBones[lc.Linkbone - 1].GetComponent<Rigidbody>();  // find root rigidbody
-                                                if (rb)
-                                                { // root bone has rigid body to connect to
-                                                    cj.connectedBody = rb; // connect to the new link bone
-                                                }
-                                            }
-                                            else
-                                            {  // revert to root bone
-                                                Rigidbody rb = tRootBones[lc.Rootbone].GetComponent<Rigidbody>();  // find root rigidbody
-                                                if (rb)
-                                                { // root bone has rigid body to connect to
-                                                    cj.connectedBody = rb; // connect to the new root
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    // start/end chain transforms
-                                    tNewValue = EditorGUILayout.ObjectField(lc.ChainStart, typeof(Transform), true) as Transform;  // chain start and
-                                    tNewValue = EditorGUILayout.ObjectField(lc.ChainEnd, typeof(Transform), true) as Transform;  // end transform
-
-                                    // remove from ragdoll
-                                    if (lc.AddedAlready)
-                                    {  // already added components
-                                        if (GUILayout.Button("x", GUILayout.Width(30)))
-                                        {  // remove components
-                                            lc.AddedAlready = false;  // deflag already has components
-                                            lc.Enable = false;  // deflag include in build
-                                            tNext = lc.ChainStart;  // init the forward loop                                        
-                                            while (iCountBoneChilds(tNext) == 1)
-                                            {  // process the bone hierarchy until no more bones or new sub bone chains found
-                                                RemoveBoneComponents(sAllBones.IndexOf(tNext.name), false);  // remove previous components from next link
-                                                tNext = tNext.GetChild(0);  // iterate to the next level
-                                            }
-                                            RemoveBoneComponents(sAllBones.IndexOf(tNext.name), false);  // remove previous components from chain end    
-                                        }
-                                        else
-                                        {
-                                            iAddedAlready++;  // count of how many added already
-                                        }
-                                    }
-                                    else
-                                    {  // not added already
-                                        GUILayout.Space(30);  // so no remove button
-                                    }
-                                    GUILayout.EndHorizontal();
-
-                                    // show bones chain links with collider/dont include options
-                                    if (lc.AddedAlready)
-                                    {  // bone chain included in the ragdoll
-                                        foreach (int i in lc.Bones)
-                                        {  // process the link chain
-                                           // bone transform
-                                            GUILayout.BeginHorizontal();
-                                            tNewValue = EditorGUILayout.ObjectField(lAllBones[i].Bone, typeof(Transform), true) as Transform;
-
-                                            // collider type
-                                            ctNewValue = (eColliderType)EditorGUILayout.EnumPopup(lAllBones[i].Type, GUILayout.ExpandWidth(true));
-                                            if (ctNewValue != lAllBones[i].Type)
-                                            {  // changed?     
-                                               // update the collider/inclusion
-                                                if (lAllBones[i].Type == eColliderType.DontInclude)
-                                                {  // bone needs including
-                                                    lAllBones[i].Type = ctNewValue;  // set new value
-                                                    AddBoneComponents(lAllBones[i].Bone, findValidBoneLinkParent(i));  // add the components
-                                                    Transform tValidChild = findValidBoneLinkChild(i);  // find next enabled child in the chain
-                                                    if (tValidChild)
-                                                    {  // found child?  if not found then id new end of the chain
-                                                        Rigidbody rb = lAllBones[i].Bone.GetComponent<Rigidbody>();  // grab the just added rigid body
-                                                        if (rb)
-                                                        {  // found rigid body?
-                                                            CharacterJoint cj = tValidChild.GetComponent<CharacterJoint>();  // grab child char joint
-                                                            if (cj)
-                                                            {  // found child joint?
-                                                                cj.connectedBody = rb;  // link to new parent
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                else if (ctNewValue == eColliderType.DontInclude)
-                                                {  // bone needs excluding                                                                                        
-                                                    RemoveBoneComponents(i, false);  // clear off character joint, rigidbody etc 
-                                                    lAllBones[i].Shown = true;  // enforce shown
-                                                    Transform tValidChild = findValidBoneLinkChild(i);  // find the child to link to the parent
-                                                    if (tValidChild)
-                                                    {  // found child?  if not found then id new end of the chain
-                                                        Transform tValidParent = findValidBoneLinkParent(i);  // find the next included parent
-                                                        if (tValidParent)
-                                                        {  // found parent? 
-                                                            Rigidbody rb = tValidParent.GetComponent<Rigidbody>();  // rigidbody for the child to link to
-                                                            if (rb)
-                                                            {  // found rigidbody?  
-                                                                CharacterJoint cj = tValidChild.GetComponent<CharacterJoint>();  // grab child char joint
-                                                                if (cj)
-                                                                {  // found child joint?
-                                                                    cj.connectedBody = rb;  // link to parent
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                    lAllBones[i].Type = ctNewValue;  // set new value
-                                                }
-                                                else
-                                                {  // swapping collider type                                            
-                                                    RemoveBoneComponents(i, true);  // remove previous collider     
-                                                    if (lAllBones[i].Type == eColliderType.Sphere)
-                                                    {  // handle capsule/box radius added to length
-                                                        lAllBones[i].Radius = lAllBones[i].Radius / 2;
-                                                    }
-                                                    else if (ctNewValue == eColliderType.Sphere)
-                                                    {  // dont increase if change from box to capsule
-                                                        lAllBones[i].Radius = lAllBones[i].Radius * 2;
-                                                    }
-                                                    lAllBones[i].Type = ctNewValue;  // set new value
-                                                    AddBoneCollider(i);  // add the new collider                                        
-                                                }
-
-                                                // refresh the ends of the chain                                            
-                                                checkLimbChainEnds(lc);
-                                            }
-                                            GUILayout.EndHorizontal();
-                                        }
-
-                                    }
-                                }
-
-                                // build the ragdoll
-                                if (iEnabledChains > 0)
-                                {
-                                    if (GUILayout.Button("Update the Ragdoll", GUILayout.ExpandWidth(true)))
-                                    {
-                                        // add ragdoll + audio source if missing
-                                        Transform ragdollAudioSource = goBuildRoot.transform.Find("ragdollAudioSource");
-                                        if (!ragdollAudioSource)
-                                        {
-                                            ragdollAudioSource = new GameObject("ragdollAudioSource").transform;
-                                            ragdollAudioSource.SetParent(goBuildRoot.transform);
-                                        }
-                                        Transform collisionAudio = ragdollAudioSource.transform.Find("collisionAudio");
-                                        if (!collisionAudio)
-                                        {
-                                            collisionAudio = new GameObject("collisionAudio", typeof(AudioSource)).transform;
-                                            collisionAudio.SetParent(ragdollAudioSource.transform);
-                                            collisionAudio.GetComponent<AudioSource>().playOnAwake = false;
-                                        }
-                                        if (!goBuildRoot.gameObject.GetComponent<GenericRIGRagdoll>())
-                                        {
-                                            var rag = goBuildRoot.AddComponent<GenericRIGRagdoll>();
-                                            rag.collisionSource = collisionAudio.GetComponent<AudioSource>();
-                                        }
-
-                                        // setup non joint root (aka the body)
-                                        foreach (Transform t in tRootBones)
-                                        {
-                                            if (t)
-                                            { // ensure root bone set
-                                                if (!t.gameObject.GetComponent<Rigidbody>())
-                                                {
-                                                    Rigidbody rb = t.gameObject.AddComponent<Rigidbody>();
-                                                    rb.useGravity = true;
-                                                    rb.mass = fBoneMass * 5;
-                                                }
-                                                if (!t.gameObject.GetComponent<BoxCollider>())
-                                                {
-                                                    t.gameObject.AddComponent<BoxCollider>();
-                                                }
-                                                if (!t.gameObject.GetComponent<vCollisionMessage>())
-                                                {
-                                                    t.gameObject.AddComponent<vCollisionMessage>();
-                                                }
-                                            }
-                                        }
-
-                                        // process the chains                                    
-                                        foreach (LimbChain lc in lcLimbChainList)
-                                        {  // process all chains
-                                            if (lc.Enable)
-                                            { // that are enabled
-                                                for (int b = 0; b < lc.Bones.Count; b++)
-                                                {  // process the bone chain
-                                                    if (lAllBones[lc.Bones[b]].Type != eColliderType.DontInclude)
-                                                    {
-                                                        Transform tParent;  // force null
-                                                        if (lAllBones[lc.Bones[b]].Bone == lc.ChainStart)
-                                                        {  // 1st enabled bone in the chain
-                                                            if (lc.Linkbone == 0)
-                                                            {   // no link bone override
-                                                                tParent = tRootBones[lc.Rootbone];   // link the character joint to the root
-                                                            }
-                                                            else
-                                                            {  // override found
-                                                                tParent = tLinkBones[lc.Linkbone - 1];   // link the character joint to the link bone override
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            tParent = findValidBoneLinkParent(lc.Bones[b]); // find the parent to link the character joint to
-                                                        }
-                                                        if (tParent)
-                                                        {  // failsafe, should always be true
-                                                            AddBoneComponents(lAllBones[lc.Bones[b]].Bone, tParent);  // add the components
-                                                        }
-                                                    }
-                                                }
-                                                lc.Enable = false;  // deflag for add to build
-                                                lc.AddedAlready = true;  // flag for component remove
-                                            }
-                                        }
-                                    }
-                                }
+        //                // mass to apply to each bone rigid body
+        //                GUILayout.BeginHorizontal();
+        //                GUILayout.Label("Bone Mass", GUILayout.Width(80));
+        //                fBoneMass = EditorGUILayout.FloatField(fBoneMass, GUILayout.ExpandWidth(true));
+        //                GUILayout.EndHorizontal();
 
 
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                vLogError(ref ex, "");
-            }
-        }
+        //                // hide/show hitboxes
+        //                if (GUILayout.Button("Toggle Hitboxes " + (bHitboxesShown ? "OFF" : "ON"), GUILayout.ExpandWidth(true)))
+        //                {
+        //                    bHitboxesShown = !bHitboxesShown;  // toggle flag
+        //                    Component[] goHitboxes = goBuildRoot.GetComponentsInChildren(typeof(vHitBox), true);  // get all hitboxes
+        //                    if (goHitboxes.Length > 0)
+        //                    {  // found some?
+        //                        foreach (vHitBox hb in goHitboxes)
+        //                        {
+        //                            hb.transform.gameObject.SetActive(bHitboxesShown);  // toggle the hitbox
+        //                        }
+        //                    }
+        //                }
+
+        //                // list bone chains
+        //                if (tRootBone)
+        //                {  // found default root bone
+        //                   // display limb chains
+        //                    if (lcLimbChainList.Count == 0)
+        //                    {  // scan the object 1st
+        //                        GUILayout.BeginHorizontal();
+        //                        if (GUILayout.Button("Scan for bone chains", GUILayout.ExpandWidth(true)))
+        //                        {  // analyse linked bone chains list
+        //                            lcLimbChainList = new List<LimbChain>();  // clear the previous limb chains
+        //                            addLimbChainStarts(tRootBone);  // add limb chain starts from the root bone
+        //                            bool bMore = true;  // flag to keep looping until all chains found
+        //                            while (bMore)
+        //                            {  // more chains to process recursivly
+        //                                bMore = false;  // drop out if no more sub chains
+        //                                foreach (LimbChain lc in lcLimbChainList)
+        //                                {  // check all limb chains found
+        //                                    if (!lc.ChainEnd)
+        //                                    {  // new limb chain
+        //                                       // init
+        //                                        bMore = true;  // process the array again
+        //                                        bool bAlreadyHas = false;  // init the processed already check
+        //                                        lc.Bones = new List<int>();  // init the bone chain list
+        //                                        Transform tNext = lc.ChainStart;  // init the forward loop  
+        //                                        if (tNext.GetComponent<CharacterJoint>()) bAlreadyHas = true;  // joint component check
+        //                                        lc.Bones.Add(sAllBones.IndexOf(tNext.name));  // add the start bone
+
+        //                                        // loop down the chain
+        //                                        while (iCountBoneChilds(tNext) == 1)
+        //                                        {  // process the bone hierarchy until no more bones or new sub bone chains found                 
+        //                                            tNext = tNext.GetChild(0);  // check next bone child
+        //                                            lc.Links += 1;  // up the link count
+        //                                            if (tNext.GetComponent<CharacterJoint>()) bAlreadyHas = true;  // joint component check
+        //                                            lc.Bones.Add(sAllBones.IndexOf(tNext.name));  // add the bone                                                
+        //                                        }
+
+        //                                        // finishup
+        //                                        lc.AddedAlready = bAlreadyHas;  // flag whether already added the components
+        //                                                                         //lc.iBones.Add(sAllBones.IndexOf(tNext.name));  // add the bone
+        //                                        lc.ChainEnd = tNext;  // store the chain end
+
+        //                                        // enforce all members of the bone chain visible for members set to not include if any link members added already
+        //                                        if (bAlreadyHas)
+        //                                        {  // found link in chain with a character joint
+        //                                            for (int i = 0; i < lc.Bones.Count; i++)
+        //                                            {  // check all bones
+        //                                               // set visibility
+        //                                                if (!lAllBones[lc.Bones[i]].Shown)
+        //                                                {  // not currently visible
+        //                                                    lAllBones[lc.Bones[i]].Shown = true;  // flag visible
+        //                                                    lAllBones[lc.Bones[i]].Type = eColliderType.DontInclude;  // flag as not included
+        //                                                }
+
+        //                                                // search for the root bone for the chain
+        //                                                if (lAllBones[lc.Bones[i]].Type != eColliderType.DontInclude)
+        //                                                {  // bone is included
+        //                                                    CharacterJoint cj = lAllBones[lc.Bones[i]].Bone.GetComponent<CharacterJoint>();  // grab char joint
+        //                                                    if (cj)
+        //                                                    {  // found?
+        //                                                        for (int j = 0; j < tRootBones.Count; j++)
+        //                                                        {  // check all roots
+        //                                                            if (cj.connectedBody.transform == tRootBones[j])
+        //                                                            {  // matched root bone
+        //                                                                lc.Rootbone = j;  // set the root bone for the chain
+        //                                                                break;
+        //                                                            }
+        //                                                        }
+        //                                                    }
+        //                                                }
+        //                                            }
+        //                                        }
+
+        //                                        // refresh the ends of the chain                                            
+        //                                        checkLimbChainEnds(lc);
+
+        //                                        // loop again?
+        //                                        if (iCountBoneChilds(tNext) > 0)
+        //                                        {  // sub chains found
+        //                                            addLimbChainStarts(tNext);  // create more limb chain starts        
+        //                                            break;  // array needs re-processing as has been modified
+        //                                        }
+        //                                    }
+        //                                }
+        //                            }
+
+        //                            // check for limb chains linked to other limb chains (now we have them all)
+        //                            foreach (LimbChain lc in lcLimbChainList)
+        //                            {  // process all chains
+        //                                if (lc.AddedAlready)
+        //                                {  // only include chains already with components
+        //                                    CharacterJoint cj = lc.ChainStart.GetComponent<CharacterJoint>();  // grab char joint
+        //                                    if (cj)
+        //                                    {  // success
+        //                                        if (cj.connectedBody.transform != tRootBones[lc.Rootbone])
+        //                                        {  // bone linked to is not the root bone
+        //                                            for (int i = 0; i < tLinkBones.Count; i++)
+        //                                            {  // check all link bones
+        //                                                if (cj.connectedBody.transform == tLinkBones[i])
+        //                                                {  // found?
+        //                                                    lc.Linkbone = i + 1;  // set
+        //                                                    break;  // work complete
+        //                                                }
+        //                                            }
+        //                                        }
+        //                                    }
+        //                                }
+        //                            }
+        //                        }
+        //                        GUILayout.EndHorizontal();
+        //                    }
+        //                    else
+        //                    {   // scanned already display
+        //                        // header row
+        //                        GUILayout.BeginHorizontal();
+        //                        GUILayout.Label("Inc", GUILayout.Width(30));
+        //                        GUILayout.Label("Root Bone", GUILayout.ExpandWidth(true));
+        //                        GUILayout.Label("Link Bone", GUILayout.ExpandWidth(true));
+        //                        GUILayout.Label("Chain Start", GUILayout.ExpandWidth(true));
+        //                        GUILayout.Label("Chain End", GUILayout.ExpandWidth(true));
+        //                        GUILayout.Label("Del", GUILayout.Width(30));
+        //                        GUILayout.EndHorizontal();
+
+        //                        // limb chain lines GUI for enable and analysis       
+        //                        int iEnabledChains = 0;
+        //                        int iAddedAlready = 0;
+        //                        foreach (LimbChain lc in lcLimbChainList)
+        //                        {  // display all limb chains found
+        //                            GUILayout.BeginHorizontal();
+
+        //                            // toggle include in ragdoll
+        //                            if (lc.AddedAlready)
+        //                            {  // already added components
+        //                                GUILayout.Toggle(true, "", GUILayout.Width(10));  // dont allow change
+        //                            }
+        //                            else
+        //                            {  // not added already, include
+        //                                lc.Enable = GUILayout.Toggle(lc.Enable, "", GUILayout.Width(10));  // allow inclusion (or not)
+        //                                if (lc.Enable) iEnabledChains++;  // count for the build button enable
+        //                            }
+
+        //                            // length of the chain      
+        //                            GUILayout.Label((lc.Links < 10 ? "0" : "") + lc.Links.ToString(), GUILayout.Width(20));
+
+        //                            // root bone to link to
+        //                            iNewValue = EditorGUILayout.Popup(lc.Rootbone, sRootBones, GUILayout.ExpandWidth(true));
+        //                            if (lc.Rootbone != iNewValue)
+        //                            {  // new root bone                                    
+        //                                lc.Rootbone = iNewValue;  // set it   
+
+        //                                // apply the change to the character joint
+        //                                if (lc.Linkbone == 0)
+        //                                {  // link bone override not enabled?
+        //                                    CharacterJoint cj = lc.ChainStart.GetComponent<CharacterJoint>();  // attempt grab character joint
+        //                                    if (cj)
+        //                                    {  // found character joint
+        //                                        Rigidbody rb = tRootBones[lc.Rootbone].GetComponent<Rigidbody>();  // find root rigidbody
+        //                                        if (rb)
+        //                                        { // root bone has rigid body to connect to
+        //                                            cj.connectedBody = rb; // connect to the new root
+        //                                        }
+        //                                    }
+        //                                }
+        //                            }
+
+        //                            // link bone to link to instead of root
+        //                            iNewValue = EditorGUILayout.Popup(lc.Linkbone, sLinkBones, GUILayout.ExpandWidth(true));
+        //                            if (lc.Linkbone != iNewValue)
+        //                            {  // new link bone?
+        //                                lc.Linkbone = iNewValue;  // set it   
+
+        //                                // apply the change to the character joint
+        //                                CharacterJoint cj = lc.ChainStart.GetComponent<CharacterJoint>();  // attempt grab character joint
+        //                                if (cj)
+        //                                {  // found character joint
+        //                                    if (lc.Linkbone > 0)
+        //                                    {  // link bone override enabled
+        //                                        Rigidbody rb = tLinkBones[lc.Linkbone - 1].GetComponent<Rigidbody>();  // find root rigidbody
+        //                                        if (rb)
+        //                                        { // root bone has rigid body to connect to
+        //                                            cj.connectedBody = rb; // connect to the new link bone
+        //                                        }
+        //                                    }
+        //                                    else
+        //                                    {  // revert to root bone
+        //                                        Rigidbody rb = tRootBones[lc.Rootbone].GetComponent<Rigidbody>();  // find root rigidbody
+        //                                        if (rb)
+        //                                        { // root bone has rigid body to connect to
+        //                                            cj.connectedBody = rb; // connect to the new root
+        //                                        }
+        //                                    }
+        //                                }
+        //                            }
+
+        //                            // start/end chain transforms
+        //                            tNewValue = EditorGUILayout.ObjectField(lc.ChainStart, typeof(Transform), true) as Transform;  // chain start and
+        //                            tNewValue = EditorGUILayout.ObjectField(lc.ChainEnd, typeof(Transform), true) as Transform;  // end transform
+
+        //                            // remove from ragdoll
+        //                            if (lc.AddedAlready)
+        //                            {  // already added components
+        //                                if (GUILayout.Button("x", GUILayout.Width(30)))
+        //                                {  // remove components
+        //                                    lc.AddedAlready = false;  // deflag already has components
+        //                                    lc.Enable = false;  // deflag include in build
+        //                                    tNext = lc.ChainStart;  // init the forward loop                                        
+        //                                    while (iCountBoneChilds(tNext) == 1)
+        //                                    {  // process the bone hierarchy until no more bones or new sub bone chains found
+        //                                        RemoveBoneComponents(sAllBones.IndexOf(tNext.name), false);  // remove previous components from next link
+        //                                        tNext = tNext.GetChild(0);  // iterate to the next level
+        //                                    }
+        //                                    RemoveBoneComponents(sAllBones.IndexOf(tNext.name), false);  // remove previous components from chain end    
+        //                                }
+        //                                else
+        //                                {
+        //                                    iAddedAlready++;  // count of how many added already
+        //                                }
+        //                            }
+        //                            else
+        //                            {  // not added already
+        //                                GUILayout.Space(30);  // so no remove button
+        //                            }
+        //                            GUILayout.EndHorizontal();
+
+        //                            // show bones chain links with collider/dont include options
+        //                            if (lc.AddedAlready)
+        //                            {  // bone chain included in the ragdoll
+        //                                foreach (int i in lc.Bones)
+        //                                {  // process the link chain
+        //                                   // bone transform
+        //                                    GUILayout.BeginHorizontal();
+        //                                    tNewValue = EditorGUILayout.ObjectField(lAllBones[i].Bone, typeof(Transform), true) as Transform;
+
+        //                                    // collider type
+        //                                    ctNewValue = (eColliderType)EditorGUILayout.EnumPopup(lAllBones[i].Type, GUILayout.ExpandWidth(true));
+        //                                    if (ctNewValue != lAllBones[i].Type)
+        //                                    {  // changed?     
+        //                                       // update the collider/inclusion
+        //                                        if (lAllBones[i].Type == eColliderType.DontInclude)
+        //                                        {  // bone needs including
+        //                                            lAllBones[i].Type = ctNewValue;  // set new value
+        //                                            AddBoneComponents(lAllBones[i].Bone, findValidBoneLinkParent(i));  // add the components
+        //                                            Transform tValidChild = findValidBoneLinkChild(i);  // find next enabled child in the chain
+        //                                            if (tValidChild)
+        //                                            {  // found child?  if not found then id new end of the chain
+        //                                                Rigidbody rb = lAllBones[i].Bone.GetComponent<Rigidbody>();  // grab the just added rigid body
+        //                                                if (rb)
+        //                                                {  // found rigid body?
+        //                                                    CharacterJoint cj = tValidChild.GetComponent<CharacterJoint>();  // grab child char joint
+        //                                                    if (cj)
+        //                                                    {  // found child joint?
+        //                                                        cj.connectedBody = rb;  // link to new parent
+        //                                                    }
+        //                                                }
+        //                                            }
+        //                                        }
+        //                                        else if (ctNewValue == eColliderType.DontInclude)
+        //                                        {  // bone needs excluding                                                                                        
+        //                                            RemoveBoneComponents(i, false);  // clear off character joint, rigidbody etc 
+        //                                            lAllBones[i].Shown = true;  // enforce shown
+        //                                            Transform tValidChild = findValidBoneLinkChild(i);  // find the child to link to the parent
+        //                                            if (tValidChild)
+        //                                            {  // found child?  if not found then id new end of the chain
+        //                                                Transform tValidParent = findValidBoneLinkParent(i);  // find the next included parent
+        //                                                if (tValidParent)
+        //                                                {  // found parent? 
+        //                                                    Rigidbody rb = tValidParent.GetComponent<Rigidbody>();  // rigidbody for the child to link to
+        //                                                    if (rb)
+        //                                                    {  // found rigidbody?  
+        //                                                        CharacterJoint cj = tValidChild.GetComponent<CharacterJoint>();  // grab child char joint
+        //                                                        if (cj)
+        //                                                        {  // found child joint?
+        //                                                            cj.connectedBody = rb;  // link to parent
+        //                                                        }
+        //                                                    }
+        //                                                }
+        //                                            }
+        //                                            lAllBones[i].Type = ctNewValue;  // set new value
+        //                                        }
+        //                                        else
+        //                                        {  // swapping collider type                                            
+        //                                            RemoveBoneComponents(i, true);  // remove previous collider     
+        //                                            if (lAllBones[i].Type == eColliderType.Sphere)
+        //                                            {  // handle capsule/box radius added to length
+        //                                                lAllBones[i].Radius = lAllBones[i].Radius / 2;
+        //                                            }
+        //                                            else if (ctNewValue == eColliderType.Sphere)
+        //                                            {  // dont increase if change from box to capsule
+        //                                                lAllBones[i].Radius = lAllBones[i].Radius * 2;
+        //                                            }
+        //                                            lAllBones[i].Type = ctNewValue;  // set new value
+        //                                            AddBoneCollider(i);  // add the new collider                                        
+        //                                        }
+
+        //                                        // refresh the ends of the chain                                            
+        //                                        checkLimbChainEnds(lc);
+        //                                    }
+        //                                    GUILayout.EndHorizontal();
+        //                                }
+
+        //                            }
+        //                        }
+
+        //                        // build the ragdoll
+        //                        if (iEnabledChains > 0)
+        //                        {
+        //                            if (GUILayout.Button("Update the Ragdoll", GUILayout.ExpandWidth(true)))
+        //                            {
+        //                                // add ragdoll + audio source if missing
+        //                                Transform ragdollAudioSource = goBuildRoot.transform.Find("ragdollAudioSource");
+        //                                if (!ragdollAudioSource)
+        //                                {
+        //                                    ragdollAudioSource = new GameObject("ragdollAudioSource").transform;
+        //                                    ragdollAudioSource.SetParent(goBuildRoot.transform);
+        //                                }
+        //                                Transform collisionAudio = ragdollAudioSource.transform.Find("collisionAudio");
+        //                                if (!collisionAudio)
+        //                                {
+        //                                    collisionAudio = new GameObject("collisionAudio", typeof(AudioSource)).transform;
+        //                                    collisionAudio.SetParent(ragdollAudioSource.transform);
+        //                                    collisionAudio.GetComponent<AudioSource>().playOnAwake = false;
+        //                                }
+        //                                if (!goBuildRoot.gameObject.GetComponent<GenericRIGRagdoll>())
+        //                                {
+        //                                    var rag = goBuildRoot.AddComponent<GenericRIGRagdoll>();
+        //                                    rag.collisionSource = collisionAudio.GetComponent<AudioSource>();
+        //                                }
+
+        //                                // setup non joint root (aka the body)
+        //                                foreach (Transform t in tRootBones)
+        //                                {
+        //                                    if (t)
+        //                                    { // ensure root bone set
+        //                                        if (!t.gameObject.GetComponent<Rigidbody>())
+        //                                        {
+        //                                            Rigidbody rb = t.gameObject.AddComponent<Rigidbody>();
+        //                                            rb.useGravity = true;
+        //                                            rb.mass = fBoneMass * 5;
+        //                                        }
+        //                                        if (!t.gameObject.GetComponent<BoxCollider>())
+        //                                        {
+        //                                            t.gameObject.AddComponent<BoxCollider>();
+        //                                        }
+        //                                        if (!t.gameObject.GetComponent<vCollisionMessage>())
+        //                                        {
+        //                                            t.gameObject.AddComponent<vCollisionMessage>();
+        //                                        }
+        //                                    }
+        //                                }
+
+        //                                // process the chains                                    
+        //                                foreach (LimbChain lc in lcLimbChainList)
+        //                                {  // process all chains
+        //                                    if (lc.Enable)
+        //                                    { // that are enabled
+        //                                        for (int b = 0; b < lc.Bones.Count; b++)
+        //                                        {  // process the bone chain
+        //                                            if (lAllBones[lc.Bones[b]].Type != eColliderType.DontInclude)
+        //                                            {
+        //                                                Transform tParent;  // force null
+        //                                                if (lAllBones[lc.Bones[b]].Bone == lc.ChainStart)
+        //                                                {  // 1st enabled bone in the chain
+        //                                                    if (lc.Linkbone == 0)
+        //                                                    {   // no link bone override
+        //                                                        tParent = tRootBones[lc.Rootbone];   // link the character joint to the root
+        //                                                    }
+        //                                                    else
+        //                                                    {  // override found
+        //                                                        tParent = tLinkBones[lc.Linkbone - 1];   // link the character joint to the link bone override
+        //                                                    }
+        //                                                }
+        //                                                else
+        //                                                {
+        //                                                    tParent = findValidBoneLinkParent(lc.Bones[b]); // find the parent to link the character joint to
+        //                                                }
+        //                                                if (tParent)
+        //                                                {  // failsafe, should always be true
+        //                                                    AddBoneComponents(lAllBones[lc.Bones[b]].Bone, tParent);  // add the components
+        //                                                }
+        //                                            }
+        //                                        }
+        //                                        lc.Enable = false;  // deflag for add to build
+        //                                        lc.AddedAlready = true;  // flag for component remove
+        //                                    }
+        //                                }
+        //                            }
+        //                        }
+
+
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        vLogError(ref ex, "");
+        //    }
+        //}
 
         /// <summary>
         /// Character equipment & material selector.
@@ -2473,375 +2473,375 @@ namespace Shadex
         }
         #endregion
 
-        #region "Limb Chain Handling"
-        /// <summary>
-        /// update the GUI list with the bone names.
-        /// </summary>
-        public void updateRootBoneNameList()
-        {
-            sRootBones = new string[tRootBones.Count];
-            for (int i = 0; i < tRootBones.Count; i++)
-            {
-                if (tRootBones[i])
-                {   // valid
-                    sRootBones[i] = tRootBones[i].name;  // append
-                }
-                else
-                {  // not yet selected
-                    sRootBones[i] = "null" + i.ToString();  // show unset root bone
-                }
-            }
-        }
+        //#region "Limb Chain Handling"
+        ///// <summary>
+        ///// update the GUI list with the bone names.
+        ///// </summary>
+        //public void updateRootBoneNameList()
+        //{
+        //    sRootBones = new string[tRootBones.Count];
+        //    for (int i = 0; i < tRootBones.Count; i++)
+        //    {
+        //        if (tRootBones[i])
+        //        {   // valid
+        //            sRootBones[i] = tRootBones[i].name;  // append
+        //        }
+        //        else
+        //        {  // not yet selected
+        //            sRootBones[i] = "null" + i.ToString();  // show unset root bone
+        //        }
+        //    }
+        //}
 
-        /// <summary>
-        /// Find all limb chain starts from the current bone.
-        /// </summary>
-        /// <param name="CheckMe">Start point of the limb chain search.</param>
-        void addLimbChainStarts(Transform CheckMe)
-        {
-            for (int i = 0; i < CheckMe.childCount; i++)
-            {  // process all children
-                if (sAllBones.Contains(CheckMe.GetChild(i).name))
-                {  // valid bone
-                    if (iCountBoneChilds(CheckMe.GetChild(i)) > 0)
-                    {  // has valid bone children                        
-                        lcLimbChainList.Add(new LimbChain() { ChainStart = CheckMe.GetChild(i), ChainEnd = null, Enable = false, Links = 0 });  // add valid limb chain with start bone
-                    }
-                }
-            }
-        }
+        ///// <summary>
+        ///// Find all limb chain starts from the current bone.
+        ///// </summary>
+        ///// <param name="CheckMe">Start point of the limb chain search.</param>
+        //void addLimbChainStarts(Transform CheckMe)
+        //{
+        //    for (int i = 0; i < CheckMe.childCount; i++)
+        //    {  // process all children
+        //        if (sAllBones.Contains(CheckMe.GetChild(i).name))
+        //        {  // valid bone
+        //            if (iCountBoneChilds(CheckMe.GetChild(i)) > 0)
+        //            {  // has valid bone children                        
+        //                lcLimbChainList.Add(new LimbChain() { ChainStart = CheckMe.GetChild(i), ChainEnd = null, Enable = false, Links = 0 });  // add valid limb chain with start bone
+        //            }
+        //        }
+        //    }
+        //}
 
-        /// <summary>
-        /// Reprocess the limb chain, assigning the start/end for the gui and link roots.
-        /// </summary>
-        /// <param name="lc">Limb chain to process.</param>
-        void checkLimbChainEnds(LimbChain lc)
-        {
-            lc.Links = 0;
-            lc.ChainStart = null;
-            lc.ChainEnd = null;
-            for (int b = 0; b < lc.Bones.Count; b++)
-            {  // check the bone chain
-                if (lAllBones[lc.Bones[b]].Type != eColliderType.DontInclude)
-                {  // found included bone
-                    lc.Links += 1;  // link is included
-                    if (!lc.ChainStart)
-                    { // found the new chain start
-                        lc.ChainStart = lAllBones[lc.Bones[b]].Bone;  // store
-                    }
-                    else
-                    {  // update the chain end
-                        lc.ChainEnd = lAllBones[lc.Bones[b]].Bone;  // store
-                    }
-                }
-            }
-            if (!lc.ChainEnd)
-            { // no end link
-                if (lc.ChainStart)
-                {  // have a start, so only 1 link in the chain
-                    lc.ChainEnd = lc.ChainStart;
-                }
-                else
-                {
-                    lc.ChainEnd = lAllBones[lc.Bones[lc.Bones.Count - 1]].Bone;  // and end
-                }
-            }
-            if (!lc.ChainStart)
-            { // all links set to dont include
-                lc.ChainStart = lAllBones[lc.Bones[0]].Bone;  // return to default start                
-            }
-            rebuildLinkChainList();  // ensure all chain ends are in the link bone list after change
-        }
+        ///// <summary>
+        ///// Reprocess the limb chain, assigning the start/end for the gui and link roots.
+        ///// </summary>
+        ///// <param name="lc">Limb chain to process.</param>
+        //void checkLimbChainEnds(LimbChain lc)
+        //{
+        //    lc.Links = 0;
+        //    lc.ChainStart = null;
+        //    lc.ChainEnd = null;
+        //    for (int b = 0; b < lc.Bones.Count; b++)
+        //    {  // check the bone chain
+        //        if (lAllBones[lc.Bones[b]].Type != eColliderType.DontInclude)
+        //        {  // found included bone
+        //            lc.Links += 1;  // link is included
+        //            if (!lc.ChainStart)
+        //            { // found the new chain start
+        //                lc.ChainStart = lAllBones[lc.Bones[b]].Bone;  // store
+        //            }
+        //            else
+        //            {  // update the chain end
+        //                lc.ChainEnd = lAllBones[lc.Bones[b]].Bone;  // store
+        //            }
+        //        }
+        //    }
+        //    if (!lc.ChainEnd)
+        //    { // no end link
+        //        if (lc.ChainStart)
+        //        {  // have a start, so only 1 link in the chain
+        //            lc.ChainEnd = lc.ChainStart;
+        //        }
+        //        else
+        //        {
+        //            lc.ChainEnd = lAllBones[lc.Bones[lc.Bones.Count - 1]].Bone;  // and end
+        //        }
+        //    }
+        //    if (!lc.ChainStart)
+        //    { // all links set to dont include
+        //        lc.ChainStart = lAllBones[lc.Bones[0]].Bone;  // return to default start                
+        //    }
+        //    rebuildLinkChainList();  // ensure all chain ends are in the link bone list after change
+        //}
 
-        /// <summary>
-        /// Regenerates the available limb chains ends into the link chain list.
-        /// </summary>
-        void rebuildLinkChainList()
-        {
-            tLinkBones = new List<Transform>();  // clear the link bone transform list
-            for (int i = 0; i < lcLimbChainList.Count; i++)
-            {  // check all limb chains
-                if (lcLimbChainList[i].ChainEnd)
-                { // don't check nulls failsafe 
-                    if (!tLinkBones.Contains(lcLimbChainList[i].ChainEnd))
-                    {  // found new 
-                        tLinkBones.Add(lcLimbChainList[i].ChainEnd);  // so add the transform
-                    }
-                }
-            }
-            sLinkBones = null;  // clear the GUI popup list
-            if (tLinkBones.Count > 0)
-            {
-                sLinkBones = new string[tLinkBones.Count + 1];  // initialise
-                sLinkBones[0] = "Root Bone";
-                for (int i = 0; i < tLinkBones.Count; i++)
-                {  // process all link bones
-                    sLinkBones[i + 1] = tLinkBones[i].name;  // add the name
-                }
-            }
-        }
+        ///// <summary>
+        ///// Regenerates the available limb chains ends into the link chain list.
+        ///// </summary>
+        //void rebuildLinkChainList()
+        //{
+        //    tLinkBones = new List<Transform>();  // clear the link bone transform list
+        //    for (int i = 0; i < lcLimbChainList.Count; i++)
+        //    {  // check all limb chains
+        //        if (lcLimbChainList[i].ChainEnd)
+        //        { // don't check nulls failsafe 
+        //            if (!tLinkBones.Contains(lcLimbChainList[i].ChainEnd))
+        //            {  // found new 
+        //                tLinkBones.Add(lcLimbChainList[i].ChainEnd);  // so add the transform
+        //            }
+        //        }
+        //    }
+        //    sLinkBones = null;  // clear the GUI popup list
+        //    if (tLinkBones.Count > 0)
+        //    {
+        //        sLinkBones = new string[tLinkBones.Count + 1];  // initialise
+        //        sLinkBones[0] = "Root Bone";
+        //        for (int i = 0; i < tLinkBones.Count; i++)
+        //        {  // process all link bones
+        //            sLinkBones[i + 1] = tLinkBones[i].name;  // add the name
+        //        }
+        //    }
+        //}
 
-        /// <summary>
-        /// Does this bone have child bones.
-        /// </summary>
-        /// <param name="tBone"></param>
-        /// <returns></returns>
-        int iCountBoneChilds(Transform Bone)
-        {
-            int iBoneChildren = 0;  // init bone counter
-            for (int j = 0; j < Bone.childCount; j++)
-            {  // process all children of the bone
-                if (sAllBones.Contains(Bone.GetChild(j).name))
-                {  // valid bone child found?
-                    iBoneChildren += 1;  // found a child bone
-                }
-            }
-            return iBoneChildren;  // work complete
-        }
+        ///// <summary>
+        ///// Does this bone have child bones.
+        ///// </summary>
+        ///// <param name="tBone"></param>
+        ///// <returns></returns>
+        //int iCountBoneChilds(Transform Bone)
+        //{
+        //    int iBoneChildren = 0;  // init bone counter
+        //    for (int j = 0; j < Bone.childCount; j++)
+        //    {  // process all children of the bone
+        //        if (sAllBones.Contains(Bone.GetChild(j).name))
+        //        {  // valid bone child found?
+        //            iBoneChildren += 1;  // found a child bone
+        //        }
+        //    }
+        //    return iBoneChildren;  // work complete
+        //}
 
-        /// <summary>
-        /// Clear flags & arrays for the limb chain build.
-        /// </summary>
-        void reset()
-        {
-            tRootBone = null;  // clear the previous root
-            tRootBones = new List<Transform>();  // clear the root bone transform list                        
-            tLinkBones = new List<Transform>();  // clear the link bone transform list
-            lcLimbChainList = new List<LimbChain>();  // clear the previous limb chains
-            sAllBones = new List<string>();  // clear previous bone list
-            lAllBones = new List<BoneOptions>();  // and the matching bone options list
-        }
+        ///// <summary>
+        ///// Clear flags & arrays for the limb chain build.
+        ///// </summary>
+        //void reset()
+        //{
+        //    tRootBone = null;  // clear the previous root
+        //    tRootBones = new List<Transform>();  // clear the root bone transform list                        
+        //    tLinkBones = new List<Transform>();  // clear the link bone transform list
+        //    lcLimbChainList = new List<LimbChain>();  // clear the previous limb chains
+        //    sAllBones = new List<string>();  // clear previous bone list
+        //    lAllBones = new List<BoneOptions>();  // and the matching bone options list
+        //}
 
-        /// <summary>
-        /// Loop backwards through the bone chain and find the parent bone that isn't skipped.
-        /// </summary>
-        /// <param name="BoneID">ID of the start bone.</param>
-        /// <returns>Transform of the parent bone that doesn't have the skip flag set.</returns>
-        public Transform findValidBoneLinkParent(int BoneID)
-        {
-            // find which limb chain
-            foreach (LimbChain lc in lcLimbChainList)
-            {  // check all limb chains
-                if (lc.AddedAlready || lc.Enable)
-                {  // only check limb chains included in the build
-                    int iBoneChainIndexID = lc.Bones.IndexOf(BoneID);  // search the limb chain links for the boneID
-                    if (iBoneChainIndexID >= 0)
-                    { // found the limb chain
-                        for (int i = iBoneChainIndexID - 1; i >= 0; i--)
-                        {  // process limb chain links backwards
-                            if (lAllBones[lc.Bones[i]].Type != eColliderType.DontInclude)
-                            {   // until find an included bone chain link
-                                return lAllBones[lc.Bones[i]].Bone;  // found valid included parent
-                            }
-                        }
+        ///// <summary>
+        ///// Loop backwards through the bone chain and find the parent bone that isn't skipped.
+        ///// </summary>
+        ///// <param name="BoneID">ID of the start bone.</param>
+        ///// <returns>Transform of the parent bone that doesn't have the skip flag set.</returns>
+        //public Transform findValidBoneLinkParent(int BoneID)
+        //{
+        //    // find which limb chain
+        //    foreach (LimbChain lc in lcLimbChainList)
+        //    {  // check all limb chains
+        //        if (lc.AddedAlready || lc.Enable)
+        //        {  // only check limb chains included in the build
+        //            int iBoneChainIndexID = lc.Bones.IndexOf(BoneID);  // search the limb chain links for the boneID
+        //            if (iBoneChainIndexID >= 0)
+        //            { // found the limb chain
+        //                for (int i = iBoneChainIndexID - 1; i >= 0; i--)
+        //                {  // process limb chain links backwards
+        //                    if (lAllBones[lc.Bones[i]].Type != eColliderType.DontInclude)
+        //                    {   // until find an included bone chain link
+        //                        return lAllBones[lc.Bones[i]].Bone;  // found valid included parent
+        //                    }
+        //                }
 
-                        // not found, return root or end of another link chain as parent
-                        if (lc.Linkbone == 0)
-                        {   // link chain parent not enabled
-                            return tRootBones[lc.Rootbone];  // return the root bone as no valid link parent was found
-                        }
-                        else
-                        {  // linked to another chain
-                            return tLinkBones[lc.Linkbone - 1];  // return the root bone as no valid link parent was found
-                        }
-                    }
-                }
-            }
-            return null; // this should never happen
-        }
+        //                // not found, return root or end of another link chain as parent
+        //                if (lc.Linkbone == 0)
+        //                {   // link chain parent not enabled
+        //                    return tRootBones[lc.Rootbone];  // return the root bone as no valid link parent was found
+        //                }
+        //                else
+        //                {  // linked to another chain
+        //                    return tLinkBones[lc.Linkbone - 1];  // return the root bone as no valid link parent was found
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return null; // this should never happen
+        //}
 
-        /// <summary>
-        /// loop backwards through the bone chain and find the parent bone that isn't skipped
-        /// </summary>
-        /// <param name="BoneID">ID of the start bone.</param>
-        /// <returns>Transform of the child bone that doesn't have the skip flag set.</returns>
-        public Transform findValidBoneLinkChild(int BoneID)
-        {
-            // find which limb chain
-            foreach (LimbChain lc in lcLimbChainList)
-            {  // check all limb chains
-                if (lc.AddedAlready)
-                {  // only check limb chains included in the build
-                    int iBoneChainIndexID = lc.Bones.IndexOf(BoneID);  // search the limb chain links for the boneID
-                    if (iBoneChainIndexID >= 0)
-                    { // found the limb chain
-                        for (int i = iBoneChainIndexID + 1; i < lc.Bones.Count; i++)
-                        {  // process limb chain links forwards
-                            if (lAllBones[lc.Bones[i]].Type != eColliderType.DontInclude)
-                            {   // until find an included bone chain link
-                                return lAllBones[lc.Bones[i]].Bone;  // found valid included parent
-                            }
-                        }
-                        return null;  // return the nothing for end of the chain
-                    }
-                }
-            }
-            return null; // this should never happen
-        }
+        ///// <summary>
+        ///// loop backwards through the bone chain and find the parent bone that isn't skipped
+        ///// </summary>
+        ///// <param name="BoneID">ID of the start bone.</param>
+        ///// <returns>Transform of the child bone that doesn't have the skip flag set.</returns>
+        //public Transform findValidBoneLinkChild(int BoneID)
+        //{
+        //    // find which limb chain
+        //    foreach (LimbChain lc in lcLimbChainList)
+        //    {  // check all limb chains
+        //        if (lc.AddedAlready)
+        //        {  // only check limb chains included in the build
+        //            int iBoneChainIndexID = lc.Bones.IndexOf(BoneID);  // search the limb chain links for the boneID
+        //            if (iBoneChainIndexID >= 0)
+        //            { // found the limb chain
+        //                for (int i = iBoneChainIndexID + 1; i < lc.Bones.Count; i++)
+        //                {  // process limb chain links forwards
+        //                    if (lAllBones[lc.Bones[i]].Type != eColliderType.DontInclude)
+        //                    {   // until find an included bone chain link
+        //                        return lAllBones[lc.Bones[i]].Bone;  // found valid included parent
+        //                    }
+        //                }
+        //                return null;  // return the nothing for end of the chain
+        //            }
+        //        }
+        //    }
+        //    return null; // this should never happen
+        //}
 
-        #endregion
+        //#endregion
 
-        #region "Character Joint Handling"
-        /// <summary>
-        /// Setup the bone rigid body, collider and joint components.
-        /// </summary>
-        /// <param name="Bone">Bone transform to add the components to.</param>
-        /// <param name="Parent">Parent bone to link the rigid body connected body to.</param>
-        void AddBoneComponents(Transform Bone, Transform Parent)
-        {
-            int iBoneID = sAllBones.IndexOf(Bone.name);  // find in the bone array
-            lAllBones[iBoneID].Shown = true;  // enable for the GUI
-            if (lAllBones[iBoneID].Type == eColliderType.DontInclude)  // bone was previously set to not shown
-            {
-                lAllBones[iBoneID].Type = eColliderType.Capsule;  // default to capsule
-            }
-            Rigidbody rb = Bone.GetComponent<Rigidbody>();  // attempt to grab existing rigid body
-            if (!rb) // not found?
-            {
-                rb = Bone.gameObject.AddComponent<Rigidbody>();  // add the rigid body
-                rb.mass = fBoneMass;  // apply even mass across body
-                rb.useGravity = true;  // gravity is needed
-            }
-            AddBoneCollider(iBoneID); // the collider
-            CharacterJoint cj = Bone.gameObject.AddComponent<CharacterJoint>(); // and the joint components
-            Rigidbody rbP = Parent.GetComponent<Rigidbody>();
-            if (!rbP)  // no rigid body on the parent
-            {
-                rbP = Parent.gameObject.AddComponent<Rigidbody>();  // add the rigid body
-                rbP.mass = fBoneMass;  // apply even mass across body
-                rbP.useGravity = true;  // gravity is needed
-            }
-            cj.connectedBody = Parent.GetComponent<Rigidbody>();  // connect to the parent rigid body
-            cj.enableProjection = true;  // Brings violated constraints back into alignment even when the solver fails.
-            Bone.gameObject.AddComponent<vCollisionMessage>();  // add the invector collision message
-        }
+        //#region "Character Joint Handling"
+        ///// <summary>
+        ///// Setup the bone rigid body, collider and joint components.
+        ///// </summary>
+        ///// <param name="Bone">Bone transform to add the components to.</param>
+        ///// <param name="Parent">Parent bone to link the rigid body connected body to.</param>
+        //void AddBoneComponents(Transform Bone, Transform Parent)
+        //{
+        //    int iBoneID = sAllBones.IndexOf(Bone.name);  // find in the bone array
+        //    lAllBones[iBoneID].Shown = true;  // enable for the GUI
+        //    if (lAllBones[iBoneID].Type == eColliderType.DontInclude)  // bone was previously set to not shown
+        //    {
+        //        lAllBones[iBoneID].Type = eColliderType.Capsule;  // default to capsule
+        //    }
+        //    Rigidbody rb = Bone.GetComponent<Rigidbody>();  // attempt to grab existing rigid body
+        //    if (!rb) // not found?
+        //    {
+        //        rb = Bone.gameObject.AddComponent<Rigidbody>();  // add the rigid body
+        //        rb.mass = fBoneMass;  // apply even mass across body
+        //        rb.useGravity = true;  // gravity is needed
+        //    }
+        //    AddBoneCollider(iBoneID); // the collider
+        //    CharacterJoint cj = Bone.gameObject.AddComponent<CharacterJoint>(); // and the joint components
+        //    Rigidbody rbP = Parent.GetComponent<Rigidbody>();
+        //    if (!rbP)  // no rigid body on the parent
+        //    {
+        //        rbP = Parent.gameObject.AddComponent<Rigidbody>();  // add the rigid body
+        //        rbP.mass = fBoneMass;  // apply even mass across body
+        //        rbP.useGravity = true;  // gravity is needed
+        //    }
+        //    cj.connectedBody = Parent.GetComponent<Rigidbody>();  // connect to the parent rigid body
+        //    cj.enableProjection = true;  // Brings violated constraints back into alignment even when the solver fails.
+        //    Bone.gameObject.AddComponent<vCollisionMessage>();  // add the invector collision message
+        //}
 
-        /// <summary>
-        /// Setup the bone collider.
-        /// </summary>
-        /// <param name="BoneID">ID of the bone to add the specified collider to.</param>
-        void AddBoneCollider(int BoneID)
-        {
-            // setup the collider direction, length and radius
-            int direction;
-            float distance;
-            if (iCountBoneChilds(lAllBones[BoneID].Bone) == 1)
-            {  // middle of chain
-                Transform childBone = lAllBones[BoneID].Bone.GetChild(0);
-                for (int i = 0; i < lAllBones[BoneID].Bone.childCount; i++)
-                {
-                    if (sAllBones.Contains(lAllBones[BoneID].Bone.GetChild(i).name))
-                    {
-                        childBone = lAllBones[BoneID].Bone.GetChild(i);
-                        break;
-                    }
-                }
-                Vector3 endPoint = childBone.position;
-                CalculateDirection(lAllBones[BoneID].Bone.InverseTransformPoint(endPoint), out direction, out distance);
-            }
-            else
-            {  // end point
-                Vector3 endPoint = (lAllBones[BoneID].Bone.position - lAllBones[BoneID].Bone.parent.position) + lAllBones[BoneID].Bone.position;
-                CalculateDirection(lAllBones[BoneID].Bone.InverseTransformPoint(endPoint), out direction, out distance);
+        ///// <summary>
+        ///// Setup the bone collider.
+        ///// </summary>
+        ///// <param name="BoneID">ID of the bone to add the specified collider to.</param>
+        //void AddBoneCollider(int BoneID)
+        //{
+        //    // setup the collider direction, length and radius
+        //    int direction;
+        //    float distance;
+        //    if (iCountBoneChilds(lAllBones[BoneID].Bone) == 1)
+        //    {  // middle of chain
+        //        Transform childBone = lAllBones[BoneID].Bone.GetChild(0);
+        //        for (int i = 0; i < lAllBones[BoneID].Bone.childCount; i++)
+        //        {
+        //            if (sAllBones.Contains(lAllBones[BoneID].Bone.GetChild(i).name))
+        //            {
+        //                childBone = lAllBones[BoneID].Bone.GetChild(i);
+        //                break;
+        //            }
+        //        }
+        //        Vector3 endPoint = childBone.position;
+        //        CalculateDirection(lAllBones[BoneID].Bone.InverseTransformPoint(endPoint), out direction, out distance);
+        //    }
+        //    else
+        //    {  // end point
+        //        Vector3 endPoint = (lAllBones[BoneID].Bone.position - lAllBones[BoneID].Bone.parent.position) + lAllBones[BoneID].Bone.position;
+        //        CalculateDirection(lAllBones[BoneID].Bone.InverseTransformPoint(endPoint), out direction, out distance);
 
-                if (lAllBones[BoneID].Bone.GetComponentsInChildren(typeof(Transform)).Length > 1)
-                {
-                    Bounds bounds = new Bounds();
-                    foreach (Transform child in lAllBones[BoneID].Bone.GetComponentsInChildren(typeof(Transform)))
-                    {
-                        bounds.Encapsulate(lAllBones[BoneID].Bone.InverseTransformPoint(child.position));
-                    }
+        //        if (lAllBones[BoneID].Bone.GetComponentsInChildren(typeof(Transform)).Length > 1)
+        //        {
+        //            Bounds bounds = new Bounds();
+        //            foreach (Transform child in lAllBones[BoneID].Bone.GetComponentsInChildren(typeof(Transform)))
+        //            {
+        //                bounds.Encapsulate(lAllBones[BoneID].Bone.InverseTransformPoint(child.position));
+        //            }
 
-                    if (distance > 0)
-                        distance = bounds.max[direction];
-                    else
-                        distance = bounds.min[direction];
-                }
-            }
-            Vector3 center = Vector3.zero;
-            center[direction] = distance * 0.5f;
-            if (lAllBones[BoneID].Radius == 0)
-            {
-                lAllBones[BoneID].Radius = Mathf.Abs((lAllBones[BoneID].Type == eColliderType.Sphere ? distance * 0.5f : distance * 0.25f));
-            }
+        //            if (distance > 0)
+        //                distance = bounds.max[direction];
+        //            else
+        //                distance = bounds.min[direction];
+        //        }
+        //    }
+        //    Vector3 center = Vector3.zero;
+        //    center[direction] = distance * 0.5f;
+        //    if (lAllBones[BoneID].Radius == 0)
+        //    {
+        //        lAllBones[BoneID].Radius = Mathf.Abs((lAllBones[BoneID].Type == eColliderType.Sphere ? distance * 0.5f : distance * 0.25f));
+        //    }
 
-            // add the collider
-            switch (lAllBones[BoneID].Type)
-            {
-                case eColliderType.Box:
-                    BoxCollider bc = lAllBones[BoneID].Bone.gameObject.AddComponent<BoxCollider>();
-                    Vector3 size = new Vector3(lAllBones[BoneID].Radius, lAllBones[BoneID].Radius, lAllBones[BoneID].Radius);
-                    size[direction] = Mathf.Abs(distance); // * 0.5f);
-                    bc.size = size;
-                    bc.center = center;
-                    break;
-                case eColliderType.Sphere:
-                    SphereCollider sc = lAllBones[BoneID].Bone.gameObject.AddComponent<SphereCollider>();
-                    sc.center = center;
-                    sc.radius = lAllBones[BoneID].Radius;
-                    break;
-                default:
-                    CapsuleCollider collider = (CapsuleCollider)lAllBones[BoneID].Bone.gameObject.AddComponent<CapsuleCollider>();
-                    collider.direction = direction;
-                    collider.center = center;
-                    collider.height = Mathf.Abs(distance); // *0.5f);
-                    collider.radius = lAllBones[BoneID].Radius;
-                    break;
-            }
-        }
+        //    // add the collider
+        //    switch (lAllBones[BoneID].Type)
+        //    {
+        //        case eColliderType.Box:
+        //            BoxCollider bc = lAllBones[BoneID].Bone.gameObject.AddComponent<BoxCollider>();
+        //            Vector3 size = new Vector3(lAllBones[BoneID].Radius, lAllBones[BoneID].Radius, lAllBones[BoneID].Radius);
+        //            size[direction] = Mathf.Abs(distance); // * 0.5f);
+        //            bc.size = size;
+        //            bc.center = center;
+        //            break;
+        //        case eColliderType.Sphere:
+        //            SphereCollider sc = lAllBones[BoneID].Bone.gameObject.AddComponent<SphereCollider>();
+        //            sc.center = center;
+        //            sc.radius = lAllBones[BoneID].Radius;
+        //            break;
+        //        default:
+        //            CapsuleCollider collider = (CapsuleCollider)lAllBones[BoneID].Bone.gameObject.AddComponent<CapsuleCollider>();
+        //            collider.direction = direction;
+        //            collider.center = center;
+        //            collider.height = Mathf.Abs(distance); // *0.5f);
+        //            collider.radius = lAllBones[BoneID].Radius;
+        //            break;
+        //    }
+        //}
 
-        /// <summary>
-        /// Calculate longest axis of the bone.
-        /// </summary>
-        /// <param name="Point"></param>
-        /// <param name="Direction">Direction of the longest axis return parameter.</param>
-        /// <param name="Distance">Distance of the longest axis return parameter.</param>
-        static void CalculateDirection(Vector3 Point, out int Direction, out float Distance)
-        {
-            Direction = 0;
-            if (Mathf.Abs(Point[1]) > Mathf.Abs(Point[0]))
-                Direction = 1;
-            if (Mathf.Abs(Point[2]) > Mathf.Abs(Point[Direction]))
-                Direction = 2;
+        ///// <summary>
+        ///// Calculate longest axis of the bone.
+        ///// </summary>
+        ///// <param name="Point"></param>
+        ///// <param name="Direction">Direction of the longest axis return parameter.</param>
+        ///// <param name="Distance">Distance of the longest axis return parameter.</param>
+        //static void CalculateDirection(Vector3 Point, out int Direction, out float Distance)
+        //{
+        //    Direction = 0;
+        //    if (Mathf.Abs(Point[1]) > Mathf.Abs(Point[0]))
+        //        Direction = 1;
+        //    if (Mathf.Abs(Point[2]) > Mathf.Abs(Point[Direction]))
+        //        Direction = 2;
 
-            Distance = Point[Direction];
-        }  
+        //    Distance = Point[Direction];
+        //}  
 
-        /// <summary>
-        /// Remove previously added character joint, collider components from the bone.
-        /// </summary>
-        /// <param name="BoneID">ID of the bone.</param>
-        /// <param name="JustColliders">Only remove colliders.</param>
-        void RemoveBoneComponents(int BoneID, bool JustColliders)
-        {
-            switch (lAllBones[BoneID].Type)  // remove which collider
-            {
-                case eColliderType.Box:
-                    BoxCollider bc = lAllBones[BoneID].Bone.gameObject.GetComponent<BoxCollider>();  // get 
-                    if (bc) DestroyImmediate(bc);  // remove
-                    break;
-                case eColliderType.Sphere:
-                    SphereCollider sc = lAllBones[BoneID].Bone.gameObject.GetComponent<SphereCollider>();  // get 
-                    if (sc) DestroyImmediate(sc);  // remove
-                    break;
-                case eColliderType.Capsule:
-                    CapsuleCollider cc = lAllBones[BoneID].Bone.gameObject.GetComponent<CapsuleCollider>();  // get 
-                    if (cc) DestroyImmediate(cc);  // remove
-                    break;
-            }
-            if (!JustColliders)  // remove all?
-            {
-                CharacterJoint cj = lAllBones[BoneID].Bone.gameObject.GetComponent<CharacterJoint>();  // get 
-                if (cj) DestroyImmediate(cj);  // remove
-                Rigidbody rb = lAllBones[BoneID].Bone.gameObject.GetComponent<Rigidbody>();  // get 
-                if (rb) DestroyImmediate(rb);  // remove  
-                vCollisionMessage cm = lAllBones[BoneID].Bone.gameObject.GetComponent<vCollisionMessage>();  // get 
-                if (cm) DestroyImmediate(cm);  // remove  
-                lAllBones[BoneID].Shown = false;  // also remove from the GUI
-            }
-        }  
+        ///// <summary>
+        ///// Remove previously added character joint, collider components from the bone.
+        ///// </summary>
+        ///// <param name="BoneID">ID of the bone.</param>
+        ///// <param name="JustColliders">Only remove colliders.</param>
+        //void RemoveBoneComponents(int BoneID, bool JustColliders)
+        //{
+        //    switch (lAllBones[BoneID].Type)  // remove which collider
+        //    {
+        //        case eColliderType.Box:
+        //            BoxCollider bc = lAllBones[BoneID].Bone.gameObject.GetComponent<BoxCollider>();  // get 
+        //            if (bc) DestroyImmediate(bc);  // remove
+        //            break;
+        //        case eColliderType.Sphere:
+        //            SphereCollider sc = lAllBones[BoneID].Bone.gameObject.GetComponent<SphereCollider>();  // get 
+        //            if (sc) DestroyImmediate(sc);  // remove
+        //            break;
+        //        case eColliderType.Capsule:
+        //            CapsuleCollider cc = lAllBones[BoneID].Bone.gameObject.GetComponent<CapsuleCollider>();  // get 
+        //            if (cc) DestroyImmediate(cc);  // remove
+        //            break;
+        //    }
+        //    if (!JustColliders)  // remove all?
+        //    {
+        //        CharacterJoint cj = lAllBones[BoneID].Bone.gameObject.GetComponent<CharacterJoint>();  // get 
+        //        if (cj) DestroyImmediate(cj);  // remove
+        //        Rigidbody rb = lAllBones[BoneID].Bone.gameObject.GetComponent<Rigidbody>();  // get 
+        //        if (rb) DestroyImmediate(rb);  // remove  
+        //        vCollisionMessage cm = lAllBones[BoneID].Bone.gameObject.GetComponent<vCollisionMessage>();  // get 
+        //        if (cm) DestroyImmediate(cm);  // remove  
+        //        lAllBones[BoneID].Shown = false;  // also remove from the GUI
+        //    }
+        //}  
 
-        #endregion
+        //#endregion
     }
 
     #region "List classes"
