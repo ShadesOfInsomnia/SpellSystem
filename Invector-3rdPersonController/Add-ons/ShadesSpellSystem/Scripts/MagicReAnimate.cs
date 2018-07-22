@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -84,7 +84,7 @@ namespace Shadex
                                 {  // valid is raise?
                                     if (GlobalFuncs.MAGICAL_POOL)
                                     {
-                                        goMinion = GlobalFuncs.SpawnBasic(mai.MinionPrefab, 1, mai.transform, new RandomSphereOptions() { }, SpawnTarget.Any);
+                                        goMinion = GlobalFuncs.SpawnBasic(mai.MinionPrefab, 1, mai.transform, new RandomSphereOptions() { }, SpawnTarget.Any)[0];
                                     }
                                     else
                                     {

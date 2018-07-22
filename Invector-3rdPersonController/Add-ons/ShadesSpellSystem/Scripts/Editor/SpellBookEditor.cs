@@ -779,7 +779,7 @@ namespace Shadex
                                 MeleeAttack.startDamage = SpellDetail.startDamage;
                                 MeleeAttack.endDamage = SpellDetail.endDamage;
                                 MeleeAttack.activeRagdoll = SpellDetail.activeRagdoll;
-                                MeleeAttack.attackName = SpellDetail.attackName;
+                                //MeleeAttack.attackName = SpellDetail.attackName;
                                 MeleeAttack.bodyParts = MeleeBodyParts;
                                 MeleeAttack.damageMultiplier = SpellDetail.damageMultiplier;
                                 MeleeAttack.ignoreDefense = SpellDetail.ignoreDefense;
@@ -1330,7 +1330,7 @@ namespace Shadex
             // sync the options
             NewMeleeAttack.activeRagdoll = MeleeAttackBehavior.activeRagdoll;
             NewMeleeAttack.allowMovementAt = MeleeAttackBehavior.allowMovementAt;
-            NewMeleeAttack.attackName = MeleeAttackBehavior.attackName;
+            //NewMeleeAttack.attackName = MeleeAttackBehavior.attackName;
             NewMeleeAttack.bodyParts = MeleeAttackBehavior.bodyParts;
             NewMeleeAttack.damageMultiplier = MeleeAttackBehavior.damageMultiplier;
             NewMeleeAttack.endDamage = MeleeAttackBehavior.endDamage;

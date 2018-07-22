@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,7 +110,7 @@ namespace Shadex
         public string ActionTriggerParameter = "WaypointActionStart";
 
         /// <summary>Delegate to call mana used onto leveling system.</summary>
-        public SetIntValue useMana; 
+        public SetIntValue useMana;
 
         // hidden from GUI
         [HideInInspector] public bool bMagicAttacking = false;  // ensure magic attack coroutine doesn't get doubled up
@@ -148,7 +148,7 @@ namespace Shadex
                 ai.onReceiveDamage.AddListener(OnReceiveDamage_Chase);  // listen for damage to enable chase when out of FOV
                 ai.onChase.AddListener(delegate { OnChase(); });  // listen for start of chase mode
                 ai.onIdle.AddListener(delegate { OnIdle(); });  // listen for start of idle mode
-                ai.onPatrol.AddListener(delegate { OnPatrol(); });  // listen for start of idle mode
+                //ai.onPatrol.AddListener(delegate { OnPatrol(); });  // listen for start of idle mode
                 ai.onDead.AddListener(delegate { OnDead(); });  // listen for sudden death
 
                 // store original FOV
@@ -312,16 +312,16 @@ namespace Shadex
                     if (agent.pathStatus == NavMeshPathStatus.PathComplete)
                     {  // potential idle at a way point
                         int iWaypointIDCheck = -1;  // init way point check
-#if !VANILLA
-                        for (int w = 0; w < ai.pathArea.waypoints.Count; w++)
-                        {  // check all way points
-                            if (Vector3.Distance(transform.localPosition, ai.pathArea.waypoints[w].transform.localPosition) <= ai.patrollingStopDistance)
-                            {  // within stop distance
-                                iWaypointIDCheck = w;  // found it
-                                break;  // work complete
-                            }
-                        }
-#endif
+//#if !VANILLA
+//                        for (int w = 0; w < ai.pathArea.waypoints.Count; w++)
+//                        {  // check all way points
+//                            if (Vector3.Distance(transform.localPosition, ai.pathArea.waypoints[w].transform.localPosition) <= ai.patrollingStopDistance)
+//                            {  // within stop distance
+//                                iWaypointIDCheck = w;  // found it
+//                                break;  // work complete
+//                            }
+//                        }
+//#endif
                         if (iWaypointIDCheck > -1)
                         { // at a way point
                             if (iWaypointIDCheck != iWaypointID)
@@ -394,23 +394,23 @@ namespace Shadex
         /// </summary>
         public virtual void OnPatrol()
         {
-            if (GlobalFuncs.DEBUGGING_MESSAGES)
-            {
-                Debug.Log(transform.name + " change state to Patrol");
-            }
-            bMagicAttacking = false;  // ensure no more spells launched
-            if (WaypointActions)
-            {  // update the animator with patrol way point id's
-                bPatrolling = true;  // init dropout condition
-#if !VANILLA
-                if (ai.pathArea)
-                {
-#endif
-                    StartCoroutine(UpdateAnimatorWithWaypointID());  // pass the way point id's to the animator whilst patrolling
-#if !VANILLA
-                }
-#endif
-            }
+//            if (GlobalFuncs.DEBUGGING_MESSAGES)
+//            {
+//                Debug.Log(transform.name + " change state to Patrol");
+//            }
+//            bMagicAttacking = false;  // ensure no more spells launched
+//            if (WaypointActions)
+//            {  // update the animator with patrol way point id's
+//                bPatrolling = true;  // init dropout condition
+//#if !VANILLA
+//                if (ai.pathArea)
+//                {
+//#endif
+//                    StartCoroutine(UpdateAnimatorWithWaypointID());  // pass the way point id's to the animator whilst patrolling
+//#if !VANILLA
+//                }
+//#endif
+//            }
         }
 
         /// <summary>
@@ -452,7 +452,7 @@ namespace Shadex
                     ai.fieldOfView = 180;  // increase FOV to ensure player detection
                 }
             }
-        }  
+        }
 #endif
         /// <summary>
         /// On disable/death disable active coroutine.
@@ -497,7 +497,7 @@ namespace Shadex
 
         /// <summary>Mana cost of the spell.</summary>
         public int ManaCost;
-    }  
+    }
 }
 
 /* *****************************************************************************************************************************
