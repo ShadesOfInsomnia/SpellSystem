@@ -145,7 +145,11 @@ namespace Shadex
             GUILayout.FlexibleSpace();
             if (ItemListData != null && HeadBone != null && LOD1BodyMesh != null)
             {
+#if INVECTOR_AI_TEMPLATE
+                if (Selection.activeGameObject != null && Selection.activeGameObject.GetComponent<vControlAICombat>() != null)
+#else
                 if (Selection.activeGameObject != null && Selection.activeGameObject.GetComponent<v_AIController>() != null)
+#endif
                 {
                     if (iWhichMesh > -1)
                     {
@@ -235,7 +239,11 @@ namespace Shadex
                 }
 
                 // link the ai damage to the leveling system
+#if INVECTOR_AI_TEMPLATE
+                vControlAICombat vai = Selection.activeGameObject.GetComponent<vControlAICombat>();
+#else
                 v_AIController vai = Selection.activeGameObject.GetComponent<v_AIController>();
+#endif
                 vai.onReceiveDamage = new Invector.OnReceiveDamage();
                 UnityEventTools.AddPersistentListener(vai.onReceiveDamage, levelingsystem.OnRecieveDamage);
 
