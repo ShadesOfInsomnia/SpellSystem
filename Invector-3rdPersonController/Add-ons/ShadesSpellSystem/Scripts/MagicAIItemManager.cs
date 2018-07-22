@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 using System;
 using System.Collections;
@@ -82,7 +82,11 @@ namespace Shadex
 
             if (dropItemsWhenDead)
             {
+#if INVECTOR_AI_TEMPLATE
+                var character = GetComponent<vControlAICombat>();
+#else
                 var character = GetComponent<v_AIController>();
+#endif
                 if (character)
                     character.onDead.AddListener(DropAllItens);
             }
@@ -281,7 +285,7 @@ namespace Shadex
             items.Clear();
         }
 
-        #region Check Items
+#region Check Items
         /// <summary>
         /// Check the vItem list for an vItem by ID.
         /// </summary>
@@ -349,9 +353,9 @@ namespace Shadex
             var _items = items.FindAll(i => i.name == itemName);
             return _items != null && _items.Count >= count;
         }
-        #endregion
+#endregion
 
-        #region Get Items 
+#region Get Items 
         /// <summary>
         /// Gets a vItem by id.
         /// </summary>
@@ -395,11 +399,11 @@ namespace Shadex
             return _items;
         }
 
-        #endregion
+#endregion
 
 
 
-        #region Item Collector    
+#region Item Collector    
 
         /// <summary>
         /// Bulk collect vItems to the inventory.
@@ -486,7 +490,7 @@ namespace Shadex
             CollectItem(itemRef, immediate);
         }
 
-        #endregion
+#endregion
 
     }
 }
