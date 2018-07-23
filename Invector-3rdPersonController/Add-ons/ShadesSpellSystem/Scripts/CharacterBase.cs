@@ -8,6 +8,9 @@ using System.Linq;
 using Invector;
 using Invector.vCharacterController;
 using Invector.vMelee;
+#if INVECTOR_AI_TEMPLATE
+using Invector.vCharacterController.AI;
+#endif
 #endif
 
 namespace Shadex
@@ -168,8 +171,12 @@ namespace Shadex
         /// <summary>Cache of the base class for the attached character.</summary>
         protected vCharacter TheCharacter;
 
-        /// <summary>Cache of the base class for the attached character.</summary>
+        /// <summary>Cache of the base class for the attached character motor.</summary>
         protected vThirdPersonMotor TheCharacterMotor;
+
+#if INVECTOR_AI_TEMPLATE
+        protected vControlAICombat ai;
+#endif
 
         /// <summary>Cache the hash to the Core_Level parameter ID.</summary>
         public static readonly int param_CoreLevel = Animator.StringToHash("Core_Level");
@@ -204,9 +211,17 @@ namespace Shadex
         {
 #if !VANILLA// add the drop all collectables link
             TheCharacter = GetComponent<vCharacter>();
-            TheCharacterMotor = GetComponent<vThirdPersonMotor>();
-            TheCharacter.onDead.AddListener(DropAllCollectables);
+#if INVECTOR_AI_TEMPLATE
+            if (!TheCharacter)
+            {
+                ai = GetComponent<vControlAICombat>();
+                if (ai) ai.onDead.AddListener(DropAllCollectables);
+            }
+#else
+            TheCharacterMotor = GetComponent<vThirdPersonMotor>();            
 #endif
+#endif
+            if (TheCharacter) TheCharacter.onDead.AddListener(DropAllCollectables);
 
             // handle collectables
             if (gameObject.tag == "Player")
