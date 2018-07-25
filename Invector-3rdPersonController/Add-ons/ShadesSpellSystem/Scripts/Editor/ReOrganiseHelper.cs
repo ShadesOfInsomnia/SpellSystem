@@ -105,22 +105,22 @@ namespace Shadex
         //float fBoneMass = 10f;  // the mass to apply to each bone
 
         // processing
-        //GameObject goBuildRoot;  // enemy currently being built
+        GameObject goBuildRoot;  // enemy currently being built
         Transform tRootBone;  // top level bone
-        //List<Transform> tRootBones;  // user alterable root's for the body, eg upper/lower body in a humanoid
-        //String[] sRootBones;  // matching list of root bone names for the GUI
-        //List<Transform> tLinkBones;  // user alterable root's for the body, eg upper/lower body in a humanoid
-        //String[] sLinkBones;  // matching list of root bone names for the GUI
-        //List<LimbChain> lcLimbChainList;  // start bone for each limb chain
-        //List<string> sAllBones;  // all known bone names for quick search
-        //public enum eColliderType { Capsule, Box, Sphere, DontInclude };  // types of collider
-        //List<BoneOptions> lAllBones;  // matching list of options
-        //bool bHitboxesShown;  // toggle the invector hitboxes
+        List<Transform> tRootBones;  // user alterable root's for the body, eg upper/lower body in a humanoid
+        String[] sRootBones;  // matching list of root bone names for the GUI
+        List<Transform> tLinkBones;  // user alterable root's for the body, eg upper/lower body in a humanoid
+        String[] sLinkBones;  // matching list of root bone names for the GUI
+        List<LimbChain> lcLimbChainList;  // start bone for each limb chain
+        List<string> sAllBones;  // all known bone names for quick search
+        public enum eColliderType { Capsule, Box, Sphere, DontInclude };  // types of collider
+        List<BoneOptions> lAllBones;  // matching list of options
+        bool bHitboxesShown;  // toggle the invector hitboxes
 
         // editor GUI internals
         Transform tNewValue;
         Transform tNext;
-        //eColliderType ctNewValue;
+        eColliderType ctNewValue;
         bool bFound;
         SkinnedMeshRenderer targetRenderer;
 
@@ -236,7 +236,7 @@ namespace Shadex
                         }
                     }
 #endif
-
+                    
                     // detect characters
                     foreach (string sLocation in sCharacterPaths)
                     {
@@ -306,13 +306,13 @@ namespace Shadex
                                 for (int j = 0; j < sCreatorPrefix.Length; j++)  // find the creator id
                                 {
                                     if (ccCharPaths[i].sFriendlyName.StartsWith(sCreatorPrefix[j]))  // found the creator         
-                                    {
+                                    {                       
                                         iCurrentCreator = j;  // assign the creator ID                                    
                                         sCharPathShortList = null;  // clear the short list
                                         foreach (stCharPaths cc in ccCharPaths)  // rebuild from the new id
                                         {
                                             if (cc.sFriendlyName.StartsWith(sCreatorPrefix[iCurrentCreator]))  // matching creator               
-                                            {
+                                            {                         
                                                 if (sCharPathShortList == null)  // empty list
                                                 {
                                                     sCharPathShortList = new string[1];  // create element 0                                
@@ -1757,15 +1757,15 @@ namespace Shadex
                             ccCharComponents = null;  // clear the components list
                             ccCharMaterials = null;  // clear the materials list
                             foreach (Transform tChild in goActiveCharacter.GetComponentsInChildren<Transform>(true))// loop through children recursive
-                            {
+                            {  
                                 if (tChild.GetComponent<MeshRenderer>() || tChild.GetComponent<SkinnedMeshRenderer>())// valid mesh component        
-                                {
+                                {                          
                                     // check if member of LOD group parent object
                                     bool bLOD = false;  // LOD level flag
                                     bool bLOD1 = false;   // LOD1 level flag   
                                     eGender egSex = eGender.Both;
                                     if (tChild.name.Contains("_LOD")) // is it LOD in bones
-                                    {
+                                    {  
                                         bLOD = true;  // it is
                                         if (tChild.name.EndsWith("_LOD1"))
                                         {  // is it LOD1
@@ -1773,12 +1773,12 @@ namespace Shadex
                                         }
                                     }
                                     else // search back to root to determine if child of LOD level
-                                    {
+                                    { 
                                         Transform tPreviousChild = tChild;  // store the previous for when has gender
                                         Transform tFindParent = tChild;  // init the search
                                         while (tFindParent.parent.name != goActiveCharacter.name && !(
-                                            tFindParent.parent.name == "Male" ||
-                                            tFindParent.parent.name == "Female" ||
+                                            tFindParent.parent.name == "Male" || 
+                                            tFindParent.parent.name == "Female" || 
                                             tFindParent.parent.name.Contains("_Holder")
                                         ))
                                         {  // loop back until find child of object being analyzed                                        
@@ -2447,7 +2447,7 @@ namespace Shadex
         private int iToPureNumeric(string self)
         {
             return Convert.ToInt32(new string(Array.FindAll(self.ToCharArray(), c => char.IsDigit(c))));
-        }
+        } 
 
         /// <summary>
         /// Error logging with a stack trace.
@@ -2844,55 +2844,55 @@ namespace Shadex
         //#endregion
     }
 
-    //    #region "List classes"
-    //    /// <summary>
-    //    /// Limb chain data for use within the main limb chain list.
-    //    /// </summary>
-    //    public class LimbChain
-    //    {
-    //        /// <summary>Which root bone to attach to</summary>
-    //        public int Rootbone;
+    #region "List classes"
+    /// <summary>
+    /// Limb chain data for use within the main limb chain list.
+    /// </summary>
+    public class LimbChain
+    {
+        /// <summary>Which root bone to attach to</summary>
+        public int Rootbone;
 
-    //        /// <summary>Which link bone to attach to, overrides root bone setting</summary>
-    //        public int Linkbone;  
+        /// <summary>Which link bone to attach to, overrides root bone setting</summary>
+        public int Linkbone;  
 
-    //        /// <summary>Include in the ragdoll</summary>
-    //        public bool Enable;  
+        /// <summary>Include in the ragdoll</summary>
+        public bool Enable;  
 
-    //        /// <summary>Components added</summary>
-    //        public bool AddedAlready;  
+        /// <summary>Components added</summary>
+        public bool AddedAlready;  
 
-    //        /// <summary>Total links in the chain (for GUI).</summary>
-    //        public int Links;  
+        /// <summary>Total links in the chain (for GUI).</summary>
+        public int Links;  
 
-    //        /// <summary>Start of the limb chain.</summary>
-    //        public Transform ChainStart; 
+        /// <summary>Start of the limb chain.</summary>
+        public Transform ChainStart; 
 
-    //        /// <summary>End of the limb chain (for GUI).</summary>
-    //        public Transform ChainEnd;  
+        /// <summary>End of the limb chain (for GUI).</summary>
+        public Transform ChainEnd;  
 
-    //        /// <summary>ID's of bones in the chain.</summary>
-    //        public List<int> Bones;  
-    //    }
+        /// <summary>ID's of bones in the chain.</summary>
+        public List<int> Bones;  
+    }
 
-    //    /// <summary>
-    //    /// Collider settings and references for use within the bone list.
-    //    /// </summary>
-    //    public class BoneOptions
-    //    {
-    //        /// <summary>Updated depending upon limb chains selected.</summary>
-    //        public bool Shown;  
+    /// <summary>
+    /// Collider settings and references for use within the bone list.
+    /// </summary>
+    public class BoneOptions
+    {
+        /// <summary>Updated depending upon limb chains selected.</summary>
+        public bool Shown;  
 
-    //        /// <summary>Collider override.</summary>
-    //        public ReOrganiseHelper.eColliderType Type;  
+        /// <summary>Collider override.</summary>
+        public ReOrganiseHelper.eColliderType Type;  
 
-    //        /// <summary>Reference to the bone.</summary>
-    //        public Transform Bone;  
+        /// <summary>Reference to the bone.</summary>
+        public Transform Bone;  
 
-    //        /// <summary>Collider radius.</summary>
-    //        public float Radius;  
-    //    }  
-    //#endregion
+        /// <summary>Collider radius.</summary>
+        public float Radius;  
+    }  
+#endregion
 }
 
 /* *****************************************************************************************************************************
