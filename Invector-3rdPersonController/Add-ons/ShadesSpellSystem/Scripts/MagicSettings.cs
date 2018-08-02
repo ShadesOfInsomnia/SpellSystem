@@ -163,10 +163,12 @@ namespace Shadex
         /// <param name="e">Character stats update contained within class properties.</param>
         protected virtual void UpdateHUDListener(CharacterBase cb, CharacterUpdated e)
         {
-            XPText.text = e.XP.ToString();
-            ManaSlider.maxValue = e.ManaMAX;
-            ManaSlider.value = e.Mana;
-
+            if (XPText) XPText.text = e.XP.ToString();
+            if (ManaSlider)
+            {
+                ManaSlider.maxValue = e.ManaMAX;
+                ManaSlider.value = e.Mana;
+            }
 
 #if !VANILLA
             if (vThirdPerson)
@@ -180,12 +182,15 @@ namespace Shadex
             if (e.Level > iLastLevel)
             {
                 iLastLevel = e.Level;
-                LevelText.text = e.Level.ToString();
-                LevelUpText.CrossFadeAlpha(1f, 0.01f, false);
-                LevelUpText.text = "Congratulations, you reached level " + e.Level.ToString();
-                LevelUpText.CrossFadeAlpha(0f, FadeDuration, false);
+                if (LevelText) LevelText.text = e.Level.ToString();
+                if (LevelUpText)
+                {
+                    LevelUpText.CrossFadeAlpha(1f, 0.01f, false);
+                    LevelUpText.text = "Congratulations, you reached level " + e.Level.ToString();
+                    LevelUpText.CrossFadeAlpha(0f, FadeDuration, false);
+                }
             }
-        }  
+        }
 
         /// <summary>
         /// Handle user input into the spell triggers
