@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+using UnityEngine;
+using UnityEngine.UI;
 using UnityEditor.Events;
 using System.Collections;
 using System.Collections.Generic;
@@ -45,6 +46,8 @@ namespace Shadex
                 // setup
                 GameObject player = Selection.activeGameObject;
                 MagicSettings settings = player.GetComponent<MagicSettings>();
+                vThirdPersonController controller = player.GetComponent<vThirdPersonController>();
+                vMeleeManager melee = player.GetComponent<vMeleeManager>();
                 CharacterBase levelingSystem = player.GetComponent<CharacterBase>();
                 lastUICheckResults = "";
                 int changeCount = 0;
@@ -69,17 +72,33 @@ namespace Shadex
                     lastUICheckResults += "Added Magic Spawn Point\r\n";                
                 }
 
-                // leveling system on use mana connection
+                // leveling system connections
                 if (levelingSystem)
                 {
+                    // on use mana
                     settings.onUseMana = new UnityIntEvent();
                     UnityEventTools.AddPersistentListener(settings.onUseMana, levelingSystem.UseMana);
                     changeCount += 1;
                     lastUICheckResults += "Re-Linked leveling system to onUseMana\r\n";
+
+                    // on receive damage
+                    controller.onReceiveDamage = new OnReceiveDamage();
+                    UnityEventTools.AddPersistentListener(controller.onReceiveDamage, levelingSystem.OnRecieveDamage);
+                    changeCount += 1;
+                    lastUICheckResults += "Re-Linked leveling system to onReceiveDamage\r\n";
+
+                    // on send hit
+                    if (melee)
+                    {
+                        melee.onDamageHit = new vOnHitEvent();
+                        UnityEventTools.AddPersistentListener(melee.onDamageHit, levelingSystem.OnSendHit);
+                        changeCount += 1;
+                        lastUICheckResults += "Re-Linked leveling system to onSendHit\r\n";
+                    }
                 }
                 else
                 {
-                    lastUICheckResults += "Optional Leveling system is missing, onUseMana not handled\r\n";
+                    lastUICheckResults += "Optional Leveling system is missing\r\nonUseMana not handled\r\nonReceiveDamage not handled\r\nonSendHit not handled";
                 }
 
                 // check links between inventory ui and the player
@@ -132,6 +151,95 @@ namespace Shadex
 
                     changeCount += 1;
                     lastUICheckResults += "Re-Linked item manager use potion to the player\r\n";
+                }
+
+                // link the HUD
+                var HUD = GameObject.Find("HUD");
+                if (HUD)
+                {
+                    // XP display
+                    if (!settings.XPText)
+                    {
+                        var XPDisplay = HUD.transform.Find("XP");
+                        if (XPDisplay)
+                        {
+                            settings.XPText = XPDisplay.gameObject.GetComponent<Text>();
+                            changeCount += 1;
+                            lastUICheckResults += "Linked XP Display UI\r\n";
+                        }      
+                        else
+                        {
+                            lastUICheckResults += "XP Display UI NOT found\r\n";
+                        }
+                    }
+
+                    // level reached
+                    if (!settings.LevelText)
+                    {
+                        var LevelDisplay = HUD.transform.Find("Level");
+                        if (LevelDisplay)
+                        {
+                            settings.LevelText = LevelDisplay.gameObject.GetComponent<Text>();
+                            changeCount += 1;
+                            lastUICheckResults += "Linked Level Display UI\r\n";
+                        }
+                        else
+                        {
+                            lastUICheckResults += "XP Level UI NOT found\r\n";
+                        }
+                    }
+
+                    // level up
+                    if (!settings.LevelUpText)
+                    {
+                        var LevelUpDisplay = HUD.transform.Find("Level up");
+                        if (LevelUpDisplay)
+                        {
+                            settings.LevelUpText = LevelUpDisplay.gameObject.GetComponent<Text>();
+                            changeCount += 1;
+                            lastUICheckResults += "Linked Level Up Display UI\r\n";
+                        }
+                        else
+                        {
+                            lastUICheckResults += "Level Up UI NOT found\r\n";
+                        }
+                    }
+
+                    // combo performed
+                    if (!settings.ComboDisplayText)
+                    {
+                        var ComboDisplay = HUD.transform.Find("Combo");
+                        if (ComboDisplay)
+                        {
+                            settings.ComboDisplayText = ComboDisplay.gameObject.GetComponent<Text>();
+                            changeCount += 1;
+                            lastUICheckResults += "Linked Combo Display UI\r\n";
+                        }
+                        else
+                        {
+                            lastUICheckResults += "Combo UI NOT found\r\n";
+                        }
+                    }
+
+                    // available mana
+                    if (!settings.ManaSlider)
+                    {
+                        var ManaDisplay = HUD.transform.Find("mana");
+                        if (ManaDisplay)
+                        {
+                            settings.ManaSlider = ManaDisplay.gameObject.GetComponent<Slider>();
+                            changeCount += 1;
+                            lastUICheckResults += "Linked Mana Display UI\r\n";
+                        }
+                        else
+                        {
+                            lastUICheckResults += "Mana UI NOT found\r\n";
+                        }
+                    }
+                }
+                else
+                {
+                    lastUICheckResults += "Player HUD UI NOT found\r\n";
                 }
 
                 // finish up
