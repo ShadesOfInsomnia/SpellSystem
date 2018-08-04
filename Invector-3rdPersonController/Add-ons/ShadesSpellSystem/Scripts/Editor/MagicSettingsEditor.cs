@@ -67,9 +67,9 @@ namespace Shadex
                     {
                         settings.MagicSpawnPoint = tMagicSpawn;
                     }
-                    
+
                     changeCount += 1;
-                    lastUICheckResults += "Added Magic Spawn Point\r\n";                
+                    lastUICheckResults += "Added Magic Spawn Point\r\n";
                 }
 
                 // leveling system connections
@@ -109,38 +109,45 @@ namespace Shadex
                 }
                 else  // found, checking slot links
                 {
-                    GameObject goInventoryWindow = itemManager.inventoryPrefab.transform.Find("InventoryWindow").gameObject;  // grab inventory window
-                    GameObject goEquipmentInventory = goInventoryWindow.transform.Find("EquipmentInventory").gameObject;  // and the equip slot parent
-                    goEquipmentInventory.SetActive(true);  // enable for component search
-                    int iNext = 1;
-                    vEquipSlot[] allSlots = itemManager.inventoryPrefab.transform.GetComponentsInChildren<vEquipSlot>();
-                    settings.SpellsTriggers.Clear();
-                    foreach (vEquipSlot slot in allSlots)
+                    if (!itemManager.inventoryPrefab)
                     {
-                        if (slot.transform.parent.parent.name == "EquipMentArea_Spells")  // is a spell inventory area
-                        {
-                            slot.onAddItem = new OnHandleItemEvent();
-                            slot.onRemoveItem = new OnHandleItemEvent();
-                            MagicSpellTrigger trigger = new MagicSpellTrigger();  // create the trigger
-                            trigger.EquipSlots = new vEquipSlot[] { slot };  // set the inventory slot
-                            trigger.Input = new GenericInput("F" + iNext.ToString(), null, null);  // set the input key
-                            trigger.Input.useInput = true;  // enable
-                            vEquipmentDisplay[] allDisplays = itemManager.inventoryPrefab.transform.GetComponentsInChildren<vEquipmentDisplay>();  // find all displays
-                            foreach (vEquipmentDisplay disp in allDisplays)  // check all
-                            {  
-                                if (disp.gameObject.name == slot.gameObject.name.Replace("EquipSlot ", "EquipDisplay_Spell "))  // found matching name?
-                                {                                    
-                                    trigger.EquipDisplay = disp;  // success, apply
-                                    UnityEventTools.AddPersistentListener(slot.onAddItem, settings.SpellEquiped);  // listen for spells equiped
-                                    UnityEventTools.AddPersistentListener(slot.onRemoveItem, settings.SpellUnEquiped);  // and unequiped
-                                    break;  // drop out
-                                }
-                            }
-                            settings.SpellsTriggers.Add(trigger);  // add the trigger
-                            iNext += 1;  // next please
-                        }
+                        lastUICheckResults += "Item manager found but inventory NOT set\r\n";
                     }
-                    goEquipmentInventory.SetActive(false);  // deactivate the inventory display
+                    else
+                    {
+                        GameObject goInventoryWindow = itemManager.inventoryPrefab.transform.Find("InventoryWindow").gameObject;  // grab inventory window
+                        GameObject goEquipmentInventory = goInventoryWindow.transform.Find("EquipmentInventory").gameObject;  // and the equip slot parent
+                        goEquipmentInventory.SetActive(true);  // enable for component search
+                        int iNext = 1;
+                        vEquipSlot[] allSlots = itemManager.inventoryPrefab.transform.GetComponentsInChildren<vEquipSlot>();
+                        settings.SpellsTriggers.Clear();
+                        foreach (vEquipSlot slot in allSlots)
+                        {
+                            if (slot.transform.parent.parent.name == "EquipMentArea_Spells")  // is a spell inventory area
+                            {
+                                slot.onAddItem = new OnHandleItemEvent();
+                                slot.onRemoveItem = new OnHandleItemEvent();
+                                MagicSpellTrigger trigger = new MagicSpellTrigger();  // create the trigger
+                                trigger.EquipSlots = new vEquipSlot[] { slot };  // set the inventory slot
+                                trigger.Input = new GenericInput("F" + iNext.ToString(), null, null);  // set the input key
+                                trigger.Input.useInput = true;  // enable
+                                vEquipmentDisplay[] allDisplays = itemManager.inventoryPrefab.transform.GetComponentsInChildren<vEquipmentDisplay>();  // find all displays
+                                foreach (vEquipmentDisplay disp in allDisplays)  // check all
+                                {
+                                    if (disp.gameObject.name == slot.gameObject.name.Replace("EquipSlot ", "EquipDisplay_Spell "))  // found matching name?
+                                    {
+                                        trigger.EquipDisplay = disp;  // success, apply
+                                        UnityEventTools.AddPersistentListener(slot.onAddItem, settings.SpellEquiped);  // listen for spells equiped
+                                        UnityEventTools.AddPersistentListener(slot.onRemoveItem, settings.SpellUnEquiped);  // and unequiped
+                                        break;  // drop out
+                                    }
+                                }
+                                settings.SpellsTriggers.Add(trigger);  // add the trigger
+                                iNext += 1;  // next please
+                            }
+                        }
+                        goEquipmentInventory.SetActive(false);  // deactivate the inventory display
+                    }
 
                     changeCount += 1;
                     lastUICheckResults += "Re-Linked inventory/UI display slots to the player\r\n";
@@ -166,7 +173,7 @@ namespace Shadex
                             settings.XPText = XPDisplay.gameObject.GetComponent<Text>();
                             changeCount += 1;
                             lastUICheckResults += "Linked XP Display UI\r\n";
-                        }      
+                        }
                         else
                         {
                             lastUICheckResults += "XP Display UI NOT found\r\n";
